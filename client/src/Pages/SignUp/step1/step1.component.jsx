@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { Container, Header, Body } from "./step1.styles";
+import { Body } from "./step1.styles";
+import Header from "../../../componenets/Header/Header.component";
+import Container from "../../../componenets/Container/Container.component";
 
 const Step1 = () => {
     return (
-        <Container>
+        <Container style={{padding: '20px 50px'}}>
             <Header>
                <h1>Continue as</h1>
                 <i>Select from the following options whether you are a farmer or consumer</i> 

@@ -7,6 +7,7 @@
     border-radius: 5px;
     flex-shrink: 0;
     font-family: 'Poppins', sans-serif;
+    box-sizing: content-box;
     &:focus{
         border-bottom: 3px solid #d39a57;
     }

@@ -1,20 +1,5 @@
 import styled from "styled-components";
 
-export const Header = styled.div`
-    margin: 0px 0 50px 0;
-    h1{
-        font-size: 2.5rem;
-        font-weight: 600;
-        margin: 0;
-    }
-    i{
-        font-size: 0.9rem;
-        font-weight: 400;
-        color: grey;
-        margin: 0;
-    }
-`; 
-
 export const Body = styled.div`
     display: flex;
         gap: 50px;

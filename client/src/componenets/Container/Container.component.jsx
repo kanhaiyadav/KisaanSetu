@@ -1,8 +1,8 @@
 import { StyledContainer } from "./Container.styles";
 
-const Container = ({ children }) => {
+const Container = ({ children, ...otherProps }) => {
     return (
-        <StyledContainer>
+        <StyledContainer {...otherProps}>
             {children}
         </StyledContainer>
     );

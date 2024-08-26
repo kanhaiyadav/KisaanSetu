@@ -20,8 +20,4 @@ export const StyledContainer = styled.div`
     box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
     width: clamp(300px, 70%, 420px);
     border-radius: 10px;
-    h1{
-        margin: 0 0 20px 0;
-        font-family: 'Open Sans', sans-serif;
-    }
 `; 
