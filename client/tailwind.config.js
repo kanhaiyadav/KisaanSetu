@@ -38,7 +38,18 @@ export default {
             },
             textColor: {
                 brand: '#784224',
-            }
+            },
+            keyframes: {
+                slideIn: {
+                    '0%': { transform: 'translateX(100%)' },
+                    '40%': { transform: 'translateX(-10%)' },
+                    '70%': { transform: 'translateX(5%)' },
+                    '100%': { transform: 'translateX(0%)' },
+                },
+            },
+            animation: {
+                slideIn: 'slideIn 0.5s ease',
+            },
         },
     },
     plugins: [],

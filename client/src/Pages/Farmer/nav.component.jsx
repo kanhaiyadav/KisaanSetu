@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Logo from "../../componenets/Logo/Logo.component";
-import NavItem from "../../componenets/NavItem/NavItem.component";
-import CustomButton from "../../componenets/CutomeButton/CustomButton.component";
+import Logo from "../../componenets/Logo";
+import NavItem from "../../componenets/NavItem";
+import CustomButton from "../../componenets/CustomButton";
 import { MdOutlineDashboard } from "react-icons/md";
 import { BsCart4 } from "react-icons/bs";
 import { AiOutlineProduct } from "react-icons/ai";

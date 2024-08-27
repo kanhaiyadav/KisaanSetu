@@ -1,11 +1,10 @@
 import { useState } from "react";
-import Container from "../../../componenets/Container/Container.component";
-import Form from "../../../componenets/Form/Form.component";
-import { Group } from "./Step2.styles";
+import Container from "../../componenets/Container";
+import Form from "../../componenets/Form";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import '../../../componenets/styles.css'
-import Button from "../../../componenets/Button/Button.component";
+import "../../componenets/styles.css";
+import SignUpButton from "../../componenets/SignUpButton";
 import { Link } from "react-router-dom";
 
 const Step2 = () => {
@@ -20,16 +19,16 @@ const Step2 = () => {
                 <input className="PhoneInputInput" type="text" placeholder="Your Name" autoFocus />
                 <input className="PhoneInputInput" type="email" placeholder="Your Email" />
                 <PhoneInput onChange={handleChange} value={phone} placeholder="Enter phone number" defaultCountry="IN" />
-                <Group>
+                <div className="flex gap-2">
                     <input className="PhoneInputInput" type="text" placeholder="Country" />
                     <input className="PhoneInputInput" type="text" placeholder="State" />
-                </Group>
-                <Group>
+                </div>
+                <div className="flex gap-2">
                     <input className="PhoneInputInput" type="text" placeholder="City" />
                     <input className="PhoneInputInput" type="text" placeholder="Pincode" />
-                </Group>
+                </div>
                 <textarea className="PhoneInputInput" placeholder="Address" cols={4} />
-                <Link to={'../3'}><Button type='button' style={{ width: '100%' }}>Next</Button></Link>
+                <Link to={'../3'}><SignUpButton type='button' style={{ width: '100%' }}>Next</SignUpButton></Link>
             </Form>
         </Container>
     );
