@@ -2,10 +2,16 @@ import styled from "styled-components";
 import { keyframes } from "styled-components";
 
 const slideIn = keyframes`
-    from{
+    0%{
         transform: translateX(100%);
     }
-    to{
+    40%{
+        transform: translateX(-10%);
+    }
+    70%{
+        transform: translateX(5%);
+    }
+    100%{
         transform: translateX(0%);
     }
 `;

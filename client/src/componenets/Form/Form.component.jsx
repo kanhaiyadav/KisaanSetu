@@ -1,8 +1,8 @@
 import { StyledForm } from "./Form.styles";
 
-const Form = ({children}) => {
+const Form = ({children, ...otherProps}) => {
     return (
-        <StyledForm>
+        <StyledForm {...otherProps}>
             {children}
         </StyledForm>
     );

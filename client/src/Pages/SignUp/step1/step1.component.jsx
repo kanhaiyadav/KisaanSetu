@@ -11,8 +11,8 @@ const Step1 = () => {
                 <i>Select from the following options whether you are a farmer or consumer</i> 
             </Header>
             <Body>
-                <div><Link to={'2'}><img src="/farmer.svg" alt="" /></Link><h2>Farmer</h2></div>
-                <div><Link to={'2'}><img src="/consumer.svg" alt="" /></Link><h2>Consumer</h2></div>
+                <div><Link to={'2'}><img src="/Farmer.png" alt="" /></Link><h2>Farmer</h2></div>
+                <div><Link to={'2'}><img src="/Consumer.png" alt="" /></Link><h2>Consumer</h2></div>
             </Body>
         </Container>
     )
