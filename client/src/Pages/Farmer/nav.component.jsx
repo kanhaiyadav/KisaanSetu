@@ -9,54 +9,54 @@ import { IoAnalytics } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 
 const Nav = () => {
-    const [expanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
     return (
         <nav className={`${expanded?'w-[235px]': 'w-[50px]'} h-full shadow-[2px_2px_5px_2px_rgba(0,0,0,0.2)] 
-                box-border ${expanded ? 'p-4' : 'p-1'} pt-0 flex flex-col transition-all duration-300 ease-in-out
-                pb-4
+                box-border ${expanded ? 'p-4' : 'p-1'} pt-0 flex flex-col
+                pb-4 transition-all duration-300 ease-in-out
                 `}
         >
             <header className="border-b-[2px] border-dashed border-primary">
-                <Logo expanded={expanded} />
+                <Logo expanded={expanded} setExpanded={setExpanded} />
             </header>
             <section className="flex flex-col gap-5 pt-4 pb-4">
-                <NavItem className={`${expanded?'': 'justify-center'}`}>
-                    <MdOutlineDashboard />
+                <NavItem >
+                    <MdOutlineDashboard className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
-                            <span>Dashboard</span>
+                            <span className={`overflow-hidden whitespace-nowrap`}>Dashboard</span>
                             : null
                     }
                 </NavItem>
-                <NavItem className={`${expanded?'': 'justify-center'}`}>
-                    <AiOutlineProduct />
+                <NavItem >
+                    <AiOutlineProduct className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
-                            <span>Products</span>
+                            <span className={`overflow-hidden whitespace-nowrap`}>Products</span>
                             : null
                     }
                 </NavItem>
-                <NavItem className={`${expanded?'': 'justify-center'}`}>
-                    <BsCart4 />
+                <NavItem >
+                    <BsCart4 className={`${expanded ? '' : 'ml-[3px]'}`} />
                     {
                         expanded ?
-                            <span>Orders</span>
+                            <span className={`overflow-hidden whitespace-nowrap`}>Orders</span>
                             : null
                     }
                 </NavItem>
-                <NavItem className={`${expanded?'': 'justify-center'}`}>
-                    <IoAnalytics />
+                <NavItem >
+                    <IoAnalytics className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
-                            <span>Sales Analytics</span>
+                            <span className={`overflow-hidden whitespace-nowrap`}>Sales Analytics</span>
                             : null
                     }
                 </NavItem>
-                <NavItem className={`${expanded?'': 'justify-center'}`}>
-                    <LuLogOut />
+                <NavItem >
+                    <LuLogOut className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
-                            <span>LogOut</span>
+                            <span className={`overflow-hidden whitespace-nowrap`}>LogOut</span>
                             : null
                     }
                 </NavItem>
@@ -78,8 +78,8 @@ const Nav = () => {
                             <img src="/Farmer.png" alt="" className="w-full h-full" />
                         </div>
                         <div>
-                            <h1 className="text-lg">Your Name</h1>
-                            <i className="text-sm">Your Email address</i>
+                            <h1 className="text-lg overflow-hidden whitespace-nowrap">Your Name</h1>
+                            <i className="text-sm overflow-hidden whitespace-nowrap">Your Email address</i>
                             <CustomButton style={{ margin: "15px 0px" }}>Your Profile</CustomButton>
                         </div>
                     </footer>
