@@ -4,12 +4,13 @@ import SignUp from './Pages/SignUp/SignUp.component'
 import Step1 from './Pages/SignUp/Step1.component'
 import Steps from './Pages/SignUp/steps'
 import Farmer from './Pages/Farmer/Farmer.component'
+import LandingPage from './Pages/LandingPage'
 
 function App() {
 
     return (
         <Routes>
-            {/* <Route path="/" element={<LandingPage />} /> */}
+            <Route path="/" element={<LandingPage />} /> 
             <Route path="/signup" element={<SignUp />} >
                 <Route index element={<Step1 />} />
                 <Route path=":id" element={<Steps />} />
