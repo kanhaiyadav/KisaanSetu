@@ -5,6 +5,7 @@ import Step1 from './Pages/SignUp/Step1.component'
 import Steps from './Pages/SignUp/steps'
 import Farmer from './Pages/Farmer/Farmer.component'
 import LandingPage from './Pages/LandingPage'
+import Dashboard from './Pages/Farmer/Dashboard'
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
                 <Route path=":id" element={<Steps />} />
             </Route>
             <Route path='/farmer' element={<Farmer />}>
-
+                <Route index element={<Dashboard />} />
             </Route>
         </Routes>
     )

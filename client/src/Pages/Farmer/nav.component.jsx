@@ -11,7 +11,7 @@ import { LuLogOut } from "react-icons/lu";
 const Nav = () => {
     const [expanded, setExpanded] = useState(true);
     return (
-        <nav className={`${expanded?'w-[235px]': 'w-[50px]'} h-full shadow-[2px_2px_5px_2px_rgba(0,0,0,0.2)] 
+        <nav className={`${expanded?'w-[235px]': 'w-[50px]'} h-full shadow-lg 
                 box-border ${expanded ? 'p-4' : 'p-1'} pt-0 flex flex-col
                 pb-4 transition-all duration-300 ease-in-out
                 `}
@@ -20,7 +20,7 @@ const Nav = () => {
                 <Logo expanded={expanded} setExpanded={setExpanded} />
             </header>
             <section className="flex flex-col gap-5 pt-4 pb-4">
-                <NavItem >
+                <NavItem to={'.'}>
                     <MdOutlineDashboard className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
@@ -28,7 +28,7 @@ const Nav = () => {
                             : null
                     }
                 </NavItem>
-                <NavItem >
+                <NavItem to={'products'}>
                     <AiOutlineProduct className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
@@ -36,7 +36,7 @@ const Nav = () => {
                             : null
                     }
                 </NavItem>
-                <NavItem >
+                <NavItem to={'orders'}>
                     <BsCart4 className={`${expanded ? '' : 'ml-[3px]'}`} />
                     {
                         expanded ?
@@ -44,7 +44,7 @@ const Nav = () => {
                             : null
                     }
                 </NavItem>
-                <NavItem >
+                <NavItem to={'sales-analytics'}>
                     <IoAnalytics className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
@@ -52,7 +52,7 @@ const Nav = () => {
                             : null
                     }
                 </NavItem>
-                <NavItem >
+                <NavItem to={'logout'}>
                     <LuLogOut className={`${expanded?'': 'ml-[3px]'}`}/>
                     {
                         expanded ?
