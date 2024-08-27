@@ -15,7 +15,7 @@ const Step2 = () => {
     }
     return (
         <Container>
-            <h1>Personal Details</h1>
+            <h1 className="text-3xl font-semibold mb-4">Personal Details</h1>
             <Form>
                 <input className="PhoneInputInput" type="text" placeholder="Your Name" autoFocus />
                 <input className="PhoneInputInput" type="email" placeholder="Your Email" />

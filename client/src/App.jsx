@@ -8,6 +8,7 @@ function App() {
 
     return (
         <Routes>
+            {/* <Route path="/" element={<LandingPage />} /> */}{/*Todo: Add Landing Page here */}
             <Route path="/signup" element={<SignUp />} >
                 <Route index element={<Step1 />} />
                 <Route path=":id" element={<Steps />} />

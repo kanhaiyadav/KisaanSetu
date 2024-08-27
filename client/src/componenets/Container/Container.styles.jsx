@@ -24,6 +24,6 @@ export const StyledContainer = styled.div`
     padding: 30px;
     animation: ${slideIn} 0.5s ease;
     box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-    width: clamp(300px, 70%, 420px);
+    width: clamp(300px, 70%, 500px);
     border-radius: 10px;
 `; 

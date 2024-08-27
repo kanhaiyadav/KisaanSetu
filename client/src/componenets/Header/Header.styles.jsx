@@ -5,6 +5,8 @@ export const StyledHeader = styled.header`
     h1{
         margin:0;
         font-family: 'Open Sans', sans-serif;
+        font-size: 2rem;
+        font-weight: 600;
     }
     i{
         font-size: 0.9rem;

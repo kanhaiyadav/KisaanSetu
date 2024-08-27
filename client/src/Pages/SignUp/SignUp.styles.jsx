@@ -41,6 +41,8 @@ export const Header = styled.div`
     left: 0;
     width: 100%;
     padding: 10px 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
     h1{
         margin: 0;
     }
