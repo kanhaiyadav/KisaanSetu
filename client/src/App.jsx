@@ -6,6 +6,7 @@ import Steps from './Pages/SignUp/steps'
 import Farmer from './Pages/Farmer/Farmer.component'
 import LandingPage from './Pages/LandingPage'
 import Dashboard from './Pages/Farmer/Dashboard'
+import Products from './Pages/Farmer/Products'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             </Route>
             <Route path='/farmer' element={<Farmer />}>
                 <Route index element={<Dashboard />} />
+                <Route path='products' element={<Products />} />
             </Route>
         </Routes>
     )
