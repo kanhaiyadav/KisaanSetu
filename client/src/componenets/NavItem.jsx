@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const NavItem = ({children, className, to}) => {
     return (
-        <NavLink to={to} className={`w-full h-[45px] p-2 text-[grey] rounded-md hover:bg-[#efefef] text-xl
+        <NavLink to={to} className={`w-full h-[45px] p-2 text-gray-600 rounded-md hover:bg-[#efefef] text-xl
             flex items-center gap-2 cursor-pointer transition-all duration-200 ease-in-out active:scale-90
             ${className} 
         `}

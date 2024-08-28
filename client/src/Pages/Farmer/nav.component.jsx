@@ -69,7 +69,7 @@ const Nav = () => {
                     </div>
                     :
                     <footer className={`mt-[auto] w-full flex flex-col items-center justify-center gap-2
-                        text-center shadow-[2px_2px_2px_rgba(0,0,0,0.2)] bg-[#efefef] text-[gray] rounded-lg
+                        text-center shadow-[2px_2px_2px_rgba(0,0,0,0.2)] bg-gray-200 text-gray-600 rounded-lg
                         p-4 pt-0
                     `}>
                         <div className={`w-[80px] h-[80px] rounded-full border-[8px] border-white overflow-hidden

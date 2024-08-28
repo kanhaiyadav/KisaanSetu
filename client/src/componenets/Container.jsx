@@ -1,7 +1,8 @@
 const Container = ({ children, ...otherProps }) => {
     return (
         <div
-            className="flex flex-col justify-center items-center p-8 shadow-md w-[clamp(300px,70%,500px)] rounded-lg animate-slideIn"
+            className={`flex flex-col justify-center items-center p-8 bg-white
+            shadow-[0px_0px_3px_rgba(0,0,0,0.2)] w-[fit-content] rounded-xl animate-slideIn`}
             {...otherProps}
         >
             {children}

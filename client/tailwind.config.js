@@ -8,7 +8,10 @@ export default {
         extend: {
             colors: {
                 primary: '#97c54b',
+                Tprimary: 'gray',
                 secondary: '#FFA500',
+                Tsecondary: '#6b6b6b',
+                danger: '#FF6347',
                 tertiary: '#FF6347',
                 quaternary: '#FF4500',
                 quinary: '#FF8C00',
