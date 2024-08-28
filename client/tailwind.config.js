@@ -22,6 +22,12 @@ export default {
                 denary: '#FF4500',
                 white: '#FFFFFF',
                 black: '#000000',
+                brown:'#784224',
+                grey:'#656565',
+                lightgreen:'#97C44B',
+
+
+
                 gray: {
                     100: '#f7fafc',
                     200: '#edf2f7',
