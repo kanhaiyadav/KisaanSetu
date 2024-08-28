@@ -4,7 +4,7 @@ import NavItem from "../../componenets/NavItem";
 import CustomButton from "../../componenets/CustomButton";
 import { MdOutlineDashboard } from "react-icons/md";
 import { BsCart4 } from "react-icons/bs";
-import { AiOutlineProduct } from "react-icons/ai";
+import { TbShoppingBag } from "react-icons/tb";
 import { IoAnalytics } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
 
@@ -29,7 +29,7 @@ const Nav = () => {
                     }
                 </NavItem>
                 <NavItem to={'products'}>
-                    <AiOutlineProduct className={`${expanded?'': 'ml-[3px]'}`}/>
+                    <TbShoppingBag className={`${expanded?'': 'ml-[3px]'} text-2xl`}/>
                     {
                         expanded ?
                             <span className={`overflow-hidden whitespace-nowrap`}>Products</span>

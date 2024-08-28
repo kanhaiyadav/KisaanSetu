@@ -55,9 +55,14 @@ export default {
                     '70%': { transform: 'translateX(5%)' },
                     '100%': { transform: 'translateX(0%)' },
                 },
+                expand:{
+                    '0%': { width: '0px' },
+                    '100%': { width: '200px' },
+                }
             },
             animation: {
                 slideIn: 'slideIn 0.5s ease',
+                expand: 'expand 0.5s ease',
             },
         },
     },
