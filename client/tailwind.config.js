@@ -58,7 +58,8 @@ export default {
                 expand:{
                     '0%': { width: '0px' },
                     '100%': { width: '200px' },
-                }
+                },
+                
             },
             animation: {
                 slideIn: 'slideIn 0.5s ease',

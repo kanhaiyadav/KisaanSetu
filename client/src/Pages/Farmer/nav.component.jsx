@@ -11,9 +11,10 @@ import { LuLogOut } from "react-icons/lu";
 const Nav = () => {
     const [expanded, setExpanded] = useState(true);
     return (
-        <nav className={`${expanded?'w-[235px]': 'w-[50px]'} h-full shadow-lg 
+        <nav className={`${expanded?'w-[235px]': 'w-[50px]'} h-full
                 box-border ${expanded ? 'p-4' : 'p-1'} pt-0 flex flex-col
-                pb-4 transition-all duration-300 ease-in-out
+                pb-4 transition-all duration-300 ease-in-out bg-white rounded-r-3xl 
+                overflow-hidden shadow-[0px_0px_3px_3px_rgba(0,0,0,0.2)]
                 `}
         >
             <header className="border-b-[2px] border-dashed border-primary">

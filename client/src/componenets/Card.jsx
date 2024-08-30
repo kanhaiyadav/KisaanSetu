@@ -1,5 +1,6 @@
 import { cva } from "class-variance-authority"
 import { twMerge } from 'tailwind-merge'
+import { motion } from "framer-motion";
 
 const styles = cva(
     `flex flex-col items-center p-6 bg-white gap-2 shadow-[0px_0px_3px_rgba(0,0,0,0.2)]
@@ -18,11 +19,13 @@ const styles = cva(
     }
 );
 
-const Card = ({ intent, children, className }) => {
+const Card = ({ intent, children, className, ...otherProps }) => {
     return (
-        <div className={twMerge(styles({ intent: intent}), className)}>
+        <motion.div className={twMerge(styles({ intent: intent }), className)}
+            {...otherProps}
+        >
             {children}
-        </div>
+        </motion.div>
     )
 }
 

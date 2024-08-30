@@ -4,7 +4,7 @@ import Nav from "./nav.component";
 
 const Farmer = () => {
     return (
-        <div className="flex h-screen">
+        <div className="flex h-screen bg-gray-200">
             <Nav />
             <Outlet />
         </div>

@@ -3,7 +3,15 @@ import Card from "../../componenets/Card";
 const ProductCard = ({ product }) => {
     const { name, price, image, remainingStock } = product;
     return (
-        <Card intent={'fitContent'} className="break-inside-avoid relative">
+        <Card intent={'fitContent'} className="break-inside-avoid relative hover:border-primary border-2 hover:shadow-lg"
+            initial={{ y: 20, opacity: 0 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.3, type: "spring", stiffness: 200 }}
+        >
             <img src={image} alt={name} className="w-full object-cover rounded-t-xl" />
             <div className="pt-2 w-full">
                 

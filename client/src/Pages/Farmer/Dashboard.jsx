@@ -9,7 +9,7 @@ const Dashboard = () => {
     return (
         <div className="flex-1 h-full flex flex-col">
             <Header title={'Dashboard'} />
-            <main className={`bg-gray-100 shadow-inner flex-1 p-4 grid grid-cols-2 
+            <main className={`flex-1 p-4 grid grid-cols-2 
             justify-items-center items-center gap-8 gap-y-4`}>
                 <DashboardCard heading={"Today's Summary"}>
                     <main className="flex justify-evenly w-full g-2">

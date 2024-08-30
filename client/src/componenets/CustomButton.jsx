@@ -1,8 +1,9 @@
 import { cva } from "class-variance-authority";
+import { motion } from "framer-motion";
 
 const styles = cva(
-    `p-4 pt-2 pb-2 rounded-md transition-all duration-250 ease-in-out w-[fit-content] h-[fit-content]
-    hover:scale-105 hover:shadow-md active:scale-90 overflow-hidden whitespace-nowrap
+    `p-4 pt-2 pb-2 rounded-md w-[fit-content] h-[fit-content]
+     hover:shadow-md overflow-hidden whitespace-nowrap
     `,
     {
         variants: {
@@ -26,9 +27,13 @@ const styles = cva(
 );
 
 const CustomButton = ({intent, size, children, ...props }) => (
-    <button className={styles({intent, size})} {...props}>
+    <motion.button className={styles({ intent, size })} {...props}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        transition= {{ duration: 0.3, type: "spring", stiffness: 220, damping: 10 }}
+    >
         {children}
-    </button>
+    </motion.button>
 );
 
 export default CustomButton;
