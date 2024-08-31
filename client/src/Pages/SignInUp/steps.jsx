@@ -1,5 +1,5 @@
-import Step2 from './Step2.component';
-import Step3 from "./Step3.component";
+import Step2 from './Step2';
+import Step3 from "./Step3";
 import { useParams } from "react-router-dom";
 
 const Steps = () => {

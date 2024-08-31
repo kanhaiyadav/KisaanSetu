@@ -49,12 +49,6 @@ export default {
                 brand: '#784224',
             },
             keyframes: {
-                slideIn: {
-                    '0%': { transform: 'translateX(100%)' },
-                    '40%': { transform: 'translateX(-10%)' },
-                    '70%': { transform: 'translateX(5%)' },
-                    '100%': { transform: 'translateX(0%)' },
-                },
                 expand:{
                     '0%': { width: '0px' },
                     '100%': { width: '200px' },
@@ -62,7 +56,6 @@ export default {
                 
             },
             animation: {
-                slideIn: 'slideIn 0.5s ease',
                 expand: 'expand 0.5s ease',
             },
         },

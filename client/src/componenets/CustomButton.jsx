@@ -27,8 +27,9 @@ const styles = cva(
 );
 
 const CustomButton = ({intent, size, children, ...props }) => (
-    <motion.button className={styles({ intent, size })} {...props}
+    <motion.button className={styles({ intent, size })}
         type="button"
+        {...props}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         transition= {{ duration: 0.3, type: "spring", stiffness: 220, damping: 10 }}

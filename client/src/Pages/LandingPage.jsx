@@ -55,7 +55,7 @@ const LandingPage = () => {
                             type="button"
                             className="text-white bg-lightgreen border border-gray-300 font-boldnpm install framer-motion rounded-full text-2xl px-8 py-4 me-2 mb-2 hover:bg-white hover:text-gray-600 hover:outline-black hover:outline hover:outline-2 transition-all duration-300"
                         >
-                            Get Started
+                            <Link to={'/signup'} >Get Started</Link>
                         </button>
 
                     </div>
