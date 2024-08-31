@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge'
 import { motion } from "framer-motion";
 
 const styles = cva(
-    `flex flex-col items-center p-6 bg-white gap-2 shadow-[0px_0px_3px_rgba(0,0,0,0.2)]
+    `flex flex-col p-6 bg-white gap-2 shadow-[0px_0px_3px_rgba(0,0,0,0.2)]
     rounded-xl
     `,
     {
