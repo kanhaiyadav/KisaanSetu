@@ -1,4 +1,5 @@
 import express from 'express';
+import './config/database.js';
 
 const app = express();
 
