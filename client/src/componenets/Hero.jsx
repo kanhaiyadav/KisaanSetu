@@ -19,8 +19,13 @@ const Hero = () => {
                 <motion.h1
                     variants={container(0)}
                     initial="hidden"
-                    animate="visible" className="relative max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-brown z-10">
-                    An Online Marketplace
+                    animate="visible" className="relative max-w-2xl mb-4 text-4xl font-extrabold font-poppins
+                     tracking-tight leading-none md:text-5xl
+                      xl:text-6xl dark:text-brown z-10">
+                    An Online Marketplace  <br className='sm:block hidden'/>{" "}
+                    <span className='text-gradient'>
+                    For the Farmers
+          </span> 
                 </motion.h1>
                 <motion.p variants={container(0.5)}
                     initial="hidden"
@@ -34,7 +39,10 @@ const Hero = () => {
                 </motion.p>
                 <button
                     type="button"
-                    className="text-white bg-lightgreen border border-gray-300 font-boldnpm install framer-motion rounded-full text-2xl px-8 py-4 me-2 mb-2 hover:bg-white hover:text-gray-600 hover:outline-black hover:outline hover:outline-2 transition-all duration-300"
+                    className="text-white bg-lightgreen border border-gray-300
+                     font-boldnpm install framer-motion
+                     rounded-full text-2xl px-8 py-4 me-2 mb-2 hover:bg-white hover:text-gray-600
+                      hover:outline-black hover:outline hover:outline-2 transition-all duration-300"
                 >
                     <Link to={'/signup'} >Get Started</Link>
                 </button>
@@ -44,7 +52,8 @@ const Hero = () => {
                 <img
                     src="Farmer.png"
                     alt="farmer"
-                    className="hover:shadow-[0_0_20px_rgba(128,128,128,0.8)] transition-shadow duration-300 ease-in-out"
+                    className="hover:shadow-[0_0_20px_rgba(128,128,128,0.8)] 
+                    transition-shadow duration-300 ease-in-out"
                 />
             </div>
         </div>
