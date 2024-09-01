@@ -17,21 +17,21 @@ export const signUp = async (req, res) => {
                 {
                     farmer = await Farmer.create({ name, email, country, state, city, pincode, address, password });
                     return res.status(200).json({
-                        message: "Farmer created successfully",
+                        message: "Signed up successfully",
                     })
                 }
             }
         } else {
             let consumer = await Farmer.findOne({ email });
             if (consumer)
-                return res.status(400).json({ message: "Consumer already exists" });
+                return res.status(400).json({ message: "This email is already in use!" });
             else {
                 if (password !== confirmPassword)
                     return res.status(400).json({ message: "Passwords do not match" });
                 else {
                     consumer = await Consumer.create({ name, email, country, state, city, pincode, address, password });
                     return res.status(200).json({
-                        message: "Consumer created successfully",
+                        message: "Signed up successfully",
                     })
                 }
             }
@@ -59,7 +59,7 @@ export const signIn = async (req, res) => {
                             isfarmer: false,
                             token: "Bearer " + jwt.sign({ id: user._id, email: email, isfarmer: false }, 'KisaanSetu', { expiresIn: '7d' })
                         },
-                        message: "Consumer signed in successfully"
+                        message: "signed in successfully"
                     });
                 }
             }
@@ -73,7 +73,7 @@ export const signIn = async (req, res) => {
                         isfarmer: true,
                         token: "Bearer " + jwt.sign({ id: user._id, email: email, isfarmer: true }, 'KisaanSetu', { expiresIn: '7d' })
                     },
-                    message: "Consumer signed in successfully"
+                    message: "signed in successfully"
                 });
             }
         }

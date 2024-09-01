@@ -1,4 +1,3 @@
-// import CustomButton from "../../componenets/CutomeButton/CustomButton.component";
 import { Outlet } from "react-router-dom"
 import Nav from "./nav";
 

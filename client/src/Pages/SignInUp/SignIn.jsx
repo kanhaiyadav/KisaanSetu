@@ -8,6 +8,9 @@ import { DevTool } from "@hookform/devtools";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../redux/user/user.slice";
+import { toast } from "react-toastify";
+import successAudio from '/success.mp3';
+import errorAudio from '/error.mp3';
 
 
 const SignIn = () => {
@@ -15,17 +18,31 @@ const SignIn = () => {
     const navigate = useNavigate();
     const form = useForm();
     const { register, control, handleSubmit } = form;
+    const success = new Audio(successAudio);
+    const error = new Audio(errorAudio);
+
     const onSubmit = (data) => {
-        dispatch(signIn(data)).unwrap()
-            .then((res) => {
-                if(res.data.isfarmer)
-                    navigate('/farmer');
-                else
-                    navigate('/consumer');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const promise = dispatch(signIn(data)).unwrap();
+        toast.promise(promise, {
+            loading: 'Signing in...',
+            success: {
+                render({ data }) {
+                    console.log(data);
+                    if (data.data.isfarmer)
+                        navigate('/farmer');
+                    else
+                        navigate('/consumer');
+                    success.play();
+                    return data.message;
+                }
+            },
+            error: {
+                render({ data }) {
+                    error.play();
+                    return data.message;
+                }
+            }
+        });
     }
     return (
         <Container>
@@ -36,7 +53,7 @@ const SignIn = () => {
 
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <input className="PhoneInputInput" name="email" type="email" placeholder="Your email" style={{ padding: '9px 15px' }} autoFocus {...register('email')} />
-                <input className="PhoneInputInput" name="password" type="password" placeholder="Confirm password" style={{ padding: '9px 15px' }} {...register('password')} />
+                <input className="PhoneInputInput" name="password" type="password" placeholder="Password" style={{ padding: '9px 15px' }} {...register('password')} />
                 <SignUpButton>Sign In</SignUpButton>
             </Form>
             <DevTool control={control} />
