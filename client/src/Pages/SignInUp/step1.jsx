@@ -1,8 +1,13 @@
-import { Link } from "react-router-dom";
 import Header from "../../componenets/SignInUpHeader";
 import Container from "../../componenets/Container";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setSignup } from "../../redux/form/form.slice";
+import { motion } from "framer-motion";
 
 const Step1 = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     return (
         <Container>
             <Header>
@@ -12,15 +17,27 @@ const Step1 = () => {
 
             <div className="flex gap-12 my-5">
                 <div className="text-center w-48 flex flex-col items-center gap-4">
-                    <Link to="2" className="w-full h-48 rounded-lg overflow-hidden shadow-md transition-transform duration-300 border-2 border-[#d39a57] hover:shadow-lg hover:scale-110 hover:border-3">
-                        <img src="/Farmer.png" alt="Farmer" className="w-full h-full" />
-                    </Link>
+                        <motion.img src="/Farmer.png" alt="Farmer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
+                            ()=> {
+                                dispatch(setSignup({ isfarmer: true }));
+                                navigate('./2')
+                            }
+                        }
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.3, type: 'spring', stiffness: 260}}
+                        />
                     <h2 className="text-xl font-semibold m-0 text-gray-700">Farmer</h2>
                 </div>
                 <div className="text-center w-48 flex flex-col items-center gap-4">
-                    <Link to="2" className="w-full h-48 rounded-lg overflow-hidden shadow-md transition-transform duration-300 border-2 border-[#d39a57] hover:shadow-lg hover:scale-110 hover:border-3">
-                        <img src="/Consumer.png" alt="Consumer" className="w-full h-full" />
-                    </Link>
+                        <motion.img src="/Consumer.png" alt="Consumer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
+                            ()=> {
+                                dispatch(setSignup({ isfarmer: false }));
+                                navigate('./2')
+                            }
+                        }
+                            whileHover={{ scale: 1.1 }}
+                            transition={{ duration: 0.3, type: 'spring', stiffness: 260 }}
+                        />
                     <h2 className="text-xl font-semibold m-0 text-gray-700">Consumer</h2>
                 </div>
             </div>

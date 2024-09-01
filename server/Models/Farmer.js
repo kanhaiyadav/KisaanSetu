@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { products } from "../../client/src/Pages/Farmer/data";
 
 const farmerSchema = new mongoose.Schema({
     name: {
