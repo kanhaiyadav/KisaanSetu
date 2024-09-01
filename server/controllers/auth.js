@@ -9,31 +9,21 @@ export const signUp = async (req, res) => {
             let farmer = await Farmer.findOne({ email });
             if (farmer)
                 return res.status(400).json({ message: "Farmer already exists" });
-            else
-            {
-                if(password !== confirmPassword)
-                    return res.status(400).json({ message: "Passwords do not match" });
-                else
-                {
-                    farmer = await Farmer.create({ name, email, country, state, city, pincode, address, password });
-                    return res.status(200).json({
-                        message: "Signed up successfully",
-                    })
-                }
+            else {
+                farmer = await Farmer.create({ name, email, country, state, city, pincode, address, password });
+                return res.status(200).json({
+                    message: "Signed up successfully",
+                })
             }
         } else {
             let consumer = await Farmer.findOne({ email });
             if (consumer)
                 return res.status(400).json({ message: "This email is already in use!" });
             else {
-                if (password !== confirmPassword)
-                    return res.status(400).json({ message: "Passwords do not match" });
-                else {
-                    consumer = await Consumer.create({ name, email, country, state, city, pincode, address, password });
-                    return res.status(200).json({
-                        message: "Signed up successfully",
-                    })
-                }
+                consumer = await Consumer.create({ name, email, country, state, city, pincode, address, password });
+                return res.status(200).json({
+                    message: "Signed up successfully",
+                })
             }
         }
     } catch (error) {
