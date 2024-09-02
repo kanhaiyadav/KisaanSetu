@@ -45,6 +45,27 @@ export const signIn = createAsyncThunk(
     }
 );
 
+export const verify = createAsyncThunk(
+    "user/verify",
+    async (token, { rejectWithValue }) => {
+        try {
+            const response = await fetch("http://localhost:3000/api/users/verify", {
+                method: "GET",
+                headers: {
+                    "Authorization": token,
+                },
+            });
+            const result = await response.json();
+            if (response.ok) {
+                return result;
+            }
+            return rejectWithValue(result);
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
+
 const initialState = {
     currentUser: null,
     error: null,
@@ -57,6 +78,11 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
+        signOut: (state) => {
+            state.currentUser = null;
+            state.token = null;
+            state.isfarmer = true;
+        }
     },
     extraReducers:(builder) => {
         builder.addCase(signUp.pending, (state) => {
@@ -82,9 +108,20 @@ const userSlice = createSlice({
         builder.addCase(signIn.rejected, (state, action) => {
             state.error = action.payload;
             state.loading = false;
-        });
+        }),
+        builder.addCase(verify.pending, (state) => {
+            state.loading = true;
+        }),
+        builder.addCase(verify.fulfilled, (state, action) => {
+            state.currentUser = action.payload.data.user;
+            state.loading = false;
+        }),
+        builder.addCase(verify.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = false;
+        })
     },
 
 });
-
+export const { signOut } = userSlice.actions;
 export default userSlice.reducer;

@@ -31,14 +31,14 @@ const SignIn = () => {
             loading: 'Signing in...',
             success: {
                 render({ data }) {
-                    console.log(data);
                     if (data.data.isfarmer)
                         navigate('/farmer');
                     else
                         navigate('/consumer');
                     success.play();
                     return data.message;
-                }
+                },
+                autoClose: 5000,
             },
             error: {
                 render({ data }) {
@@ -56,15 +56,20 @@ const SignIn = () => {
             </Header>
 
             <Form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <input className="PhoneInputInput" name="email" type="email" placeholder="Your email" style={{ padding: '9px 15px' }} autoFocus {...register('email')} />
+                <div>
+                    <i className="text-sm text-red-500">{errors.email?.message}</i>
+                    <input className={`PhoneInputInput ${errors.email ? 'focus:border-red-500' : 'focus:border-[#d39a57]'}`} name="email" type="email" placeholder="Your Email" style={{ padding: '9px 15px' }} {...register("email", {
+                        required: 'Email is required*',
+                        pattern: {
+                            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                            message: 'Invalid email address*'
+                        },
+                    })} />
+                </div>
                 <div className="w-full relative">
                     <i className="text-red-500 text-sm">{errors.password?.message}</i>
-                    <input className="PhoneInputInput" name="password" type={viewPassword ? 'text' : 'password'} placeholder="New password" style={{ padding: '9px 15px', borderColor: errors.password && 'red' }} {...register("password", {
+                    <input className={`PhoneInputInput ${errors.password ? 'focus:border-red-500' : 'focus:border-[#d39a57]'}`} name="password" type={viewPassword ? 'text' : 'password'} placeholder="New password" style={{ padding: '9px 15px'}} {...register("password", {
                         required: 'Password is required*',
-                        minLength: {
-                            value: 8,
-                            message: 'Password must be atleast 8 characters long'
-                        }
                     })} />
                     {
                         !viewPassword ?
