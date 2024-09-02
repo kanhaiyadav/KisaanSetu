@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Logo from "../../componenets/Logo";
 import NavItem from "../../componenets/NavItem";
-import CustomButton from "../../componenets/CustomButton";
+// import CustomButton from "../../componenets/CustomButton";
 import { MdOutlineDashboard } from "react-icons/md";
 import { BsCart4 } from "react-icons/bs";
 import { TbShoppingBag } from "react-icons/tb";
@@ -11,20 +11,16 @@ import { signOut } from "../../redux/user/user.slice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import successAudio from '/success.mp3';
-import errorAudio from '/error.mp3';
+// import errorAudio from '/error.mp3';
 import { toast } from "react-toastify";
-import { selectUserInfo } from "../../redux/user/selectors";
-import { useSelector } from "react-redux";
 
 const Nav = () => {
     const [expanded, setExpanded] = useState(true);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const success = new Audio(successAudio);
-    const error = new Audio(errorAudio);
+    // const error = new Audio(errorAudio);
 
-    const userInfo = useSelector(selectUserInfo);
-    
     return (
         <nav className={`${expanded ? 'w-[235px]' : 'w-[50px]'} h-full
                 box-border ${expanded ? 'p-4' : 'p-1'} pt-0 flex flex-col
