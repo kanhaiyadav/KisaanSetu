@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
+import styles from "../style";
+import {stats} from "../constant"
 
 const container = (delay) => (
     {
@@ -19,9 +21,7 @@ const Hero = () => {
                 <motion.h1
                     variants={container(0)}
                     initial="hidden"
-                    animate="visible" className="relative max-w-2xl mb-4 text-4xl font-extrabold font-poppins
-                     tracking-tight leading-none md:text-5xl
-                      xl:text-6xl dark:text-brown z-10">
+                    animate="visible" className="font-poppins font-extrabold xs:text-[48px] text-[40px] text-brown xs:leading-[76.8px] leading-[46.8px] w-full">
                     An Online Marketplace  <br className='sm:block hidden'/>{" "}
                     <span className='text-gradient'>
                     For the Farmers
@@ -29,10 +29,10 @@ const Hero = () => {
                 </motion.h1>
                 <motion.p variants={container(0.5)}
                     initial="hidden"
-                    animate="visible" className="relative max-w-2xl mb-8
-                     font-semibold text-grey-500 lg:mb-8
-                      md:text-lg lg:text-xl
-                       dark:text-gray-600 z-10">
+                    animate="visible" className="relative mb- font-poppins
+                     font-normal text-Tprimary lg:mb-8
+                      md:text-lg lg:text-xl leading-[30.8px]
+                       dark:text-gray-600 z-10  max-w-[470px] mt-5">
                     Empowering farmers with a direct platform to sell
                     fresh produce, and offering consumers the best
                     quality products straight from the source.
@@ -41,7 +41,7 @@ const Hero = () => {
                     type="button"
                     className="text-white bg-lightgreen border border-gray-300
                      font-boldnpm install framer-motion
-                     rounded-full text-2xl px-8 py-4 me-2 mb-2 hover:bg-white hover:text-gray-600
+                     rounded-full text-2xl px-6 py-3 me-2 mb-2 hover:bg-white hover:text-gray-600
                       hover:outline-black hover:outline hover:outline-2 transition-all duration-300"
                 >
                     <Link to={'/signup'} >Get Started</Link>
@@ -49,7 +49,10 @@ const Hero = () => {
 
             </div>
             <div className="lg:mt-0 lg:col-span-5 lg:flex">
-                <img
+                <motion.img
+                 initial={{x:100,opacity:0}}
+                animate={{x:0,opacity:1}}
+                transition={{duration:1,delay:1.2}}
                     src="Farmer.png"
                     alt="farmer"
                     className="hover:shadow-[0_0_20px_rgba(128,128,128,0.8)] 
@@ -58,6 +61,14 @@ const Hero = () => {
             </div>
         </div>
     </section>
+<section className={`${styles.flexCenter} flex-row flex-wrap sm:mb-20 mb-6`}>
+   {stats.map((stat)=>(
+    <div key={stat.id} className={`flex-1 flex justify-start items-center flex-row m-3`}>
+        <h4 className='font-poppins font-semibold xs:text-[40px] text-[30px] xs:leading-[53px] leading-[43px] text-brown'>{stat.value}</h4>
+        <p className='font-poppins font-normal xs:text-[20px] text-[15px] xs:leading-[26px] leading-[21px] text-Tprimary uppercase ml-3'>{stat.title}</p>
+    </div>
+   ))}
+   </section>
 
     </div>
   )

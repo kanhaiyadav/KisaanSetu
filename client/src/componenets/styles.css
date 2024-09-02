@@ -16,3 +16,12 @@
 .random{
     color: #000000;
 }
+
+/* Example global styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden; /* Avoid horizontal scroll */
+  }
+  
