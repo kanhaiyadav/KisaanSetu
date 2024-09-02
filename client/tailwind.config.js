@@ -25,9 +25,7 @@ export default {
                 brown:'#784224',
                 grey:'#656565',
                 lightgreen:'#97C44B',
-
-
-
+                
                 gray: {
                     100: '#f7fafc',
                     200: '#edf2f7',
@@ -42,9 +40,11 @@ export default {
             },
             fontFamily: {
                 sans: ['Open Sans', 'sans-serif'],
+                poppins: ["Poppins", "sans-serif"],
                 serif: ['Merriweather', 'serif'],
                 brand: ['Salsa', 'cursive'],
             },
+           
             textColor: {
                 brand: '#784224',
             },
