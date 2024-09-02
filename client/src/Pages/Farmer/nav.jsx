@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import successAudio from '/success.mp3';
 import errorAudio from '/error.mp3';
 import { toast } from "react-toastify";
+import { selectUserInfo } from "../../redux/user/selectors";
+import { useSelector } from "react-redux";
 
 const Nav = () => {
     const [expanded, setExpanded] = useState(true);
@@ -20,6 +22,8 @@ const Nav = () => {
     const navigate = useNavigate();
     const success = new Audio(successAudio);
     const error = new Audio(errorAudio);
+
+    const userInfo = useSelector(selectUserInfo);
     
     return (
         <nav className={`${expanded ? 'w-[235px]' : 'w-[50px]'} h-full
@@ -80,29 +84,6 @@ const Nav = () => {
                     }
                 </NavItem>
             </section>
-            {
-                !expanded ?
-                    <div className={`mt-[auto] w-[40px] h-[40px] rounded-full border-white overflow-hidden
-                        `}>
-                        <img src="/Farmer.png" alt="" className="w-full h-full" />
-                    </div>
-                    :
-                    <footer className={`mt-[auto] w-full flex flex-col items-center justify-center gap-2
-                        text-center shadow-[2px_2px_2px_rgba(0,0,0,0.2)] bg-gray-200 text-gray-600 rounded-lg
-                        p-4 pt-0
-                    `}>
-                        <div className={`w-[80px] h-[80px] rounded-full border-[8px] border-white overflow-hidden
-                            mt-[-30px]
-                        `}>
-                            <img src="/Farmer.png" alt="" className="w-full h-full" />
-                        </div>
-                        <div>
-                            <h1 className="text-lg overflow-hidden whitespace-nowrap">Your Name</h1>
-                            <i className="text-sm overflow-hidden whitespace-nowrap">Your Email address</i>
-                            <CustomButton style={{ margin: "15px 0px" }}>Your Profile</CustomButton>
-                        </div>
-                    </footer>
-            }
         </nav>
     )
 }
