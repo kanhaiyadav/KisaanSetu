@@ -6,25 +6,15 @@ export const signUp = async (req, res) => {
     try {
         const { isfarmer, name, email, country, state, city, pincode, address, password, confirmPassword } = req.body;
         if (isfarmer) {
-            let farmer = await Farmer.findOne({ email });
-            if (farmer)
-                return res.status(400).json({ message: "Farmer already exists" });
-            else {
-                farmer = await Farmer.create({ name, email, country, state, city, pincode, address, password });
+                await Farmer.create({ name, email, country, state, city, pincode, address, password });
                 return res.status(200).json({
                     message: "Signed up successfully",
                 })
-            }
         } else {
-            let consumer = await Farmer.findOne({ email });
-            if (consumer)
-                return res.status(400).json({ message: "This email is already in use!" });
-            else {
-                consumer = await Consumer.create({ name, email, country, state, city, pincode, address, password });
+                await Consumer.create({ name, email, country, state, city, pincode, address, password });
                 return res.status(200).json({
                     message: "Signed up successfully",
                 })
-            }
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -38,10 +28,10 @@ export const signIn = async (req, res) => {
         if (!user) {
             user = await Consumer.findOne({ email });
             if (!user)
-                return res.status(400).json({ message: "User not found" });
+                return res.status(400).json({ message: "Invalid email or password" });
             else {
                 if (user.password !== password)
-                    return res.status(400).json({ message: "Incorrect email or password" });
+                    return res.status(400).json({ message: "Invalid email or password" });
                 else {
                     return res.status(200).json({
                         data: {
@@ -55,13 +45,13 @@ export const signIn = async (req, res) => {
             }
         } else {
             if (user.password !== password)
-                return res.status(400).json({ message: "Incorrect email or password" });
+                return res.status(400).json({ message: "Invalid email or password" });
             else {
                 return res.status(200).json({
                     data: {
                         user,
                         isfarmer: true,
-                        token: "Bearer " + jwt.sign({ id: user._id, email: email, isfarmer: true }, 'KisaanSetu', { expiresIn: '7d' })
+                        token: "Bearer " + jwt.sign({ id: user._id, email: email, isfarmer: true }, 'KisaanSetu', { expiresIn: '15s' })
                     },
                     message: "signed in successfully"
                 });

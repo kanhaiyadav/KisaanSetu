@@ -1,5 +1,6 @@
 import express from 'express';
 import './config/database.js';
+import './config/passportJwt.js';
 import router from './Routes/index.js';
 import cors from 'cors';
 
