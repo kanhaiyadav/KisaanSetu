@@ -1,0 +1,12 @@
+{
+    "navBar": {
+        "home": "Home",
+        "about": "About",
+        "customer": "Customer",
+        "farmer": "Farmer"
+    },
+    "hero": {
+        "title": "An Online Marketplace for Farmers and Consumers",
+        "subtitle": "Empowering farmers with a direct platform to sell fresh produce, and offering consumers the best quality products straight from the source."
+    }
+}

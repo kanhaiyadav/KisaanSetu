@@ -28,7 +28,7 @@ const Header = ({ title }) => {
                     profile &&
                     <motion.footer className={`absolute bottom-[-220px] right-0  bg-white flex flex-col items-center justify-center gap-2
                         text-center shadow-[2px_2px_10px_5px_rgba(0,0,0,0.2)]  text-gray-600 rounded-lg
-                        p-4 pt-0
+                        p-4 pt-0 z-10
                     `}
                             initial={{ y: -50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}

@@ -2,6 +2,7 @@ import Navbar from "../componenets/Navbar"
 import Hero from "../componenets/Hero"
 import styles from "../style.js"
 import Features from "../componenets/Features.jsx";
+
 const LandingPage = () => {
     return (
         <div className="bg-[#fdfdfd] w-screen h-screen overflow-x-hidden overflow-y-scroll">

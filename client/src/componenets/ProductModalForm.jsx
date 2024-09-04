@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomButton from "./CustomButton";
 import Modal from "./Modal";
 import "./styles.css";
@@ -7,10 +7,12 @@ import { FaUpload } from "react-icons/fa6";
 
 const ProductModalForm = ({ product, close }) => {
     const { name, price, image, remainingStock } = product;
-    // const [selectedImage, setSelectedImage] = useState(null);
-    const [setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
 
+    useEffect(() => {
+        console.log(previewUrl);
+    }, [previewUrl]);
     // Function to handle file input change
     const handleFileChange = (event) => {
         const file = event.target.files[0]; // Get the selected file

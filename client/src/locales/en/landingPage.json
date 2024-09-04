@@ -1,0 +1,71 @@
+{
+    "navBar": {
+        "home": "Home",
+        "about": "About",
+        "customer": "Customer",
+        "farmer": "Farmer"
+    },
+    "hero": {
+        "titleP1": "An Online Marketplace",
+        "titleP2": "for Farmers and Consumers",
+        "subtitle": "Empowering farmers with a direct platform to sell fresh produce, and offering consumers the best quality products straight from the source.",
+        "startButton": "Get Started"
+    },
+    "stats": [
+        {
+            "id": "1",
+            "title": "Active Users",
+            "value": "3800+"
+        },
+        {
+            "id": "2",
+            "title": "Products",
+            "value": "2300+"
+        },
+        {
+            "id": "3",
+            "title": "Transactions",
+            "value": "$1200+"
+        }
+    ],
+    "navLinks": [
+        {
+            "id": "home",
+            "title": "Home"
+        },
+        {
+            "id": "about",
+            "title": "About"
+        },
+        {
+            "id": "customer",
+            "title": "Customer"
+        },
+        {
+            "id": "farmer",
+            "title": "Farmer"
+        }
+    ],
+    "featuresPage": {
+        "titleP1": "Harvest your success",
+        "titleP2": "connect with buyers effortlessly.",
+        "subtitle": "Simplify your marketplace experience and focus on what you do best—farming. Start growing your business today with effortless connections and increased opportunities.",
+        "features": [
+            {
+                "icon": "./Star.svg",
+                "title": "Rewards",
+                "content": "The best credit cards offer some tantalizing combinations of promotions and prizes"
+            },
+            {
+                "icon": "./Shield.svg",
+                "title": "100% Secured",
+                "content": "We take proactive steps make sure your information and transactions are secure."
+            },
+            {
+                "icon": "./Send.svg",
+                "title": "Balance Transfer",
+                "content": "A balance transfer credit card can save you a lot of money in interest charges."
+            }
+        ]
+    }
+}
