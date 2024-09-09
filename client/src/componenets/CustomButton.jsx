@@ -32,7 +32,7 @@ const CustomButton = ({intent, size, children, ...props }) => (
         {...props}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        transition= {{ duration: 0.3, type: "spring", stiffness: 220, damping: 10 }}
+        transition= {{ duration: 0.3, type: "spring", stiffness: 220, damping: 20 }}
     >
         {children}
     </motion.button>

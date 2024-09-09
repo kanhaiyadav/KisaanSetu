@@ -16,14 +16,7 @@ const flip = {
         transition: {
             duration: 0.5,
         },
-    },
-    exit: {
-        transform: "scale(0) rotateX(360deg)",
-        opacity: 0,
-        transition: {
-            duration: 0.5,
-        },
-    },
+    }
 };
 
 const Modal = ({ children, onClick, ...otherProps }) => {
@@ -36,7 +29,6 @@ const Modal = ({ children, onClick, ...otherProps }) => {
                 variants={flip}
                 initial='hidden'
                 animate='visible'
-                exit='exit'
                 onClick={(e) => { e.stopPropagation(); }}
             >
                 {children}

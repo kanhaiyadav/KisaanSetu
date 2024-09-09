@@ -6,7 +6,7 @@ import { GoTrash } from "react-icons/go";
 
 const ProductCard = ({ product }) => {
     const [clicked, setClicked] = useState(false);
-    const { name, price, image, remainingStock } = product;
+    const { name, price, image, stocks } = product;
 
     return (
         <>
@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
             >
-                <img src={image} alt={name} className="w-full object-cover rounded-t-xl" />
+                <img src={'http://localhost:3000' + image} alt={name} className="w-full object-cover rounded-t-xl" />
                 <div className="pt-2 w-full flex justify-between items-center">
                     <div>
                         <h1 className="text-lg font-semibold text-gray-800">{name}</h1>
@@ -38,18 +38,16 @@ const ProductCard = ({ product }) => {
                     </div>
                     {/* <div className="absolute bg-primary top-0 right-6 p-2 min-h-[50px] rounded-b-2xl">{remainingStock}</div> */}
                 </div>
-                <p className='text-gray-700'>current stock: {remainingStock} kg</p>
+                <p className='text-gray-700'>current stock: {stocks} kg</p>
             </Card>
 
-            <AnimatePresence>
-                {clicked && (
-                    <ProductModalForm
-                        key="modal" // Optional: Add a unique key if needed
-                        product={product}
-                        close={() => setClicked(false)}
-                    />
-                )}
-            </AnimatePresence>
+            {clicked && (
+                <ProductModalForm
+                    key="modal" // Optional: Add a unique key if needed
+                    product={product}
+                    close={() => setClicked(false)}
+                />
+            )}
         </>
     );
 };
