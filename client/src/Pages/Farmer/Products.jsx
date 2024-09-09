@@ -15,16 +15,23 @@ const Products = () => {
         <>
             <div className={`flex-1 flex flex-col `}>
                 <Header title={'Products'} />
-                <main className={`flex-1 columns-1 sm:columns-2 md:columns-3 lg:columns-4 overflow-auto p-4 gap-4 space-y-6`}>
+                <main className={`flex-1 ${products.length > 0 ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4' : 'flex items-center justify-center'} overflow-auto p-4 gap-4 space-y-6`}>
                     {
                         products.length > 0?
                         products.map((product, index) => <ProductCard key={index} product={product} />)
-                        : <div className="text-center text-lg">No products available</div>
+                            : 
+                        <div className='w-full h-full flex flex-col items-center justify-center mt-[-200px] relative'>
+                                <img src="/no_data.png" alt="" className='w-[300px] h-[300px]' />
+                                <p className='text-[#a2a2a2] text-md  mt-[-50px]'>You have not added any products yet</p>
+                                <p className='text-[#a2a2a2] text-lg font-semibold '>Click on the '+' button to add a new product</p>
+                                <img src="/arrow.svg" alt="" className='w-[300px] h-[300px] absolute bottom-[-70px] right-[100px] rotate-[-15deg]'/>
+                                {/* <img src="/arrow.svg" alt="" /> */}
+                        </div>
                     }
                 </main>
-                <div className={`h-[60px] w-[60px] absolute right-[42px] bottom-[42px] rounded-full bg-primary animate-ping`} />
+                <div className={`h-[60px] w-[60px] absolute right-[42px] bottom-[42px] rounded-full bg-secondary animate-ping`} />
                 <div className={`h-[80px] w-[80px] absolute right-8 bottom-8 text-6xl flex 
-            items-center justify-center rounded-full bg-primary text-white
+            items-center justify-center rounded-full bg-secondary text-white hover:bg-orange-500 hover:rotate-90 transition-all
             `}
                     onClick={() => setClicked(true)}
                 >

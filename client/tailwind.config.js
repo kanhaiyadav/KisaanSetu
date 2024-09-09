@@ -9,7 +9,7 @@ export default {
             colors: {
                 primary: '#97c54b',
                 Tprimary: 'gray',
-                secondary: '#FFA500',
+                secondary: '#f4932a',
                 Tsecondary: '#6b6b6b',
                 danger: '#FF6347',
                 tertiary: '#FF6347',

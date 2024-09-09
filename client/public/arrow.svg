@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 800 800">
+  <g stroke-width="9" stroke="#a2a2a2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7.5 24" transform="matrix(0.981627183447664,0.1908089953765448,-0.1908089953765448,0.981627183447664,69.67272477155234,-68.97447152968357)">
+    <path d="M136 136Q789 323 400 400Q152 450 664 664 " marker-end="url(#SvgjsMarker5663)"></path>
+  </g>
+  <defs>
+    <marker markerWidth="4.5" markerHeight="4.5" refX="2.25" refY="2.25" viewBox="0 0 4.5 4.5" orient="auto" id="SvgjsMarker5663">
+      <polygon points="0,4.5 1.5,2.25 0,0 4.5,2.25" fill="#a2a2a2"></polygon>
+    </marker>
+  </defs>
+</svg>
