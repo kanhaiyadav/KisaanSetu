@@ -57,9 +57,9 @@ export const addProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
     "product/deleteProduct",
-    async (id, { rejectWithValue }) => {
+    async (_id, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/products/${id}`, {
+            const response = await fetch(`http://localhost:3000/api/products/${_id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -120,7 +120,7 @@ const productSlice = createSlice({
         });
         builder.addCase(deleteProduct.fulfilled, (state, action) => {
             state.status = "succeeded";
-            state.products = state.products.filter((product) => product._id !== action.payload._id);
+            state.products = state.products.filter((product) => product._id !== action.payload.data._id);
         });
         builder.addCase(deleteProduct.rejected, (state, action) => {
             state.status = "failed";

@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Card from '../../componenets/Card';
 import ProductModalForm from "../../componenets/ProductModalForm";
-import { AnimatePresence } from 'framer-motion';
+// import { AnimatePresence } from 'framer-motion';
 import { GoTrash } from "react-icons/go";
+import { deleteProduct } from '../../redux/product/product.slice';
+import { useDispatch } from 'react-redux';
 
 const ProductCard = ({ product }) => {
     const [clicked, setClicked] = useState(false);
-    const { name, price, image, stocks } = product;
+    const { _id, name, price, image, stocks } = product;
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -31,7 +34,7 @@ const ProductCard = ({ product }) => {
                     <div className="p-2 rounded-full shadow-[0px_0px_3px_2px_rgba(0,0,0,0.2)] hover:bg-red-500 text-red-500 hover:text-white transition-colors duration-500"
                         onClick={(e) => {
                             e.stopPropagation();
-                            alert('Delete Product');
+                            dispatch(deleteProduct(_id));
                         }}
                     >
                         <GoTrash className='text-2xl font-semibold' />
@@ -52,4 +55,4 @@ const ProductCard = ({ product }) => {
     );
 };
 
-export default ProductCard;
+export default React.memo(ProductCard);
