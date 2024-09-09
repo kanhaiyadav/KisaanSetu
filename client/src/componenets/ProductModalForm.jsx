@@ -7,17 +7,18 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/product/product.slice";
 import { selectToken } from "../redux/user/selectors";
+import { updateProduct } from "../redux/product/product.slice";
 
 const ProductModalForm = ({ product, close, type }) => {
     const token = useSelector(selectToken);
     const [selectedImage, setSelectedImage] = useState(null);
-    const { name, price, image, remainingStock } = product;
-    const [previewUrl, setPreviewUrl] = useState(image || null); // Set initial preview if `image` is provided
+    const {_id, name, price, image, stocks } = product;
+    const [previewUrl, setPreviewUrl] = useState(image?`http://localhost:3000${image}`: null); // Set initial preview if `image` is provided
     const { register, handleSubmit, formState, reset, setValue } = useForm({
         defaultValues: {
             name: name,
             price: price,
-            stocks: remainingStock,
+            stocks: stocks,
         },
     });
     const { errors } = formState;
@@ -26,14 +27,30 @@ const ProductModalForm = ({ product, close, type }) => {
 
     const onSubmit = (data) => {
         // Attach the selected image to the form data
+        const formData = new FormData();
+
+        // Add the serializable fields to FormData
+        formData.append("name", data.name);
+        formData.append("price", data.price);
+        formData.append("stocks", data.stocks);
+
+        // Append the file if selected
         if (selectedImage) {
-            data.image = selectedImage;
+            formData.append("image", selectedImage);
         }
+
         if (type === 'create') {
             dispatch(addProduct({
-                ...data,
+                formData,
                 token,
             }));
+        } else {
+            formData.append("_id", _id);
+            // Update the product
+            dispatch(updateProduct({
+                formData,
+                token,
+            }));    
         }
         reset(); // Reset the form
         close();

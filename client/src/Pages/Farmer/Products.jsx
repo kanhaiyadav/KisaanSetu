@@ -35,7 +35,7 @@ const Products = () => {
                 {clicked && (
                     <ProductModalForm
                         key="modal" // Optional: Add a unique key if needed
-                        product={{ name: '', price: '', image: '', remainingStock: '' }}
+                        product={{ name: '', price: '', image: '', stocks: '' }}
                         close={() => setClicked(false)}
                         type={'create'}
                     />

@@ -16,7 +16,7 @@ export const getProducts = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        const { name, price,  stocks } = req.body;
+        const { name, price, stocks } = req.body;
         const product = await Product.create({ name, price, stocks, image: Product.productImagePath + '\\' + req.file.filename, farmer: req.user._id });
         res.status(200).json({
             data: {
@@ -42,3 +42,31 @@ export const deleteProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
+export const updateProduct = async (req, res) => {
+    try {
+        const { _id, name, price, stocks } = req.body;
+        if (req.file) {
+            console.log('i am with file');
+            await Product.findByIdAndUpdate(_id, { name, price, stocks, image: Product.productImagePath + '\\' + req.file.filename });
+        }
+        else {
+            console.log('i am without file');
+            await Product.findByIdAndUpdate(
+                _id,
+                { name, price, stocks },
+            );
+        }
+        const product = await Product.findById(_id);
+        console.log(product, _id);
+        res.status(200).json({
+            data: {
+                product,
+            },
+            message: "Product updated successfully",
+        })
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

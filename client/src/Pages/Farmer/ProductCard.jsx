@@ -49,6 +49,7 @@ const ProductCard = ({ product }) => {
                     key="modal" // Optional: Add a unique key if needed
                     product={product}
                     close={() => setClicked(false)}
+                    type={'update'}
                 />
             )}
         </>

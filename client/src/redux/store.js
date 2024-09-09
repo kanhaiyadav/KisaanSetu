@@ -9,11 +9,11 @@ const store = configureStore({
         getDefaultMiddleware({
             serializableCheck: {
                 // Ignore these action types
-                ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+                ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE', 'product/addProduct/fulfilled', 'product/updateProduct/fulfilled'],
                 // Ignore these field paths in all actions
-                ignoredActionPaths: ['register', 'rehydrate'],
+                ignoredActionPaths: ['register', 'rehydrate', 'meta.arg', 'payload'],
                 // Ignore these paths in the state
-                ignoredPaths: ['register', 'rehydrate'],
+                ignoredPaths: ['register', 'rehydrate', 'product.formData'],
             },
         }),
 });

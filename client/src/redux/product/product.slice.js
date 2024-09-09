@@ -26,23 +26,12 @@ export const addProduct = createAsyncThunk(
     "product/addProduct",
     async (data, { rejectWithValue }) => {
         try {
-            const formData = new FormData();
-
-            // Append fields to the FormData object
-            formData.append('name', data.name);
-            formData.append('price', data.price);
-            formData.append('stocks', data.stocks);
-
-            // Append image if available
-            if (data.image) {
-                formData.append('image', data.image);
-            }
             const response = await fetch("http://localhost:3000/api/products", {
                 method: "POST",
                 headers: {
                     "Authorization": data.token,
                 },
-                body: formData,
+                body: data.formData,
             });
             const result = await response.json();
             if (response.ok) {
@@ -64,6 +53,25 @@ export const deleteProduct = createAsyncThunk(
                 headers: {
                     "Content-Type": "application/json",
                 },
+            });
+            const result = await response.json();
+            if (response.ok) {
+                return result;
+            }
+            return rejectWithValue(result);
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
+
+export const updateProduct = createAsyncThunk(
+    "product/updateProduct",
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/products`, {
+                method: "PUT",
+                body: data.formData,
             });
             const result = await response.json();
             if (response.ok) {
@@ -123,6 +131,20 @@ const productSlice = createSlice({
             state.products = state.products.filter((product) => product._id !== action.payload.data._id);
         });
         builder.addCase(deleteProduct.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.payload;
+        });
+        builder.addCase(updateProduct.pending, (state) => {
+            state.status = "loading";
+        });
+        builder.addCase(updateProduct.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            console.log(action.payload.data)
+            state.products = state.products.map((product) =>
+                product._id === action.payload.data.product._id ? action.payload.data.product : product
+            );
+        });
+        builder.addCase(updateProduct.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.payload;
         });
