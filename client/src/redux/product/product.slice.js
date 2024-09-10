@@ -84,6 +84,27 @@ export const updateProduct = createAsyncThunk(
     }
 );
 
+export const createSale = createAsyncThunk(
+    "product/createSale",
+    async (sale) => {
+        try {
+            const response = await fetch("http://localhost:3000/api/products/createSale", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(sale),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                return data;
+            }
+        } catch (error) {
+            return error;
+        }
+    }
+);
+
 const initialState = {
     products: [],
     status: "idle",
@@ -145,6 +166,19 @@ const productSlice = createSlice({
             );
         });
         builder.addCase(updateProduct.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.payload;
+        });
+        builder.addCase(createSale.pending, (state) => {
+            state.status = "loading";
+        });
+        builder.addCase(createSale.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            state.products = state.products.map((product) =>
+                product._id === action.payload.data.product._id ? action.payload.data.product : product
+            );
+        });
+        builder.addCase(createSale.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.payload;
         });

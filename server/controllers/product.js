@@ -1,4 +1,5 @@
 import Product from '../Models/product.js';
+import Sale from '../Models/sale.js';
 
 export const getProducts = async (req, res) => {
     try {
@@ -68,5 +69,24 @@ export const updateProduct = async (req, res) => {
     }
     catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+export const createSale = async (req, res) => {
+    try {
+        const { price, quantity, total, product } = req.body;
+        await Sale.create({ price, quantity, total, product });
+        const productToUpdate = await Product.findById(product);
+        console.log(productToUpdate);
+        productToUpdate.stocks -= quantity;
+        productToUpdate.price = price;
+        await productToUpdate.save();
+        return res.status(201).json({
+            data: {
+                product: productToUpdate,
+            }
+        });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 };

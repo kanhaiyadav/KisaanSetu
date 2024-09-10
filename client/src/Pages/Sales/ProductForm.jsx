@@ -1,7 +1,8 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { createSale } from "../../redux/sales/sales.slice";
+import { createSale } from "../../redux/product/product.slice";
 
 const ProductForm = ({ product, index}) => {
     const { register, handleSubmit, setValue, watch } = useForm({
@@ -24,19 +25,14 @@ const ProductForm = ({ product, index}) => {
     }, [watchPrice, watchQuantity, setValue]);
 
     return (
-        <form key={index} className="flex gap-4" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col w-1/2">
-                <label htmlFor="product" className="text-lg font-semibold">Product</label>
-                <input
-                    type="text"
-                    name="product"
-                    value={product.name}
-                    className="p-2 border border-gray-300 rounded-md cursor-not-allowed"
-                    readOnly
-                />
+        <form key={index} className="grid grid-cols-[50px_150px_auto_auto_auto_100px] gap-4 items-center" onSubmit={handleSubmit(onSubmit)}>
+            <div>
+                <h1 className="text-2xl font-semibold text-gray-700 font-sans max-w-[150px] whitespace-nowrap overflow-ellipsis">{index + 1}.</h1>
             </div>
-            <div className="flex flex-col w-1/2">
-                <label htmlFor="price" className="text-lg font-semibold">Price Per Unit</label>
+            <div className="flex flex-col">
+                <h1 className="text-2xl font-semibold text-gray-700 font-sans">{product.name}</h1>
+            </div>
+            <div className="flex flex-col">
                 <input
                     type="number"
                     className="p-2 border border-gray-300 rounded-md"
@@ -44,8 +40,7 @@ const ProductForm = ({ product, index}) => {
                     defaultValue={product.price}
                 />
             </div>
-            <div className="flex flex-col w-1/2">
-                <label htmlFor="quantity" className="text-lg font-semibold">Quantity</label>
+            <div className="flex flex-col">
                 <input
                     type="number"
                     className="p-2 border border-gray-300 rounded-md"
@@ -53,8 +48,7 @@ const ProductForm = ({ product, index}) => {
                     defaultValue={product.quantity}
                 />
             </div>
-            <div className="flex flex-col w-1/2">
-                <label htmlFor="total" className="text-lg font-semibold">Total</label>
+            <div className="flex flex-col">
                 <input
                     type="number"
                     className="p-2 border border-gray-300 rounded-md cursor-not-allowed"
@@ -63,10 +57,10 @@ const ProductForm = ({ product, index}) => {
                 />
             </div>
             <div className="flex justify-center">
-                <button type="submit" className="p-2 mt-4 bg-primary text-white rounded-md w-fit">Update</button>
+                <button type="submit" className="p-[8px] pl-4 pr-4 bg-primary text-white rounded-md w-fit">Update</button>
             </div>
         </form>
     );
 };
 
-export default ProductForm;
+export default React.memo(ProductForm);
