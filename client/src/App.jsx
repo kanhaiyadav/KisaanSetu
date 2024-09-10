@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { selectToken, selectIsFarmer } from './redux/user/selectors'
 import { toast } from "react-toastify";
 import { signOut } from './redux/user/user.slice'
+import Sales from './Pages/Sales/Sales'
 
 function App() {
     const dispatch = useDispatch();
@@ -43,6 +44,7 @@ function App() {
             <Route path='/farmer' element={token ? <Farmer /> : <Navigate to={'/signin'} />}>
                 <Route index element={<Dashboard />} />
                 <Route path='products' element={<Products />} />
+                <Route path='sales' element={<Sales />} />
             </Route>
         </Routes>
     )

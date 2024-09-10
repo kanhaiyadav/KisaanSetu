@@ -48,11 +48,11 @@ const Nav = () => {
                             : null
                     }
                 </NavItem>
-                <NavItem to={'orders'}>
+                <NavItem to={'sales'}>
                     <BsCart4 className={`${expanded ? '' : 'ml-[3px]'}`} />
                     {
                         expanded ?
-                            <span className={`overflow-hidden whitespace-nowrap`}>Orders</span>
+                            <span className={`overflow-hidden whitespace-nowrap`}>Sales</span>
                             : null
                     }
                 </NavItem>
