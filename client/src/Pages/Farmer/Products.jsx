@@ -18,7 +18,7 @@ const Products = () => {
                 <main className={`flex-1 ${products.length > 0 ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4' : 'flex items-center justify-center'} overflow-auto p-4 gap-4 space-y-6`}>
                     {
                         products.length > 0?
-                        products.map((product, index) => <ProductCard key={index} product={product} />)
+                        products.map((product, index) => <ProductCard key={index} product={product} type={'farmer'}/>)
                             : 
                         <div className='w-full h-full flex flex-col items-center justify-center mt-[-200px] relative'>
                                 <img src="/no_data.png" alt="" className='w-[300px] h-[300px]' />

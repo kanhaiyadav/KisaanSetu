@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import { signOut } from './redux/user/user.slice'
 import Sales from './Pages/Sales/Sales'
 import Consumer from './Pages/Consumer'
+import DefaultPage from './Pages/Consumer/defaultPage'
+import ProductListingPage from './Pages/Consumer/ProductListingPage'
 
 function App() {
     const dispatch = useDispatch();
@@ -47,7 +49,10 @@ function App() {
                 <Route path='products' element={<Products />} />
                 <Route path='sales' element={<Sales />} />
             </Route>
-            <Route path='/consumer' element={<Consumer/>} />
+            <Route path='/consumer' element={<Consumer />} >
+                <Route index element={<DefaultPage /> } />
+                <Route path='products' element={<ProductListingPage /> } />
+            </Route>
         </Routes>
     )
 }

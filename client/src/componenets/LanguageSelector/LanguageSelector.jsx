@@ -5,7 +5,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import languages from "./languages";
 import { motion } from "framer-motion";
 
-const LanguageSelector = () => {
+const LanguageSelector = ({style}) => {
     const [language, setLanguage] = useState("English(English)");
     const [languageList, setLanguageList] = useState(languages);
     const [dropDownClicked, setDropDownClicked] = useState(false);
@@ -43,7 +43,7 @@ const LanguageSelector = () => {
         }
     }
     return (
-        <form className="flex items-center  space-x-2 text-gray-700 pl-4 pr-4 relative" onSubmit={handleSubmit}>
+        <form style={style} className="flex items-center  space-x-2 text-gray-700 pl-4 pr-4 relative" onSubmit={handleSubmit}>
             <MdLanguage className="text-2xl font-light mr-[-5px]" />
             <div className="border-b-2 border-gray-600 focus-within:bg-gray-200 focus-within:border-gray-700 flex">
                 <input value={language} onChange={handleChange} className="border-none focus:bg-gray-200 focus:font-semibold rounded-md  p-1 pl-2 pr-2 outline-none min-w-[100px] font-sans" onFocus={(e)=>{e.target.select()}}/>

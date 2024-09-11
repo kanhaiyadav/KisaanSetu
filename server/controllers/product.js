@@ -4,8 +4,7 @@ import Sale from '../Models/sale.js';
 
 export const getProducts = async (req, res) => {
     try {
-        const products = await Product.find({ farmer: req.params.farmerId });
-        console.log(req.params.farmerId, products);
+        const products = await Product.find({ farmer: req.params.farmerId }).populate('farmer');
         res.status(200).json({
             data: {
                 products,
@@ -99,3 +98,17 @@ export const createSale = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+
+export const search = async (req, res) => {
+    try {
+        const name = req.params.name;
+        const products = await Product.find({ name: { $regex: new RegExp(name, 'i') } }).populate('farmer');
+        res.status(200).json({
+            data: {
+                products,
+            },
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
