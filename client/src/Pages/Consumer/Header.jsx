@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "../../redux/user/selectors";
 import { useState } from "react";
+import { BiSolidBookAlt } from "react-icons/bi";
+import { IoMdHeart } from "react-icons/io";
 
 const Header = () => {
     const [profile, setProfile] = useState(false);
@@ -15,6 +17,10 @@ const Header = () => {
             <Logo style={{height: '45px'}} />
             <SearchBar />
             <div className="flex items-center gap-5">
+                <div  className="relative">
+                    <BiSolidBookAlt className="text-2xl text-white" />
+                    <IoMdHeart className=" text-[9px] text-red-500 absolute top-[40%] left-[50%] translate-x-[-50%] translate-y-[-50%]" />
+                </div>
                 <div className="relative">
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0"></div>
