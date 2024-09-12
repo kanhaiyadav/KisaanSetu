@@ -9,13 +9,13 @@ const Step1 = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     return (
-        <Container>
+        <Container className="container mx-auto p-4 w-full sm:w-11/12 md:w-10/12 lg:w-9/12 xl:w-8/12">
             <Header>
                 <h1 className="m-0 font-sans text-2xl font-semibold text-gray-700">Continue as</h1>
                 <i className="text-sm font-normal text-gray-500 m-0">This password will be required while login back to your account.</i>
             </Header>
 
-            <div className="flex gap-12 my-5">
+            <div className="flex gap-12 my-5 ">
                 <div className="text-center w-48 flex flex-col items-center gap-4">
                         <motion.img src="/Farmer.png" alt="Farmer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
                             ()=> {

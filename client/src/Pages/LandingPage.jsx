@@ -2,7 +2,7 @@ import Navbar from "../componenets/Navbar"
 import Hero from "../componenets/Hero"
 import styles from "../style.js"
 import Features from "../componenets/Features.jsx";
-
+import Footer from "../componenets/Footer.jsx"
 const LandingPage = () => {
     return (
         <div className="bg-[#fdfdfd] w-screen h-screen overflow-x-hidden overflow-y-scroll">
@@ -22,6 +22,12 @@ const LandingPage = () => {
                     <Features />
                 </div>
             </div>
+            <div className={`bg-[#fdfdfd] ${styles.flexStart}`}>
+                <div className={`${styles.boxWidth}`}>
+                    <Footer/>
+                </div>
+            </div>
+            
         </div>
     )
 }
