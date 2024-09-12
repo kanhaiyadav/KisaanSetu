@@ -54,8 +54,7 @@ const ProductForm = ({ product, index}) => {
             <div className="flex flex-col">
                 <input
                     type="number"
-                    className="p-2 border border-gray-300 rounded-md cursor-not-allowed"
-                    readOnly
+                    className="p-2 border border-gray-300 rounded-md"
                     {...register('total')}
                 />
             </div>
