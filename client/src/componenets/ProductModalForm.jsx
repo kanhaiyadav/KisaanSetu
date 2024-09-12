@@ -22,9 +22,7 @@ const ProductModalForm = ({ product, close, type }) => {
         },
     });
     const { errors } = formState;
-
     const dispatch = useDispatch();
-
     const onSubmit = (data) => {
         // Attach the selected image to the form data
         const formData = new FormData();
@@ -162,7 +160,6 @@ const ProductModalForm = ({ product, close, type }) => {
                             {...register("stocks", { required: "Stocks are required*" })}
                         />
                     </div>
-
                     {/* Submit button */}
                     <CustomButton type="submit">Done</CustomButton>
                 </form>

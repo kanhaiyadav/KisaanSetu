@@ -11,7 +11,7 @@ const Navbar = () => {
         <div>
             <nav className="w-full flex py-6 justify-between items-center navbar">
                 <Logo />
-                <ul className="list-none sm:flex hidden justify-end items-center flex-1">
+                {/* <ul className="list-none sm:flex hidden justify-end items-center flex-1">
                     {navLinks.map((nav, index) => (
                         <li
                             key={nav.id}
@@ -23,7 +23,7 @@ const Navbar = () => {
                             </a>
                         </li>
                     ))}
-                </ul>
+                </ul> */}
 
                 <div className="sm:hidden flex flex-1 justify-end items-center">
                     <img src={toggle ? '/close.svg' : '/menu.svg'}

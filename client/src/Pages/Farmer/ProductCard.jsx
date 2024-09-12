@@ -7,6 +7,7 @@ import { deleteProduct } from '../../redux/product/product.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectToken } from '../../redux/user/selectors';
 import ProductDescription from '../../componenets/ProductDescription';
+import Modal from '../../componenets/Modal';
 
 const ProductCard = ({ product, type }) => {
     const [clicked, setClicked] = useState(false);
@@ -55,15 +56,23 @@ const ProductCard = ({ product, type }) => {
             </Card>
 
             {
-                clicked && type === 'farmer'?
-                <ProductModalForm
-                    key="modal" // Optional: Add a unique key if needed
-                    product={product}
-                    close={() => setClicked(false)}
-                    type={'update'}
-                    />
-                    :
-                    <ProductDescription product={product} close={() => setClicked(false)} />
+                clicked && (
+                    type === 'farmer' ? (
+                        <ProductModalForm
+                            key="modal"
+                            product={product}
+                            close={() => setClicked(false)}
+                            type={'update'}
+                        />
+                    ) : type === 'consumer' ? (
+                        <Modal
+                            // product={product}
+                            onClick={() => setClicked(false)}
+                        >
+                            <ProductDescription product={product} />
+                        </Modal>
+                    ) : null
+                )
             }
         </>
     );

@@ -1,22 +1,19 @@
-import Modal from "./Modal";
-
-const ProductDescription = ({ product, close }) => {
+const ProductDescription = ({ product }) => {
     return (
-        <Modal onClick={close} className="w-full h-full flex flex-col items-center justify-center">
-            <div className="w-1/2 h-1/2 flex items-center justify-center">
-                <img src={product.image} alt="product" className="w-1/2 h-1/2" />
-            </div>
-            <div className="w-1/2 h-1/2 flex items-center justify-center">
-                <div className="w-1/2 h-1/2 flex flex-col items-center justify-center">
-                    <h1>{product.name}</h1>
-                    <p>{product.description}</p>
-                    <p>{product.price}</p>
-                    <button className="w-1/2 h-1/2 bg-green-500" onClick={() => { }}>
-                        Add to cart
-                    </button>
+        <>
+            <div className="h-[550px] w-[85vw] flex">
+                <div className="flex items-center justify-center">
+                    <img src={'http://localhost:3000' + product.image} alt="product" className="w-1/2 h-1/2" />
+                </div>
+                <div className="w-1/2 h-1/2 flex items-center justify-center">
+                    <div className="w-1/2 h-1/2 flex flex-col items-center justify-center">
+                        <h1>{product.name}</h1>
+                        <p>{product.description}</p>
+                        <p>{product.price}</p>
+                    </div>
                 </div>
             </div>
-        </Modal>
+        </>
     )
 };
 
