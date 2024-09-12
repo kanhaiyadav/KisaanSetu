@@ -4,11 +4,14 @@ import ProductModalForm from "../../componenets/ProductModalForm";
 // import { AnimatePresence } from 'framer-motion';
 import { GoTrash } from "react-icons/go";
 import { deleteProduct } from '../../redux/product/product.slice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectToken } from '../../redux/user/selectors';
+import ProductDescription from '../../componenets/ProductDescription';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, type }) => {
     const [clicked, setClicked] = useState(false);
     const { _id, name, price, image, stocks } = product;
+    const token = useSelector(selectToken);
     const dispatch = useDispatch();
 
     return (
@@ -31,27 +34,37 @@ const ProductCard = ({ product }) => {
                         <h1 className="text-lg font-semibold text-gray-800">{name}</h1>
                         <p className="text-gray-600 text-2xl">₹{price}<span className='text-sm text-gray-500 ml-2'>per kg</span></p>
                     </div>
-                    <div className="p-2 rounded-full shadow-[0px_0px_3px_2px_rgba(0,0,0,0.2)] hover:bg-red-500 text-red-500 hover:text-white transition-colors duration-500"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            dispatch(deleteProduct(_id));
-                        }}
-                    >
-                        <GoTrash className='text-2xl font-semibold' />
-                    </div>
+                    {
+                        type === 'farmer' &&
+                        <div className="p-2 rounded-full shadow-[0px_0px_3px_2px_rgba(0,0,0,0.2)] hover:bg-red-500 text-red-500 hover:text-white transition-colors duration-500"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                dispatch(deleteProduct({
+                                    _id,
+                                    token
+                                }));
+                            }}
+                        >
+                            <GoTrash className='text-2xl font-semibold' />
+                        </div>
+                    }
                     {/* <div className="absolute bg-primary top-0 right-6 p-2 min-h-[50px] rounded-b-2xl">{remainingStock}</div> */}
                 </div>
                 <p className='text-gray-700'>current stock: {stocks} kg</p>
+                {type === 'consumer' && <p className=''>Seller: <span>{product.farmer.name}</span></p>}
             </Card>
 
-            {clicked && (
+            {
+                clicked && type === 'farmer'?
                 <ProductModalForm
                     key="modal" // Optional: Add a unique key if needed
                     product={product}
                     close={() => setClicked(false)}
                     type={'update'}
-                />
-            )}
+                    />
+                    :
+                    <ProductDescription product={product} close={() => setClicked(false)} />
+            }
         </>
     );
 };

@@ -1,8 +1,12 @@
 import { Link, Outlet } from "react-router-dom";
 import Logo from "../../componenets/Logo";
 import SignIn from "./SignIn";
+import LanguageSelector from "../../componenets/LanguageSelector/LanguageSelector";
+import { useTranslation } from "react-i18next";
 
 const SignInUp = ({ type }) => {
+    const { t } = useTranslation('signInUp');
+    const index = t('index', { returnObjects: true });
     return (
         <div className="relative h-full w-full flex bg-cover">
             <div className="flex-1 flex flex-col justify-center items-center px-5 gap-8 bg-gray-100">
@@ -14,7 +18,7 @@ const SignInUp = ({ type }) => {
                 }
                 {
                     type === 'signup' ?
-                        <p className="text-gray-700">Already have an account? <Link to={'/signin'} className="text-lg font-semibold text-[#d39a57] hover:underline">Sign In</Link></p>
+                        <p className="text-gray-700">{index.askSigninP1} <Link to={'/signin'} className="text-lg font-semibold text-[#d39a57] hover:underline">{index.askSigninP2}</Link></p>
                         :
                         <p className="text-gray-700">Don&apos;t have an account? <Link to={'/signup'} className="text-lg font-semibold text-[#d39a57] hover:underline">Sign Up</Link></p>
                 }
@@ -23,6 +27,7 @@ const SignInUp = ({ type }) => {
                 <img src="/SignInUp.jpeg" alt="farmer" className="h-full w-full object-cover" />
                 <div className="absolute top-0 h-full w-full bg-no-repeat" style={{ backgroundImage: 'url(/wave1.svg)' }}></div>
             </div>
+            <LanguageSelector style={{position:"absolute", left: "500px", top: "30px"}}/>
         </div>
     );
 };

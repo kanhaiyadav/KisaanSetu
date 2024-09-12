@@ -46,12 +46,14 @@ export const addProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
     "product/deleteProduct",
-    async (_id, { rejectWithValue }) => {
+    async (data, { rejectWithValue }) => {
+        console.log(data);  
         try {
-            const response = await fetch(`http://localhost:3000/api/products/${_id}`, {
+            const response = await fetch(`http://localhost:3000/api/products/${data._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": data.token
                 },
             });
             const result = await response.json();
@@ -105,8 +107,30 @@ export const createSale = createAsyncThunk(
     }
 );
 
+export const searchProduct = createAsyncThunk(
+    "product/searchProduct",
+    async (name, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/products/search/${name}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const result = await response.json();
+            if (response.ok) {
+                return result;
+            }
+            return rejectWithValue(result);
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
 const initialState = {
     products: [],
+    searchedProducts: [],
     status: "idle",
     error: null,
 };
@@ -182,6 +206,18 @@ const productSlice = createSlice({
             state.status = "failed";
             state.error = action.payload;
         });
+        builder.addCase(searchProduct.pending, (state) => {
+            state.status = "loading";
+        });
+        builder.addCase(searchProduct.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            state.searchedProducts = action.payload.data.products;
+        });
+        builder.addCase(searchProduct.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.payload;
+        }); 
+        
     },
 });
 
