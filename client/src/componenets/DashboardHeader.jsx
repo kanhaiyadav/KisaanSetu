@@ -12,7 +12,7 @@ const Header = ({ title }) => {
     const userInfo = useSelector(selectUserInfo);
     return (
         <header className="w-full flex items-center p-4 gap-4">
-            <h1 className="text-3xl font-semibold text-gray-600 flex-1">{title}</h1>
+            <h1 className="text-xl md:text-3xl font-semibold text-gray-600 flex-1">{title}</h1>
             <SearchBar style={{ marginRight: "50px" }} />
             <div className="relative">
                 <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
