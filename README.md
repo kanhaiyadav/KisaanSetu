@@ -38,7 +38,7 @@ Make sure your MongoDB server is running on the default port (`mongodb://localho
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/[YourUsername]/kisaan-setu.git
+   git clone https://github.com/kanhaiyadav/KisaanSetu.git
 2. Navigate to the project directory:
    ```bash
    cd kisaan-setu
