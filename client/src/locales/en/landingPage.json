@@ -10,7 +10,8 @@
         "titleP2": "for Farmers",
         "titleP3": "and Customers",
         "subtitle": "Empowering farmers with a direct platform to sell fresh produce, and offering consumers the best quality products straight from the source.",
-        "startButton": "Get Started"
+        "startButton": "Get Started",
+        "loginButton": "Login"
     },
     "stats": [
         {

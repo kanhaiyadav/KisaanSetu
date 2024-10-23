@@ -54,10 +54,15 @@ export default {
                     '0%': { width: '0px' },
                     '100%': { width: '200px' },
                 },
+                diaMove: {
+                    '0%': { transform: 'translate(50px, 50px)' },
+                    '100%': { transform: 'translate(0px, 0px)' },
+                }
                 
             },
             animation: {
                 expand: 'expand 0.5s ease',
+                diaMove: 'diaMove 0.6s ease forwards',
             },
             boxShadow: {
                 'levitate': '5px 5px 20px rgba(0,0,0,0.3), -5px -5px 20px white',

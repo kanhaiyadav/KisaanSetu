@@ -19,7 +19,7 @@ const Hero = () => {
 
     return (
         <div className='mt-[100px]'>
-            <section className="bg-white">
+            <section className="bg-white mb-[20px]">
                 <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-12 lg:grid-cols-12">
                     <div className="mr-auto place-self-center lg:col-span-7">
                         <motion.h1
@@ -46,26 +46,26 @@ const Hero = () => {
                        dark:text-gray-600 z-10  max-w-[470px] mt-5">
                             {t('hero.subtitle')}
                         </motion.p>
-                        <button
-                            type="button"
-                            className="text-white bg-lightgreen border border-gray-300
-                     font-boldnpm install framer-motion
-                     rounded-full text-2xl px-6 py-3 me-2 mb-2 hover:bg-white hover:text-gray-600
-                      hover:outline-black hover:outline hover:outline-2 transition-all duration-300"
-                        >
-                            <Link to={'/signup'} >{t('hero.startButton')}</Link>
-                        </button>
+                        <Link to={'/signup'}
+                            className="text-white bg-primary border border-gray-300
+                     font-semibold rounded-xl hover:rounded-full text-2xl px-6 py-4 me-2 mb-2 
+                     transition-all duration-[1000ms]"
+                             >{t('hero.startButton')}</Link>
+                        <Link to={'/signin'} className="bg-Tprimary px-10 py-4 text-2xl hover:rounded-full transition-all duration-1000 text-white font-semibold rounded-xl">{t('hero.loginButton')}</Link>
 
                     </div>
-                    <div className="lg:mt-0 lg:col-span-5 lg:flex">
-                        <motion.img
-                            initial={{ x: 100, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 1, delay: 1.2 }}
+                    <div className={`w-[480px] h-[480px] relative lg:mt-0 lg:col-span-5 lg:flex after:content-['asdfhlaj']
+                    after:absolute after:top-[40px] after:left-[40px] after:w-full after:h-full 
+                    after:bg-[#ededed]
+                    after:rounded-3xl after:border-4 after:border-brown`}>
+                        <img
+                            // initial={{ x: 100, opacity: 0 }}
+                            // animate={{ x: 0, opacity: 1 }}
+                            // transition={{ duration: 1, delay: 1.2 }}
                             src="Farmer.png"
                             alt="farmer"
-                            className="hover:shadow-[0_0_20px_rgba(128,128,128,0.8)] 
-                    transition-shadow duration-300 ease-in-out"
+                            className="z-10 animate-diaMove border-4 border-brown
+                            rounded-3xl transition-shadow duration-300 ease-in-out"
                         />
                     </div>
                 </div>
