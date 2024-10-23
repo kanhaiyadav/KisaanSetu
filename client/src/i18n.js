@@ -1,8 +1,8 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector"; // Corrected spelling
+import LanguageDetector from "i18next-browser-languagedetector"; 
 import Backend from "i18next-http-backend";
-import resources from "./locales/index.js"; // Corrected the path
+import resources from "./locales/index.js"; 
 
 i18next
     .use(Backend)
@@ -11,7 +11,7 @@ i18next
     .init({
         resources,
         debug: true,
-        lng: "en", // Corrected the option key from `lan` to `lng`
+        lng: "en", 
         fallbackLng: "en",
         interpolation: {
             escapeValue: false,

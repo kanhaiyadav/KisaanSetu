@@ -12,7 +12,6 @@ const rootReducer = combineReducers({
     form: formSlice,
     product: productSlice,
 });
-
 const persistConfig = {
     key: 'root',
     storage,

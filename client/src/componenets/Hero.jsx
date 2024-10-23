@@ -18,18 +18,25 @@ const Hero = () => {
     const stats = t('stats', { returnObjects: true });
 
     return (
-        <div>
+        <div className='mt-[100px]'>
             <section className="bg-white">
                 <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-12 lg:grid-cols-12">
                     <div className="mr-auto place-self-center lg:col-span-7">
                         <motion.h1
                             variants={container(0)}
                             initial="hidden"
-                            animate="visible" className="font-poppins font-extrabold xs:text-[48px] text-[40px] text-brown xs:leading-[76.8px] leading-[46.8px] w-full">
+                            animate="visible" className={`font-extrabold xs:text-[48px] font-sans
+                             text-[64px] text-white text-shadow-solid shadow-brown ng-[76.8px] leading-[75px] w-full
+                             `}>
                             {t('hero.titleP1')}  <br className='sm:block hidden' />{" "}
                             <span className='text-gradient'>
                                 {t('hero.titleP2')}
                             </span>
+                            <br className='sm:block hidden' />
+                            <span className='text-gradient'>
+                                {t('hero.titleP3')}
+                            </span>
+                            
                         </motion.h1>
                         <motion.p variants={container(0.5)}
                             initial="hidden"

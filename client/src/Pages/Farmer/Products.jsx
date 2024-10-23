@@ -5,9 +5,8 @@ import ProductCard from "./ProductCard"
 import Header from "../../componenets/DashboardHeader"
 import { IoMdAdd } from "react-icons/io";
 import { AnimatePresence } from "framer-motion";
-import { useSelector, useDispatch,  } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectProducts } from '../../redux/product/product.selector';
-
 const Products = () => {
     const [clicked, setClicked] = useState(false);
     const products = useSelector(selectProducts);
@@ -29,8 +28,8 @@ const Products = () => {
                         </div>
                     }
                 </main>
-                <div className={`h-[60px] w-[60px] absolute right-[42px] bottom-[42px] rounded-full bg-secondary animate-ping`} />
-                <div className={`h-[80px] w-[80px] absolute right-8 bottom-8 text-6xl flex 
+                <div className={`h-[60px] w-[60px] absolute left-[42px] bottom-[42px] rounded-full bg-secondary animate-ping`} />
+                <div className={`h-[80px] w-[80px] absolute left-8 bottom-8 text-6xl flex 
             items-center justify-center rounded-full bg-secondary text-white hover:bg-orange-500 hover:rotate-90 transition-all
             `}
                     onClick={() => setClicked(true)}

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import plugin from 'tailwindcss/plugin';
 export default {
     content: [
         "./index.html",
@@ -58,8 +59,28 @@ export default {
             animation: {
                 expand: 'expand 0.5s ease',
             },
+            boxShadow: {
+                'levitate': '5px 5px 20px rgba(0,0,0,0.3), -5px -5px 20px white',
+            },
+            textShadow: {
+                sm: '0 1px 2px var(--tw-shadow-color)',
+                DEFAULT: '0 2px 4px var(--tw-shadow-color)',
+                lg: '0 8px 16px var(--tw-shadow-color)',
+                solid: '3px 2px 0 var(--tw-shadow-color), -1px -1px 0 var(--tw-shadow-color), 1px -1px 0 var(--tw-shadow-color), 1px 1px 0 var(--tw-shadow-color), -1px 1px 0 var(--tw-shadow-color)',
+            },
         },
     },
-    plugins: [],
+    plugins: [
+        plugin(function ({ matchUtilities, theme }) {
+            matchUtilities(
+                {
+                    'text-shadow': (value) => ({
+                        textShadow: value,
+                    }),
+                },
+                { values: theme('textShadow') }
+            );
+        }),
+    ],
 }
 

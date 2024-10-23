@@ -10,6 +10,10 @@ body {
     width: 100%;
 }
 
+.text-border{
+    -webkit-text-stroke: 1px brown;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }

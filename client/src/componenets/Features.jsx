@@ -32,7 +32,9 @@ const Features = () => {
                 transition={{ duration: 1 }}
                 className={layout.sectionInfo}>
                 <h2
-                    className={styles.heading2}>
+                    className={`${styles.heading2} font-extrabold xs:text-[32px] font-sans
+                             text-[48px] text-white text-shadow-solid shadow-brown ng-[76.8px] leading-[58px] w-full
+                             `}>
                     {t('featuresPage.titleP1')}<br className="sm:block hidden" />{t('featuresPage.titleP2')}
                 </h2>
                 <p className={`${styles.paragraph} max-w-[470px] mt-5 text-Tprimary`}>

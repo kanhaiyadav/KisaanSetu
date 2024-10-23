@@ -6,8 +6,9 @@
         "farmer": "Farmer"
     },
     "hero": {
-        "titleP1": "An Online Marketplace",
-        "titleP2": "for Farmers and Consumers",
+        "titleP1": "Online Marketplace",
+        "titleP2": "for Farmers",
+        "titleP3": "and Customers",
         "subtitle": "Empowering farmers with a direct platform to sell fresh produce, and offering consumers the best quality products straight from the source.",
         "startButton": "Get Started"
     },
