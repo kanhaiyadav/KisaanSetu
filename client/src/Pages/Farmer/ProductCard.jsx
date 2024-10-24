@@ -19,7 +19,7 @@ const ProductCard = ({ product, type }) => {
         <>
             <Card
                 intent={'fitContent'}
-                className={`break-inside-avoid border-2 ${!clicked ? 'hover:border-primary hover:shadow-lg' : ''} relative`}
+                className={`${!clicked ? 'hover:outline hover:outline-2 hover:outline-primary  hover:shadow-lg' : ''} relative`}
                 onClick={() => setClicked(true)}
                 initial={{ y: 20, opacity: 0 }}
                 whileHover={!clicked ? { scale: 1.05 } : {}}
@@ -29,7 +29,7 @@ const ProductCard = ({ product, type }) => {
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
             >
-                <img src={'http://localhost:3000' + image} alt={name} className="w-full object-cover rounded-t-xl" />
+                <img src={'http://localhost:3000' + image} alt={name} className="w-full aspect-square object-cover rounded-t-xl" />
                 <div className="pt-2 w-full flex justify-between items-center">
                     <div>
                         <h1 className="text-lg font-semibold text-gray-800">{name}</h1>

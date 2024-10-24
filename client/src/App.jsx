@@ -17,6 +17,7 @@ import Sales from './Pages/Sales/Sales'
 import Consumer from './Pages/Consumer'
 import DefaultPage from './Pages/Consumer/defaultPage'
 import ProductListingPage from './Pages/Consumer/ProductListingPage'
+import Classifier from './componenets/Classifier'
 
 function App() {
     const dispatch = useDispatch();
@@ -53,6 +54,7 @@ function App() {
                 <Route index element={<DefaultPage /> } />
                 <Route path='products' element={<ProductListingPage /> } />
             </Route>
+            <Route path='/classify' element={<Classifier />} />
         </Routes>
     )
 }

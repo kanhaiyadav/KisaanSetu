@@ -47,21 +47,21 @@ const ProductForm = ({ product, index }) => {
             <div className="flex flex-col">
                 <input
                     type="number"
-                    className="p-2 border border-gray-300 rounded-md"
+                    className="p-2 border border-gray-300 rounded-md text-gray-700"
                     {...register('price')}
                 />
             </div>
             <div className="flex flex-col">
                 <input
                     type="number"
-                    className="p-2 border border-gray-300 rounded-md"
+                    className="p-2 border border-gray-300 rounded-md text-gray-700"
                     {...register('quantity')}
                 />
             </div>
             <div className="flex flex-col">
                 <input
                     type="number"
-                    className="p-2 border border-gray-300 rounded-md"
+                    className="p-2 border border-gray-300 rounded-md text-gray-700"
                     {...register('total')}
                 />
             </div>
@@ -69,14 +69,14 @@ const ProductForm = ({ product, index }) => {
                 <input
                     type="date"
                     // value={new Date().toISOString().split('T')[0]}
-                    className="p-2 border border-gray-300 rounded-md"
+                    className="p-2 border border-gray-300 rounded-md text-gray-700"
                     {...register('date')}
                 />
             </div>
             <div className="flex flex-col">
                 <input
                     type="text"
-                    className="p-2 border border-gray-300 rounded-md"
+                    className="p-2 border border-gray-300 rounded-md text-gray-700"
                     {...register('customer')}
                 />
             </div>

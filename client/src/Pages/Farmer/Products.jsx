@@ -14,7 +14,8 @@ const Products = () => {
         <>
             <div className={`flex-1 flex flex-col `}>
                 <Header title={'Products'} />
-                <main className={`flex-1 ${products.length > 0 ? 'columns-1 sm:columns-2 md:columns-3 lg:columns-4' : 'flex items-center justify-center'} overflow-auto p-4 gap-4 space-y-6`}>
+                {/* <div className='w-full bg-orange-400 h-[60px]'></div> */}
+                <main className={`flex-1 ${products.length > 0 ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'flex items-center justify-center'} overflow-auto p-4 gap-4`}>
                     {
                         products.length > 0?
                         products.map((product, index) => <ProductCard key={index} product={product} type={'farmer'}/>)

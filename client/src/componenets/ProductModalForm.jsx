@@ -8,24 +8,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/product/product.slice";
 import { selectToken } from "../redux/user/selectors";
 import { updateProduct } from "../redux/product/product.slice";
+import axios from "axios";
+import { FaDotCircle } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const ProductModalForm = ({ product, close, type }) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [isMatched, setIsMatched] = useState(true);
+    const [prediction, setPrediction] = useState('');
     const token = useSelector(selectToken);
     const [selectedImage, setSelectedImage] = useState(null);
-    const {_id, name, price, image, stocks } = product;
-    const [previewUrl, setPreviewUrl] = useState(image?`http://localhost:3000${image}`: null); // Set initial preview if `image` is provided
-    const { register, handleSubmit, formState, reset, setValue } = useForm({
+    const { _id, name, price, image, stocks } = product;
+    const [previewUrl, setPreviewUrl] = useState(image ? `http://localhost:3000${image}` : null); // Set initial preview if `image` is provided
+    const { register, handleSubmit, formState, reset, setValue, watch } = useForm({
         defaultValues: {
             name: name,
             price: price,
             stocks: stocks,
         },
     });
+
+    const watchName = watch("name");
     const { errors } = formState;
     const dispatch = useDispatch();
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         // Attach the selected image to the form data
         const formData = new FormData();
+        setIsLoading(true);
 
         // Add the serializable fields to FormData
         formData.append("name", data.name);
@@ -37,21 +46,41 @@ const ProductModalForm = ({ product, close, type }) => {
             formData.append("image", selectedImage);
         }
 
-        if (type === 'create') {
-            dispatch(addProduct({
-                formData,
-                token,
-            }));
-        } else {
-            formData.append("_id", _id);
-            // Update the product
-            dispatch(updateProduct({
-                formData,
-                token,
-            }));    
+        try {
+            const res = await axios.post('http://localhost:3000/classify', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            const result = res.data.result.split('$')[1];
+            console.log(result.trim().toLowerCase(), watchName.trim().toLowerCase());
+            setPrediction(result.trim().toLowerCase());
+            if (watchName.trim().toLowerCase() === result.trim().toLowerCase()) {
+                if (type === 'create') {
+                    dispatch(addProduct({
+                        formData,
+                        token,
+                    }));
+                } else {
+                    formData.append("_id", _id);
+                    // Update the product
+                    dispatch(updateProduct({
+                        formData,
+                        token,
+                    }));
+                }
+                reset(); // Reset the form
+                close();
+            }
+            else {
+                setIsLoading(false);
+                setIsMatched(false);
+                console.log('not matched');
+            }
+        } catch (err) {
+            console.error(err);
         }
-        reset(); // Reset the form
-        close();
+
     };
 
     // Function to handle file input change and set preview
@@ -70,55 +99,53 @@ const ProductModalForm = ({ product, close, type }) => {
 
     return (
         <Modal onClick={close}>
-            <div className="flex flex-col gap-4">
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 w-[350px] text-center">
-                    <div className="flex gap-6 items-center">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex gap-4 text-center">
+                <div className="flex flex-col gap-6 items-center">
+                    <label htmlFor="image" className="flex items-center justify-center gap-2">
                         {/* Image preview */}
-                        {previewUrl && (
-                            <img src={previewUrl} alt="Selected" className="h-[70px] object-cover rounded-md" />
-                        )}
-                        <div className="flex flex-col text-left">
-                            <CustomButton>
-                                <label htmlFor="image" className="flex items-center justify-center gap-2">
-                                    {previewUrl ? "Change Image" : "Upload Image"} <FaUpload />
-                                </label>
-                            </CustomButton>
-                            <i className="text-sm text-red-500">{errors.image?.message}</i>
-
-                        </div>
-                        <input
-                            type="file"
-                            id="image"
-                            accept="image/*"
-                            hidden
-                            {...register("image", {
-                                required: previewUrl ? false : "Image is required*",
-                                validate: {
-                                    checkFileType: (value) => {
-                                        if (value && value[0]) {
-                                            const file = value[0];
-                                            // Validate the file type
-                                            return ["image/jpeg", "image/png", "image/svg", "image/jpg"].includes(file.type) || "Only JPEG or PNG files are allowed*";
-                                        }
-                                        return true; // If no file is selected, return true to avoid type validation
-                                    },
-                                    checkFileSize: (value) => {
-                                        if (value && value[0]) {
-                                            const file = value[0];
-                                            // Validate the file size
-                                            return file.size < 2000000 || "File size must be less than 2MB*"; // Limit to 2MB
-                                        }
-                                        return true; // If no file is selected, return true to avoid size validation
+                        {previewUrl ?
+                            <img src={previewUrl} alt="Selected" className=" aspect-square max-w-[290px] object-cover rounded-xl" />
+                            :
+                            <div className="flex flex-col items-center justify-center aspect-square w-[290px] rounded-3xl border-4 border-dashed border-gray-400">
+                                <img src="/imgIcon.svg" alt="" className="w-[170px]" />
+                                <p className="text-gray-400 text-lg">Click Here</p>
+                            </div>
+                        }
+                    </label>
+                    <i className="text-sm text-red-500">{errors.image?.message}</i>
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                        hidden
+                        {...register("image", {
+                            required: previewUrl ? false : "Image is required*",
+                            validate: {
+                                checkFileType: (value) => {
+                                    if (value && value[0]) {
+                                        const file = value[0];
+                                        // Validate the file type
+                                        return ["image/jpeg", "image/png", "image/svg", "image/jpg"].includes(file.type) || "Only JPEG or PNG files are allowed*";
                                     }
+                                    return true; // If no file is selected, return true to avoid type validation
+                                },
+                                checkFileSize: (value) => {
+                                    if (value && value[0]) {
+                                        const file = value[0];
+                                        // Validate the file size
+                                        return file.size < 2000000 || "File size must be less than 2MB*"; // Limit to 2MB
+                                    }
+                                    return true; // If no file is selected, return true to avoid size validation
                                 }
-                            })}
-                            onChange={(event) => {
-                                handleFileChange(event); // Call file change handler
-                                setValue("image", event.target.files); // Update file value in the form
-                            }}
-                        />
-                    </div>
-
+                            }
+                        })}
+                        onChange={(event) => {
+                            handleFileChange(event); // Call file change handler
+                            setValue("image", event.target.files); // Update file value in the form
+                        }}
+                    />
+                </div>
+                <div className="flex flex-col gap-2">
                     {/* Name input */}
                     <div className="w-full flex flex-col items-start gap-1">
                         <div className="flex justify-between items-center w-full">
@@ -161,9 +188,31 @@ const ProductModalForm = ({ product, close, type }) => {
                         />
                     </div>
                     {/* Submit button */}
-                    <CustomButton type="submit">Done</CustomButton>
-                </form>
-            </div>
+                    <CustomButton type="submit" style={{ width: '100%', marginTop: '10px' }}>
+                        {
+                            isLoading ? 
+                                <>
+                                    <img src="/spinLoader.svg" alt="" className="w-8" />
+                                    <span>Please Wait...</span>
+                                </>
+                                :
+                                <span>Done</span>
+                    }
+                    </CustomButton>
+                </div>
+            </form>
+            {
+                !isMatched && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="w-full p-2 bg-red-300 absolute top-[105%] left-0 rounded-xl border-[3px] border-red-600 border-dashed">
+                        <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" /> {`The image does not look like a`} <span className=" font-semibold">{watchName.toLowerCase()}</span></p>
+                        <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" />{`The products look a lot like a`}<span className=" font-semibold">{prediction}</span></p>
+                        <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" />Confirm the image is not blurred and does not contain any other elements except the product</p>
+                    </motion.div>
+                )
+            }
         </Modal>
     );
 };
