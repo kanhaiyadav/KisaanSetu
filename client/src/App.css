@@ -11,7 +11,7 @@ body {
 }
 
 .text-border{
-    -webkit-text-stroke: 1px brown;
+    -webkit-text-stroke: 1px #00000073;
 }
 
 ::-webkit-scrollbar {

@@ -4,12 +4,16 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { createSale } from "../../redux/product/product.slice";
 import CustomButton from "../../componenets/CustomButton";
+import { motion } from "framer-motion";
 
-const ProductForm = ({ product, index}) => {
+const ProductForm = ({ product, index }) => {
+    const [loading, setLoading] = React.useState(false);
     const { register, handleSubmit, setValue, watch, reset } = useForm({
         defaultValues: {
             price: product.price || 0,
             quantity: 0,
+            date: new Date().toISOString().split('T')[0],
+            customer: 'unknown'
         }
     });
     const dispatch = useDispatch();
@@ -17,8 +21,11 @@ const ProductForm = ({ product, index}) => {
     const watchQuantity = watch('quantity');
 
     const onSubmit = (data) => {
-        console.log('Product Submitted:', { ...data, product: product._id });
-        dispatch(createSale({ ...data, product: product._id }));
+        setLoading(true);
+        dispatch(createSale({ ...data, product: product._id })).unwrap()
+            .then(() => {
+                setLoading(false);
+            })
         reset();
     };
 
@@ -27,7 +34,7 @@ const ProductForm = ({ product, index}) => {
     }, [watchPrice, watchQuantity, setValue]);
 
     return (
-        <form key={index} className="grid grid-cols-[50px_150px_100px_auto_auto_auto_100px] gap-4 items-center" onSubmit={handleSubmit(onSubmit)}>
+        <form key={index} className="grid grid-cols-[50px_180px_60px_120px_120px_120px_150px_auto_100px] gap-4 items-center" onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <h1 className="text-2xl font-semibold text-gray-700 font-sans max-w-[150px] whitespace-nowrap overflow-ellipsis">{index + 1}.</h1>
             </div>
@@ -58,8 +65,35 @@ const ProductForm = ({ product, index}) => {
                     {...register('total')}
                 />
             </div>
+            <div className="flex flex-col">
+                <input
+                    type="date"
+                    // value={new Date().toISOString().split('T')[0]}
+                    className="p-2 border border-gray-300 rounded-md"
+                    {...register('date')}
+                />
+            </div>
+            <div className="flex flex-col">
+                <input
+                    type="text"
+                    className="p-2 border border-gray-300 rounded-md"
+                    {...register('customer')}
+                />
+            </div>
             <div className="flex justify-center">
-                <CustomButton type="submit" className="p-[8px] pl-4 pr-4 bg-primary text-white rounded-md w-fit">Update</CustomButton>
+                <CustomButton type="submit" disabled={loading} intent={'primary'} >
+                    {
+                        loading && (
+                            <div className="absolute w-full h-full bg-[rgba(0,0,0,0.5)] flex justify-center items-center">
+                                <motion.img
+                                    initial={{ y: -20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    src="/spinLoader.svg" alt="" className=" w-10 h-10" />
+                            </div>
+                        )
+                    }
+                    <span>Update</span>
+                </CustomButton>
             </div>
         </form>
     );

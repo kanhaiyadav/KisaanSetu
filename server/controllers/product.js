@@ -82,10 +82,10 @@ export const updateProduct = async (req, res) => {
 
 export const createSale = async (req, res) => {
     try {
-        const { price, quantity, total, product } = req.body;
-        await Sale.create({ price, quantity, total, product });
+        const { price, quantity, total, product, date, customer } = req.body;
+        const sale = await Sale.create({ price, quantity, total, product, date, customer });
+        console.log(sale);
         const productToUpdate = await Product.findById(product);
-        console.log(productToUpdate);
         productToUpdate.stocks -= quantity;
         productToUpdate.price = price;
         await productToUpdate.save();
@@ -95,6 +95,7 @@ export const createSale = async (req, res) => {
             }
         });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ error: error.message });
     }
 };

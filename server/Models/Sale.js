@@ -13,6 +13,14 @@ const SaleSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    date: {
+        type: Date,
+        required: true
+    },
+    customer: {
+        type: String,
+        required: true
+    },
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',

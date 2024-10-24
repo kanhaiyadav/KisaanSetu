@@ -88,7 +88,7 @@ export const updateProduct = createAsyncThunk(
 
 export const createSale = createAsyncThunk(
     "product/createSale",
-    async (sale) => {
+    async (sale, { rejectWithValue }) => {
         try {
             const response = await fetch("http://localhost:3000/api/products/createSale", {
                 method: "POST",
@@ -99,10 +99,12 @@ export const createSale = createAsyncThunk(
             });
             const data = await response.json();
             if (response.ok) {
+                console.log(response.ok);
                 return data;
             }
+            return rejectWithValue(data);
         } catch (error) {
-            return error;
+            return rejectWithValue(error);
         }
     }
 );

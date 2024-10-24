@@ -54,14 +54,11 @@ const Hero = () => {
                         <Link to={'/signin'} className="bg-Tprimary px-10 py-4 text-2xl hover:rounded-full transition-all duration-1000 text-white font-semibold rounded-xl">{t('hero.loginButton')}</Link>
 
                     </div>
-                    <div className={`w-[480px] h-[480px] relative lg:mt-0 lg:col-span-5 lg:flex after:content-['asdfhlaj']
+                    <div className={`w-[480px] h-[480px] relative lg:mt-0 lg:col-span-5 lg:flex after:content-['']
                     after:absolute after:top-[40px] after:left-[40px] after:w-full after:h-full 
                     after:bg-[#ededed]
                     after:rounded-3xl after:border-4 after:border-brown`}>
                         <img
-                            // initial={{ x: 100, opacity: 0 }}
-                            // animate={{ x: 0, opacity: 1 }}
-                            // transition={{ duration: 1, delay: 1.2 }}
                             src="Farmer.png"
                             alt="farmer"
                             className="z-10 animate-diaMove border-4 border-brown
