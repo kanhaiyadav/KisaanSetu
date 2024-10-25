@@ -109,6 +109,27 @@ export const createSale = createAsyncThunk(
     }
 );
 
+export const getSales = createAsyncThunk(
+    "product/getSales",
+    async (farmerId, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/products/getSales/${farmerId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const result = await response.json();
+            if (response.ok) {
+                return result;
+            }
+            return rejectWithValue(result);
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
+
 export const searchProduct = createAsyncThunk(
     "product/searchProduct",
     async (name, { rejectWithValue }) => {
@@ -133,6 +154,7 @@ export const searchProduct = createAsyncThunk(
 const initialState = {
     products: [],
     searchedProducts: [],
+    sales: [],
     status: "idle",
     error: null,
 };
@@ -144,6 +166,9 @@ const productSlice = createSlice({
         clearError: (state) => {
             state.error = null;
         },
+        addSale: (state, action) => {
+            state.sales.push(action.payload);
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProducts.pending, (state) => {
@@ -219,9 +244,20 @@ const productSlice = createSlice({
             state.status = "failed";
             state.error = action.payload;
         }); 
+        builder.addCase(getSales.pending, (state) => {
+            state.status = "loading";
+        });
+        builder.addCase(getSales.fulfilled, (state, action) => {
+            state.status = "succeeded";
+            state.sales = action.payload.data.sales;
+        });
+        builder.addCase(getSales.rejected, (state, action) => {
+            state.status = "failed";
+            state.error = action.payload;
+        });
         
     },
 });
 
-export const { clearError } = productSlice.actions;
+export const { clearError, addSale } = productSlice.actions;
 export default productSlice.reducer;

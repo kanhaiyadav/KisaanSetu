@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import CustomButton from "./CustomButton";
 import Modal from "./Modal";
 import "./styles.css";
-import { FaUpload } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/product/product.slice";

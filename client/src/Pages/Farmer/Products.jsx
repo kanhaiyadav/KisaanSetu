@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductModalForm from "../../componenets/ProductModalForm";
 import ProductCard from "./ProductCard"
 // import { products } from "./data"
@@ -7,26 +7,41 @@ import { IoMdAdd } from "react-icons/io";
 import { AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from 'react-redux';
 import { selectProducts } from '../../redux/product/product.selector';
+import { fetchProducts } from '../../redux/product/product.slice';
+import ProductCardSkeleton from './ProductCardSkeleton';
+import { selectUserInfo } from '../../redux/user/selectors';
+
 const Products = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const userId = useSelector(selectUserInfo)._id;
     const [clicked, setClicked] = useState(false);
     const products = useSelector(selectProducts);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchProducts(userId)).unwrap()
+            .then(() => {
+                setIsLoading(false)
+            })
+    }, [setIsLoading, dispatch, userId])
     return (
         <>
             <div className={`flex-1 flex flex-col `}>
                 <Header title={'Products'} />
                 {/* <div className='w-full bg-orange-400 h-[60px]'></div> */}
                 <main className={`flex-1 ${products.length > 0 ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'flex items-center justify-center'} overflow-auto p-4 gap-4`}>
-                    {
-                        products.length > 0?
-                        products.map((product, index) => <ProductCard key={index} product={product} type={'farmer'}/>)
-                            : 
-                        <div className='w-full h-full flex flex-col items-center justify-center mt-[-200px] relative'>
-                                <img src="/no_data.png" alt="" className='w-[300px] h-[300px]' />
-                                <p className='text-[#a2a2a2] text-md  mt-[-50px]'>You have not added any products yet</p>
-                                <p className='text-[#a2a2a2] text-lg font-semibold '>Click on the '+' button to add a new product</p>
-                                <img src="/arrow.svg" alt="" className='w-[300px] h-[300px] absolute bottom-[-70px] right-[100px] rotate-[-15deg]'/>
-                                {/* <img src="/arrow.svg" alt="" /> */}
-                        </div>
+                    {isLoading ? <ProductCardSkeleton cards={8} type={'farmer'} /> :
+                        (
+                            products.length > 0 ?
+                                products.map((product, index) => <ProductCard key={index} product={product} type={'farmer'} />)
+                                :
+                                <div className='w-full h-full flex flex-col items-center justify-center mt-[-200px] relative'>
+                                    <img src="/no_data.png" alt="" className='w-[300px] h-[300px]' />
+                                    <p className='text-[#a2a2a2] text-md  mt-[-50px]'>You have not added any products yet</p>
+                                    <p className='text-[#a2a2a2] text-lg font-semibold '>Click on the '+' button to add a new product</p>
+                                    <img src="/arrow.svg" alt="" className='w-[300px] h-[300px] absolute bottom-[-70px] right-[100px] rotate-[-15deg]' />
+                                    {/* <img src="/arrow.svg" alt="" /> */}
+                                </div>
+                        )
                     }
                 </main>
                 <div className={`h-[60px] w-[60px] absolute left-[42px] bottom-[42px] rounded-full bg-secondary animate-ping`} />

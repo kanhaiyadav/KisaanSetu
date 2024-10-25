@@ -11,3 +11,8 @@ export const selectSearchedProducts = createSelector(
     [selectProduct],
     (product) => product.searchedProducts
 );
+
+export const selectSales = createSelector(
+    [selectProduct],
+    (product) => product.sales
+);

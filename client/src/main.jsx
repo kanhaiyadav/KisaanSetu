@@ -8,20 +8,20 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './i18n.js'; 
+import './i18n.js';
 import React from 'react';
 
 createRoot(document.getElementById('root')).render(
     // <StrictMode>
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
             <BrowserRouter>
                 <React.Suspense fallback="loading...">
                     <App />
                 </React.Suspense>
-                    <ToastContainer />
-                </BrowserRouter>
-            </PersistGate>
-        </Provider>
+                <ToastContainer />
+            </BrowserRouter>
+        </PersistGate>
+    </Provider>
     // </StrictMode>,
 )

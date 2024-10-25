@@ -18,6 +18,8 @@ import Consumer from './Pages/Consumer'
 import DefaultPage from './Pages/Consumer/defaultPage'
 import ProductListingPage from './Pages/Consumer/ProductListingPage'
 import Classifier from './componenets/Classifier'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { SkeletonTheme } from 'react-loading-skeleton'
 
 function App() {
     const dispatch = useDispatch();
@@ -29,7 +31,7 @@ function App() {
             toast.promise(promise, {
                 loading: 'Verifying...',
                 error: {
-                    render({data}) {
+                    render({ data }) {
                         dispatch(signOut());
                         return data.message;
                     }
@@ -38,24 +40,26 @@ function App() {
         }
     }, [dispatch, token]);
     return (
-        <Routes>
-            <Route path="/" element={<LandingPage />} /> 
-            <Route path="/signup" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
-                <Route index element={<Step1 />} />
-                <Route path=":id" element={<Steps />} />
-            </Route>
-            <Route path="/signin" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signin' />} />
-            <Route path='/farmer' element={token ? <Farmer /> : <Navigate to={'/signin'} />}>
-                <Route index element={<Dashboard />} />
-                <Route path='products' element={<Products />} />
-                <Route path='sales' element={<Sales />} />
-            </Route>
-            <Route path='/consumer' element={<Consumer />} >
-                <Route index element={<DefaultPage /> } />
-                <Route path='products' element={<ProductListingPage /> } />
-            </Route>
-            <Route path='/classify' element={<Classifier />} />
-        </Routes>
+        <SkeletonTheme baseColor='#edf2f7' highlightColor="#f7fafc">
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/signup" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
+                    <Route index element={<Step1 />} />
+                    <Route path=":id" element={<Steps />} />
+                </Route>
+                <Route path="/signin" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signin' />} />
+                <Route path='/farmer' element={token ? <Farmer /> : <Navigate to={'/signin'} />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path='products' element={<Products />} />
+                    <Route path='sales' element={<Sales />} />
+                </Route>
+                <Route path='/consumer' element={<Consumer />} >
+                    <Route index element={<DefaultPage />} />
+                    <Route path='products' element={<ProductListingPage />} />
+                </Route>
+                <Route path='/classify' element={<Classifier />} />
+            </Routes>
+        </SkeletonTheme>
     )
 }
 
