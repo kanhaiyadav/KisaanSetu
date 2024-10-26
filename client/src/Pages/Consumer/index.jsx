@@ -3,7 +3,7 @@ import Header from "./Header";
 
 const Consumer = () => {
     return (
-        <div className="bg-gray-200 w-screen h-screen">
+        <div className="bg-gray-200 w-screen h-screen flex flex-col">
             <Header />
             <Outlet />
         </div>

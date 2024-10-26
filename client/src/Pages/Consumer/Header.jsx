@@ -1,30 +1,28 @@
 import SearchBar from "./SearchBar";
 import Logo from "../../componenets/Logo";
-import { IoNotificationsOutline } from "react-icons/io5";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import CustomButton from "../../componenets/CustomButton";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "../../redux/user/selectors";
 import { useState } from "react";
-import { BiSolidBookAlt } from "react-icons/bi";
-import { IoMdHeart } from "react-icons/io";
+import { PiBookBookmarkLight } from "react-icons/pi";;
 
 const Header = () => {
     const [profile, setProfile] = useState(false);
     const userInfo = useSelector(selectUserInfo);
     return (
-        <div className="w-full p-4 gap-10 flex justify-between bg-gray-100">
+        <div className="w-full p-4 gap-10 flex justify-between bg-white">
             <Logo style={{height: '45px'}} />
             <SearchBar />
             <div className="flex items-center gap-5">
                 <div  className="relative">
-                    <BiSolidBookAlt className="text-2xl text-white" />
-                    <IoMdHeart className=" text-[9px] text-red-500 absolute top-[40%] left-[50%] translate-x-[-50%] translate-y-[-50%]" />
+                    <PiBookBookmarkLight className="text-2xl text-gray-700" />
                 </div>
                 <div className="relative">
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0"></div>
-                    <IoNotificationsOutline className="text-2xl text-white" />
+                    <IoMdNotificationsOutline className="text-2xl text-gray-700" />
                 </div>
                 <div className={`relative mt-[auto] w-[40px] h-[40px] bg-white p-1 rounded-full border-white cursor-pointer 
                         `}

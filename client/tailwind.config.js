@@ -66,6 +66,7 @@ export default {
             },
             boxShadow: {
                 'levitate': '5px 5px 20px rgba(0,0,0,0.3), -5px -5px 20px white',
+                'dark-lg': '0px 0px 10px rgba(0,0,0,0.3)',
             },
             textShadow: {
                 sm: '0 1px 2px var(--tw-shadow-color)',
