@@ -82,13 +82,17 @@ export const updateProduct = async (req, res) => {
 
 export const createSale = async (req, res) => {
     try {
-        const { price, quantity, total, product, date, customer } = req.body;
+        const { price, quantity, total, product, date, customer, userId } = req.body;
         const sale = await Sale.create({ price, quantity, total, product, date, customer });
         console.log(sale);
         const productToUpdate = await Product.findById(product);
         productToUpdate.stocks -= quantity;
         productToUpdate.price = price;
         await productToUpdate.save();
+        await Farmer.updateOne(
+            { _id: userId },
+            { $push: { sales: sale._id } }
+        );
         return res.status(201).json({
             data: {
                 product: productToUpdate,
@@ -99,6 +103,25 @@ export const createSale = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+
+export const getSales = async (req, res) => {
+    try {
+        const farmer = await Farmer.findById(req.params.farmerId).populate({
+            path: 'sales',
+            populate: {
+                path: 'product',
+            }
+        });
+        const sales = farmer.sales;
+        res.status(200).json({
+            data: {
+                sales,
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
 export const search = async (req, res) => {
     try {

@@ -7,11 +7,20 @@ import userSlice from "./user/user.slice";
 import formSlice from "./form/form.slice";
 import productSlice from "./product/product.slice";
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     user: userSlice,
     form: formSlice,
     product: productSlice,
 });
+
+const rootReducer = (state, action) => {
+    if (action.type === 'LOGOUT') {
+        state = undefined;  // Reset the state to initial state
+    }
+    return appReducer(state, action);
+};
+
+
 const persistConfig = {
     key: 'root',
     storage,

@@ -1,11 +1,29 @@
+import { useState, useEffect } from "react";
 import DashboardCard from "./DashboardCard";
 import Header from "../../componenets/DashboardHeader";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FiUserPlus } from "react-icons/fi";
 import { TbShoppingBagCheck } from "react-icons/tb";
+import {  AreaChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Area } from 'recharts';
+import { useSelector } from "react-redux";
+import { selectSales } from "../../redux/product/product.selector";
 
 
 const Dashboard = () => {
+    const sales = useSelector(selectSales);
+    const [salesByDate, setSalesByDate] = useState({});
+    useEffect(() => {
+        const salesByDate = sales.reduce((acc, sale) => {
+            const date = new Date(sale.date).toISOString().split('T')[0];  // Format date to YYYY-MM-DD
+            if (!acc[date]) {
+                acc[date] = { date: date, totalSales: 0 };
+            }
+            acc[date].totalSales += sale.total;
+            return acc;
+        }, {});
+        const sortedSalesByDate = Object.values(salesByDate).sort((a, b) => new Date(a.date) - new Date(b.date));
+        setSalesByDate(Object.values(sortedSalesByDate));
+    }, [sales]);
     return (
         <div className="flex-1 h-full flex flex-col">
             <Header title={'Dashboard'} />
@@ -39,7 +57,21 @@ const Dashboard = () => {
                     </div>
                 </DashboardCard>
                 <DashboardCard heading={"Revenue Over Time"} className={'col-span-full'}>
-                    <div className="h-[40vh]"></div>
+                    <div className="h-[40vh]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart
+                                data={salesByDate}
+                                margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+                            >
+                                <CartesianGrid stroke="#f5f5f5" />
+                                <XAxis dataKey="date" />
+                                <YAxis />
+                                <Tooltip />
+                                <Legend />
+                                <Area type="monotone" dataKey="totalSales" stroke="#8884d8" fill="#8884d8" activeDot={{ r: 8 }} />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
                 </DashboardCard>
             </main>
         </div>

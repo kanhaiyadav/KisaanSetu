@@ -33,15 +33,15 @@ const ProductSearch = ({ style, setProduct }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (productList.length === 0) {
-            setProductName("");
             setProductList(products);
-            return;
         }
         else {
-            setProductName(productList[0].name);
             setProduct(productList[0]);
             setProductList(products);
         }
+        setProductName("");
+        setDropDownClicked(false);
+        return;
     }
     return (
         <form style={style} className="flex items-center space-x-2 text-gray-700 relative w-full border-b-2 border-gray-600 focus-within:bg-gray-200 focus-within:border-gray-700" onSubmit={handleSubmit}>
@@ -67,7 +67,7 @@ const ProductSearch = ({ style, setProduct }) => {
                             <div key={index} className={`p-2 pl-6 pr-6 rounded-md hover:bg-gray-300 cursor-pointer`}
                                 onClick={() => {
                                     setProduct(prod);
-                                    setProductName(prod.name);
+                                    setProductName("");
                                     setDropDownClicked(false);
                                 }}
                             >

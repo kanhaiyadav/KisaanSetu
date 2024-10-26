@@ -12,6 +12,7 @@ import { FaDotCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const ProductModalForm = ({ product, close, type }) => {
+    const [imageChanged, setImageChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
     const [prediction, setPrediction] = useState('');
@@ -46,14 +47,21 @@ const ProductModalForm = ({ product, close, type }) => {
         }
 
         try {
-            const res = await axios.post('http://localhost:3000/classify', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            const result = res.data.result.split('$')[1];
-            console.log(result.trim().toLowerCase(), watchName.trim().toLowerCase());
-            setPrediction(result.trim().toLowerCase());
+            let result = name.toLowerCase();
+            if (imageChanged) {
+                const res = await axios.post('http://localhost:3000/classify', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                result = res.data.result.split('$')[1];
+                console.log(res.data.result);
+                console.log(result.trim().toLowerCase(), watchName.trim().toLowerCase());
+                setPrediction(result.trim().toLowerCase());
+            }
+            else {
+                setPrediction(watchName.toLowerCase());
+            }
             if (watchName.trim().toLowerCase() === result.trim().toLowerCase()) {
                 if (type === 'create') {
                     dispatch(addProduct({
@@ -68,6 +76,7 @@ const ProductModalForm = ({ product, close, type }) => {
                         token,
                     }));
                 }
+                setIsLoading(false);
                 reset(); // Reset the form
                 close();
             }
@@ -77,6 +86,9 @@ const ProductModalForm = ({ product, close, type }) => {
                 console.log('not matched');
             }
         } catch (err) {
+            setPrediction('failed');
+            setIsLoading(false);
+            setIsMatched(false);
             console.error(err);
         }
 
@@ -84,6 +96,7 @@ const ProductModalForm = ({ product, close, type }) => {
 
     // Function to handle file input change and set preview
     const handleFileChange = (event) => {
+        setImageChanged(true);
         const file = event.target.files[0];
         if (file) {
             setSelectedImage(file);// Get the selected file
@@ -152,6 +165,7 @@ const ProductModalForm = ({ product, close, type }) => {
                             <i className="text-sm text-red-500">{errors.name?.message}</i>
                         </div>
                         <input
+                            disabled={!imageChanged}
                             className={`peer PhoneInputInput ${errors.name ? "focus:border-red-500" : "focus:border-[#d39a57]"}`}
                             type="text"
                             placeholder="onion"
@@ -189,14 +203,14 @@ const ProductModalForm = ({ product, close, type }) => {
                     {/* Submit button */}
                     <CustomButton type="submit" style={{ width: '100%', marginTop: '10px' }}>
                         {
-                            isLoading ? 
+                            isLoading ?
                                 <>
                                     <img src="/spinLoader.svg" alt="" className="w-8" />
                                     <span>Please Wait...</span>
                                 </>
                                 :
                                 <span>Done</span>
-                    }
+                        }
                     </CustomButton>
                 </div>
             </form>
@@ -206,9 +220,16 @@ const ProductModalForm = ({ product, close, type }) => {
                         initial={{ opacity: 0, y: -100 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="w-full p-2 bg-red-300 absolute top-[105%] left-0 rounded-xl border-[3px] border-red-600 border-dashed">
-                        <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" /> {`The image does not look like a`} <span className=" font-semibold">{watchName.toLowerCase()}</span></p>
-                        <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" />{`The products look a lot like a`}<span className=" font-semibold">{prediction}</span></p>
-                        <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" />Confirm the image is not blurred and does not contain any other elements except the product</p>
+                        {
+                            prediction === 'failed' ?
+                                <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" />{`Failed to classify the image`}</p>
+                                :
+                                <>
+                                    <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" /> {`The image does not look like a`} <span className=" font-semibold">{watchName.toLowerCase()}</span></p>
+                                    <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" />{`The products look a lot like a`}<span className=" font-semibold">{prediction}</span></p>
+                                    <p className="text-red-600 flex gap-2"><FaDotCircle className="text-xs text-red-600 mt-2" />Confirm the image is not blurred and does not contain any other elements except the product</p>
+                                </>
+                        }
                     </motion.div>
                 )
             }

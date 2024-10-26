@@ -42,6 +42,12 @@ const farmerSchema = new mongoose.Schema({
             ref: 'Order'
         }
     ],
+    sales: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Sale'
+        }
+    ],
 });
 
 const Farmer = mongoose.model('Farmer', farmerSchema);

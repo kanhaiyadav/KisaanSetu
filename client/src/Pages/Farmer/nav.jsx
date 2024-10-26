@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import successAudio from '/success.mp3';
 // import errorAudio from '/error.mp3';
 import { toast } from "react-toastify";
+import { logout } from "../../actions/authActions";
 
 const Nav = () => {
     const [expanded, setExpanded] = useState(true);
@@ -66,7 +67,7 @@ const Nav = () => {
                 </NavItem>
                 <NavItem to={'logout'} onClick={(e) => {
                     e.preventDefault();
-                    dispatch(signOut());
+                    dispatch(logout());
                     toast.success('Logged out successfully');
                     navigate('/signin');
                     success.play();

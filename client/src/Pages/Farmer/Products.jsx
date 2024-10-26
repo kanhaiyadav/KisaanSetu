@@ -5,24 +5,17 @@ import ProductCard from "./ProductCard"
 import Header from "../../componenets/DashboardHeader"
 import { IoMdAdd } from "react-icons/io";
 import { AnimatePresence } from "framer-motion";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectProducts } from '../../redux/product/product.selector';
-import { fetchProducts } from '../../redux/product/product.slice';
 import ProductCardSkeleton from './ProductCardSkeleton';
-import { selectUserInfo } from '../../redux/user/selectors';
 
 const Products = () => {
     const [isLoading, setIsLoading] = useState(true);
-    const userId = useSelector(selectUserInfo)._id;
     const [clicked, setClicked] = useState(false);
     const products = useSelector(selectProducts);
-    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchProducts(userId)).unwrap()
-            .then(() => {
-                setIsLoading(false)
-            })
-    }, [setIsLoading, dispatch, userId])
+        setIsLoading(false)
+    }, [])
     return (
         <>
             <div className={`flex-1 flex flex-col `}>
@@ -37,7 +30,7 @@ const Products = () => {
                                 <div className='w-full h-full flex flex-col items-center justify-center mt-[-200px] relative'>
                                     <img src="/no_data.png" alt="" className='w-[300px] h-[300px]' />
                                     <p className='text-[#a2a2a2] text-md  mt-[-50px]'>You have not added any products yet</p>
-                                    <p className='text-[#a2a2a2] text-lg font-semibold '>Click on the '+' button to add a new product</p>
+                                    <p className='text-[#a2a2a2] text-lg font-semibold '>Click on the &apos;+&apos; button to add a new product</p>
                                     <img src="/arrow.svg" alt="" className='w-[300px] h-[300px] absolute bottom-[-70px] right-[100px] rotate-[-15deg]' />
                                     {/* <img src="/arrow.svg" alt="" /> */}
                                 </div>

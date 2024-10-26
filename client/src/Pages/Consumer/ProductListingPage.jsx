@@ -5,7 +5,7 @@ import ProductCard from "../Farmer/ProductCard";
 const ProductListingPage = () => {
     const products = useSelector(selectSearchedProducts);
     return (
-        <div className={`w-screen ${products.length > 0 ? 'columns-2 sm:columns-3 md:columns-4 lg:columns-5' : 'flex items-center justify-center'} p-10`}>
+        <div className={`w-screen ${products.length > 0 ? 'grid grid-cols-5 gap-6' : 'flex items-center justify-center'} p-10`}>
             {
                 products.length?
                 products.map((product, index) => <ProductCard key={index} product={product} type={'consumer'}/>)

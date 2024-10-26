@@ -13,7 +13,7 @@ const Header = () => {
     const [profile, setProfile] = useState(false);
     const userInfo = useSelector(selectUserInfo);
     return (
-        <div className="w-full p-4 gap-10 flex justify-between bg-primary">
+        <div className="w-full p-4 gap-10 flex justify-between bg-gray-100">
             <Logo style={{height: '45px'}} />
             <SearchBar />
             <div className="flex items-center gap-5">

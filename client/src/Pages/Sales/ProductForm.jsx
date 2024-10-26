@@ -38,12 +38,14 @@ const ProductForm = ({ index }) => {
     };
 
     useEffect(() => {
-        setValue('price', product.price);
-        setValue('total', watchPrice * watchQuantity);
+        if(!isNaN(product.price))
+            setValue('price', product.price);
+        if(!isNaN(watchPrice) && !isNaN(watchQuantity))
+            setValue('total', watchPrice * watchQuantity);
     }, [product, watchPrice, watchQuantity, setValue]);
 
     return (
-        <div className="flex gap-6 pl-[20px] mt-[10px] justify-start bg-gray-100 p-4 rounded-xl shadow-sm">
+        <div className="flex gap-6 pl-[20px] mt-[10px] justify-start bg-gray-100 p-4 rounded-xl shadow-sm w-fit">
             <div className="max-w-[300px] flex flex-col gap-4">
                 <ProductSearch setProduct={setProduct} />
                 {
@@ -65,20 +67,21 @@ const ProductForm = ({ index }) => {
                 {
                     product?.name &&
                     <div className="flex gap-8 w-full px-[20px] justify-start">
+                            <h1 className="text-3xl font-bold text-gray-700 capitalize">{product.name}</h1>
                         <div className="flex gap-2">
-                            <span className="text-2xl text-gray-600 underline underline-offset-2">Stocks:</span>
+                            <span className="text-2xl text-gray-600">Stocks:</span>
                             <span className="text-2xl text-gray-700 font-semibold">{product.stocks}</span>
                         </div>
                         <div className="flex gap-2">
-                            <span className="text-2xl text-gray-600 underline underline-offset-2">Price:</span>
+                            <span className="text-2xl text-gray-600">Price:</span>
                             <span className="text-2xl text-gray-700 font-semibold">{product.price}</span>
                         </div>
                     </div>
                 }
                 <div className="grid grid-cols-2 gap-x-8 gap-y-2 h-fit w-fit px-[20px]">
 
-                    <div className="flex flex-col">
-                        <label className="text-lg text-gray-700" htmlFor="price">Price:</label>
+                    <div className="flex items-center gap-4">
+                        <label className="text-lg text-gray-600 w-[80px]" htmlFor="price">Price:</label>
                         <input
                             id="price"
                             type="number"
@@ -86,8 +89,8 @@ const ProductForm = ({ index }) => {
                             {...register('price')}
                         />
                     </div>
-                    <div className="flex flex-col">
-                        <label className="text-lg text-gray-700" htmlFor="Quantity">Quantity:</label>
+                    <div className="flex items-center gap-4">
+                        <label className="text-lg text-gray-600 w-[80px]" htmlFor="Quantity">Quantity:</label>
                         <input
                             id="quantity"
                             type="number"
@@ -95,17 +98,18 @@ const ProductForm = ({ index }) => {
                             {...register('quantity')}
                         />
                     </div>
-                    <div className="flex flex-col">
-                        <label className="text-lg text-gray-700" htmlFor="total">Total:</label>
+                    <div className="flex items-center gap-4">
+                        <label className="text-lg text-gray-600 w-[80px]" htmlFor="total">Total:</label>
                         <input
                             id="total"
                             type="number"
-                            className="text-xl p-2 border border-gray-300 rounded-md text-gray-700"
+                            disabled
+                            className=" cursor-not-allowed text-xl p-2 border border-gray-300 rounded-md text-gray-700"
                             {...register('total')}
                         />
                     </div>
-                    <div className="flex flex-col">
-                        <label className="text-lg text-gray-700" htmlFor="date">Date:</label>
+                    <div className="flex items-center gap-4">
+                        <label className="text-lg text-gray-600 w-[80px]" htmlFor="date">Date:</label>
                         <input
                             id="date"
                             type="date"
@@ -113,8 +117,8 @@ const ProductForm = ({ index }) => {
                             {...register('date')}
                         />
                     </div>
-                    <div className="flex flex-col">
-                        <label className="text-lg text-gray-700" htmlFor="customer">Customer Name:</label>
+                    <div className="flex items-center gap-4">
+                        <label className="text-lg text-gray-600 w-[80px]" htmlFor="customer">Customer:</label>
                         <input
                             id="customer"
                             type="text"

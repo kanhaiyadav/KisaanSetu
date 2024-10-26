@@ -17,7 +17,7 @@ const SearchBar = () => {
     
     return (
         <form className={`flex flex-1 max-w-[700px] shadow-xl rounded-md overflow-hidden focus-within:outline-[3px]
-        focus-within:outline-secondary focus-within:outline
+        focus-within:outline-primary focus-within:outline
         `} onSubmit={handleSubmit}>
             <IoSearchOutline className="text-4xl h-full text-gray-600 p-2 bg-white" />
             <input type="text" placeholder="Search for products..."
@@ -26,7 +26,7 @@ const SearchBar = () => {
                 `} value={search} onChange={(event) => {
                     setSearch(event.target.value);
                 }}/>
-            <button className="bg-secondary text-white p-2 grow-0 text-lg hover:bg-orange-500">Search</button>
+            <button className="bg-primary text-white p-2 grow-0 text-lg hover:bg-orange-500">Search</button>
         </form>
     )
 }

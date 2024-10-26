@@ -25,6 +25,7 @@ function App() {
     const dispatch = useDispatch();
     const token = useSelector(selectToken);
     const isFarmer = useSelector(selectIsFarmer);
+    
     useEffect(() => {
         if (token) {
             const promise = dispatch(verify(token)).unwrap();
