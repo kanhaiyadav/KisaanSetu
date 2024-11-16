@@ -5,7 +5,6 @@ model = YOLO('D:\\web_dev\\React\\Farmer\\runs\\classify\\train\\weights\\best.p
 
 def classify(img):
     results=model(img)
-
     names = results[0].names
     probs = results[0].probs
 
