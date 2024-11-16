@@ -25,8 +25,8 @@ const Hero = () => {
                         <motion.h1
                             variants={container(0)}
                             initial="hidden"
-                            animate="visible" className={`font-extrabold xs:text-[48px] font-sans
-                             text-[64px] text-white text-shadow-solid shadow-brown ng-[76.8px] leading-[75px] w-full
+                            animate="visible" className={`font-extrabold xs:text-[42px] font-poppins
+                             text-[64px] text-brown ng-[65px] leading-[65px] w-full
                              `}>
                             {t('hero.titleP1')}  <br className='sm:block hidden' />{" "}
                             <span className='text-gradient'>
