@@ -2,12 +2,22 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    height: 100vh;
 }
 
 #root {
     height: 100%;
     width: 100%;
+}
+
+#root h1{
+    align-self:flex-end;
+}
+
+#hero{
+    display: grid;
+    grid-template-columns: 1fr 0.7fr;
+    grid-template-rows: 1fr 0.55fr 0.8fr;
+    grid-template-areas: "title img" "subtitle img" "buttons img";
 }
 
 .text-border{
