@@ -54,19 +54,19 @@
         "subtitle": "Simplify your marketplace experience and focus on what you do best—farming. Start growing your business today with effortless connections and increased opportunities.",
         "features": [
             {
-                "icon": "./Star.svg",
-                "title": "Rewards",
-                "content": "The best credit cards offer some tantalizing combinations of promotions and prizes"
+                "icon": "./inventory.svg",
+                "title": "Inventory Management",
+                "content": "Manage your inventory with ease and keep track of your products."
             },
             {
-                "icon": "./Shield.svg",
-                "title": "100% Secured",
-                "content": "We take proactive steps make sure your information and transactions are secure."
+                "icon": "./history.svg",
+                "title": "Transaction History",
+                "content": "List your transactions and keep track of your sales."
             },
             {
-                "icon": "./Send.svg",
-                "title": "Balance Transfer",
-                "content": "A balance transfer credit card can save you a lot of money in interest charges."
+                "icon": "./analysis.svg",
+                "title": "Sales Analysis",
+                "content": "Get insights into your sales and make informed decisions."
             }
         ]
     }
