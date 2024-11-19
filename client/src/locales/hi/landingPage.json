@@ -1,7 +1,6 @@
 {
     "navBar": {
         "home": "होम",
-        "about": "हमारे बारे में",
         "customer": "ग्राहक",
         "farmer": "किसान"
     },
@@ -36,16 +35,12 @@
             "title": "होम"
         },
         {
-            "id": "about",
-            "title": "हमारे बारे में"
+            "id": "farmer",
+            "title": "किसान"
         },
         {
             "id": "customer",
             "title": "ग्राहक"
-        },
-        {
-            "id": "farmer",
-            "title": "किसान"
         }
     ],
     "featuresPage": {

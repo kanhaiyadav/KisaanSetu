@@ -1,7 +1,6 @@
 {
     "navBar": {
         "home": "হোম",
-        "about": "আমাদের সম্পর্কে",
         "customer": "গ্রাহক",
         "farmer": "কৃষক"
     },
@@ -36,16 +35,12 @@
             "title": "হোম"
         },
         {
-            "id": "about",
-            "title": "আমাদের সম্পর্কে"
+            "id": "farmer",
+            "title": "কৃষক"
         },
         {
             "id": "customer",
             "title": "গ্রাহক"
-        },
-        {
-            "id": "farmer",
-            "title": "কৃষক"
         }
     ],
     "featuresPage": {

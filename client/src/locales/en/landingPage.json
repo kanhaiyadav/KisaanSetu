@@ -1,7 +1,6 @@
 {
     "navBar": {
         "home": "Home",
-        "about": "About",
         "customer": "Customer",
         "farmer": "Farmer"
     },
@@ -36,16 +35,12 @@
             "title": "Home"
         },
         {
-            "id": "about",
-            "title": "About"
+            "id": "farmer",
+            "title": "Farmer"
         },
         {
             "id": "customer",
             "title": "Customer"
-        },
-        {
-            "id": "farmer",
-            "title": "Farmer"
         }
     ],
     "featuresPage": {

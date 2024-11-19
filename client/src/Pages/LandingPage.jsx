@@ -11,19 +11,18 @@ import { Link } from "react-router-dom";
 
 const LandingPage = () => {
     return (
-        <div className="bg-[#fdfdfd] w-screen h-screen overflow-x-hidden overflow-y-scroll bg-[url('/bgCloud.svg')] bg-fixed bg-cover bg-no-repeat">
+        <div id="landing-page" className="bg-[#fdfdfd] w-screen h-screen overflow-x-hidden overflow-y-scroll bg-[url('/bgCloud.svg')] bg-fixed bg-cover bg-no-repeat">
             <Navbar />
             <div className={`relative h-[calc(100vh-100px)] flex justify-center items-center`}>
                 <div className="absolute left-0 bottom-0 w-full h-[250px] bg-[url('/wave-haikei2.svg')] bg-cover bg-no-repeat">
                 </div>
                 <Hero />
             </div>
-            <div className={`bg-[#fdfdfd] ${styles.flexStart} h-screen`}>
-                <div className={`${styles.boxWidth}`}>
-                    <Features />
-                </div>
+            <div id='farmer' className={`bg-white min-h-screen flex flex-col items-center justify-start`}>
+                <div className="bg-white w-full h-[250px] bg-[url('/wave4.svg')] bg-cover"></div>
+                <Features />
             </div>
-            <div className={`relative w-full h-screen bg-[url('/customer.svg')] bg-no-repeat bg-cover bg-right-bottom px-[100px]`}>
+            <div id="customer" className={`relative bg-white w-full h-screen bg-[url('/customer.svg')] bg-no-repeat bg-cover bg-right-bottom px-[100px] pt-[50px]`}>
                 {/* Add a pseudo-element for the gradient */}
                 <div className="absolute inset-0 bg-gradient-to-l from-white/60 to-white opacity-50 pointer-events-none z-0"></div>
 

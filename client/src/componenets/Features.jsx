@@ -29,7 +29,7 @@ const Features = () => {
     const { t } = useTranslation('landingPage');
     const features = t('featuresPage.features', { returnObjects: true });
     return (
-        <section id="features" className={`${layout.section}`}>
+        <section id="features" className={`flex flex-row px-[100px]`}>
             <motion.div
                 whileInView={{ opacity: 1, x: 0 }}
                 initial={{ opacity: 0, x: -100 }}
