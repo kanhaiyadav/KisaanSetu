@@ -18,41 +18,42 @@ const Hero = () => {
     const stats = t('stats', { returnObjects: true });
 
     return (
-        <section id='hero' className={`w-full h-full px-[100px] z-10`}>
+        <section id='hero' className={`w-full h-full lg:px-[100px] md:px-[70px] md:pb-[50px] md:pt-0 sm:px-[30px] z-10`}>
             <motion.h1
                 style={{ gridArea: 'title' }}
                 variants={container(0)}
                 initial="hidden"
-                animate="visible" className={` font-extrabold xs:text-[42px] font-poppins
-                             text-[64px] text-brown ng-[65px] leading-[65px] w-full
+                animate="visible"
+                className={` md:font-extrabold font-bold font-poppins text-center lg:text-left w-fit lg:w-full
+                             text-3xl sm:text-4xl md:text-5xl xl:text-6xl text-brown leading-[clamp(30px,7vw,64px)] justify-self-center self-center 
                              `}>
-                {t('hero.titleP1')}  <br className='sm:block hidden' />{" "}
+                {t('hero.titleP1')}  <br />{" "}
                 <span className='text-gradient'>
                     {t('hero.titleP2')}
                 </span>
-                <br className='sm:block hidden' />
+                <br/>
                 <span className='text-gradient'>
                     {t('hero.titleP3')}
                 </span>
             </motion.h1>
             <motion.p variants={container(0.5)}
                 initial="hidden"
-                animate="visible" className="relative mb- font-poppins
-                     font-normal text-Tprimary lg:mb-8
+                animate="visible" className="relative font-poppins
+                     font-normal text-Tprimary lg:mb-4 self-center
                       md:text-lg lg:text-xl leading-[30.8px]
-                       dark:text-gray-600 z-10  max-w-[470px] mt-5"
+                       dark:text-gray-600 z-10  max-w-[470px] mt-5 sm:m-0 ml-[25px]"
                 style={{ gridArea: 'subtitle' }}
             >
                 {t('hero.subtitle')}
             </motion.p>
-            <div style={{ gridArea: 'buttons' }}>
+            <div className='h-[80px] sm:m-0 ml-[25px] flex items-center' style={{ gridArea: 'buttons' }}>
                 <Link to={'/signup'}
-                    className="text-white bg-primary border border-gray-300
-                     font-semibold rounded-xl hover:rounded-full text-2xl px-6 py-4 me-2 mb-2 
-                     transition-all duration-[1000ms]">{t('hero.startButton')}</Link>
-                <Link to={'/signin'} className="bg-Tprimary px-10 py-4 text-2xl hover:rounded-full transition-all duration-1000 text-white font-semibold rounded-xl">{t('hero.loginButton')}</Link>
+                    className="text-white bg-primary border border-gray-300 font-sans
+                     font-semibold rounded-full hover:bg-brown md:text-2xl sm:text-lg text-md md:px-6 px-4 py-[10px] sm:py-4  me-2 
+                     transition-all duration-[1000ms] text-nowrap">{t('hero.startButton')}</Link>
+                <Link to={'/signin'} className="bg-Tprimary font-sans md:text-2xl sm:text-lg text-md md:px-10 px-4 sm:py-4 py-[10px] transition-all duration-1000 text-white font-semibold rounded-full">{t('hero.loginButton')}</Link>
             </div>
-            <div style={{gridArea: 'img'}} className={`min-w-[400px] bg-center w-full relative lg:mt-0 lg:col-span-5 lg:flex bg-[url('marketplace.svg')] bg-no-repeat bg-contain`}>
+            <div style={{gridArea: 'img'}} className={`min-w-[160px] sm:min-w-[400px] md:bg-bottom w-full relative lg:mt-0 lg:col-span-5 lg:flex bg-[url('marketplace.svg')] bg-no-repeat bg-cover sm:bg-contain`}>
             </div>
         </section>
     )

@@ -1,20 +1,16 @@
 import Navbar from "../componenets/Navbar"
 import Hero from "../componenets/Hero"
 import styles from "../style.js"
-import Features from "../componenets/Features.jsx";
+import Features from "../componenets/FarmersPage.jsx";
 import Footer from "../componenets/Footer.jsx"
-import { VscWorkspaceTrusted } from "react-icons/vsc";
-import { FaDollarSign } from "react-icons/fa";
-import { MdOutlineRateReview } from "react-icons/md";
-import { socialMedia } from "./../constant/index.js"
-import { Link } from "react-router-dom";
+import Cfeatures from "../componenets/CustomerPage.jsx";
 
 const LandingPage = () => {
     return (
         <div id="landing-page" className="bg-[#fdfdfd] w-screen h-screen overflow-x-hidden overflow-y-scroll bg-[url('/bgCloud.svg')] bg-fixed bg-cover bg-no-repeat">
             <Navbar />
-            <div className={`relative h-[calc(100vh-100px)] flex justify-center items-center`}>
-                <div className="absolute left-0 bottom-0 w-full h-[250px] bg-[url('/wave-haikei2.svg')] bg-cover bg-no-repeat">
+            <div className={`relative h-[calc(100vh-100px)] flex justify-center items-end`}>
+                <div className="absolute left-0 bottom-0 w-full aspect-[6/0.985] bg-[url('/wave-haikei2.svg')] bg-contain bg-no-repeat">
                 </div>
                 <Hero />
             </div>
@@ -22,10 +18,11 @@ const LandingPage = () => {
                 <div className="bg-white w-full h-[250px] bg-[url('/wave4.svg')] bg-cover"></div>
                 <Features />
             </div>
-            <div id="customer" className={`relative bg-white w-full h-screen bg-[url('/customer.svg')] bg-no-repeat bg-cover bg-right-bottom px-[100px] pt-[50px]`}>
-                {/* Add a pseudo-element for the gradient */}
-                <div className="absolute inset-0 bg-gradient-to-l from-white/60 to-white opacity-50 pointer-events-none z-0"></div>
-
+            <div id='customer' className={`bg-white min-h-screen flex flex-col pt-[50px] items-center justify-center`}>
+                <Cfeatures />
+                <div className="bg-white w-full h-[400px] bg-[url('/wave5.svg')] bg-cover"></div>
+            </div>
+            {/* <div id="customer" className={`relative bg-white w-full h-screen px-[100px] pt-[50px]`}>
                 <div className="z-10 relative">
                     <h1 className="text-5xl font-sans font-black text-brown">Fresh Picks<br /> for Smart Shoppers</h1>
                     <p className="text-xl text-gray-600 max-w-[50%] mt-4 font-poppins">
@@ -79,7 +76,7 @@ const LandingPage = () => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className={`bg-orange-100 ${styles.flexStart}`}>
                 <div className={`${styles.boxWidth}`}>
