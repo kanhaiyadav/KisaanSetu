@@ -24,6 +24,10 @@ body {
     @media (max-width: 992px) {
         grid-template-areas: "title title" "subtitle img" "buttons img";
     }
+    @media (max-width: 768px) {
+        grid-template-columns: 0.5fr 1fr;
+        grid-template-rows: 1fr 1fr 0.8fr;
+    }
 }
 
 .text-border{
@@ -41,4 +45,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #a8a8a8;
 }   
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
 

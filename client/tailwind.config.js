@@ -7,6 +7,9 @@ export default {
     ],
     theme: {
         extend: {
+            screens: {
+                xs: '480px', // Example value for xs breakpoint
+            },
             colors: {
                 primary: '#97c54b',
                 Tprimary: 'gray',

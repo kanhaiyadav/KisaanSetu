@@ -41,7 +41,7 @@ const Hero = () => {
                 animate="visible" className="relative font-poppins
                      font-normal text-Tprimary lg:mb-4 self-center
                       md:text-lg lg:text-xl leading-[30.8px]
-                       dark:text-gray-600 z-10  max-w-[470px] mt-5 sm:m-0 ml-[25px]"
+                       dark:text-gray-600 z-10 max-w-[300px]  sm:max-w-[470px] mt-5 sm:m-0 ml-[25px]"
                 style={{ gridArea: 'subtitle' }}
             >
                 {t('hero.subtitle')}
@@ -53,7 +53,7 @@ const Hero = () => {
                      transition-all duration-[1000ms] text-nowrap">{t('hero.startButton')}</Link>
                 <Link to={'/signin'} className="bg-Tprimary font-sans md:text-2xl sm:text-lg text-md md:px-10 px-4 sm:py-4 py-[10px] transition-all duration-1000 text-white font-semibold rounded-full">{t('hero.loginButton')}</Link>
             </div>
-            <div style={{gridArea: 'img'}} className={`min-w-[160px] sm:min-w-[400px] md:bg-bottom w-full relative lg:mt-0 lg:col-span-5 lg:flex bg-[url('marketplace.svg')] bg-no-repeat bg-cover sm:bg-contain`}>
+            <div style={{gridArea: 'img'}} className={`sm:left-0 min-w-full sm:min-w-[400px] md:bg-bottom w-full relative lg:mt-0 lg:col-span-5 lg:flex bg-[url('marketplace.svg')] bg-no-repeat bg-cover sm:bg-contain`}>
             </div>
         </section>
     )

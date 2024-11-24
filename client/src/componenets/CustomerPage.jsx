@@ -12,38 +12,18 @@ const Cfeatures = () => {
     const { t } = useTranslation('landingPage');
     const features = t('customerFeaturesPage.features', { returnObjects: true });
     return (
-        <section id="features" className={`w-full grid grid-cols-2 px-[100px]`}>
+        <section id="features" className={`w-full grid sm:grid-cols-2 grid-cols-1 grid-rows-[auto,auto,auto] sm:grid-rows-[1fr,auto] px-[20px] sm:pl-[30px] md:px-[50px] lg:px-[100px]`}>
             <div className={`${layout.sectionInfo} h-fit`}>
                 <h2
-                    className={`${styles.heading2} font-extrabold xs:text-[32px] font-poppins
-                             text-[48px] text-brown ng-[76.8px] leading-[58px] w-full
+                    className={`font-bold font-poppins text-brown w-full md:font-extrabold lg:text-left 
+                             text-3xl sm:text-4xl md:text-5xl leading-[clamp(30px,7vw,64px)] justify-self-center self-center 
                              `}>
-                    {t('customerFeaturesPage.titleP1')}<br className="sm:block hidden" />{t('customerFeaturesPage.titleP2')}
+                    {t('customerFeaturesPage.titleP1')}<br/>{t('customerFeaturesPage.titleP2')}
                 </h2>
-                <p className={`${styles.paragraph} max-w-[470px] mt-5 text-Tprimary`}>
+                <p className={`mt-5 text-gray-700 font-poppins text-md lg:text-lg`}>
                     {t('customerFeaturesPage.subtitle')}
                 </p>
-                <hr className="border-t-2 border-brown w-full mt-6" />
-                <div className="py-4 flex justify-between items-center w-full">
-                    <div className="flex gap-4 text-xl text-gray-600 items-center">
-                        <Link to="/signup" ><button className={`px-6 py-4 bg-primary text-white text-2xl hover:bg-brown rounded-full`}>Get Started</button></Link>
-                        <Link to="/signin" className="flex items-center gap-2">Learn more <TbExternalLink /></Link>
-                    </div>
-                    <div className="flex flex-row md:mt-0 mt-6">
-                        {socialMedia.map((social, index) => (
-                            <img
-                                key={social.id}
-                                src={`/${social.icon}`}
-                                alt={social.id}
-                                className={`w-[21px] h-[21px] object-contain cursor-pointer ${index !== socialMedia.length - 1 ? "mr-6" : "mr-0"
-                                    }`}
-                                onClick={() => window.open(social.link)}
-                            />
-                        ))}
-                    </div>
-                </div>
             </div>
-
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -58,7 +38,7 @@ const Cfeatures = () => {
                         },
                     },
                 }}
-                className={` flex-col items-start h-fit`}
+                className={`flex flex-col gap-4 pt-4 items-start h-fit col-span-2 sm:col-start-2 sm:col-span-1 sm:row-start-1 sm:row-end-2 row-start-2 row-end-3`}
             >
                 {features.map((feature, index) => (
                     <motion.div
@@ -72,6 +52,27 @@ const Cfeatures = () => {
                     </motion.div>
                 ))}
             </motion.div>
+            <div className="col-span-2  xl:col-span-1 sm:row-start-2 sm:row-end-3 row-start-3 row-end-4">
+                <hr className="border-t-2 border-brown w-full mt-6" />
+                <div className="py-4 pr-2 md:pr-8 flex  justify-between xs:items-center w-full h-fit">
+                    <div className="flex xs:flex-row flex-col gap-2 md:gap-4 text-xl text-gray-600 items-center">
+                        <Link to="/signup" ><button className={`px-4 sm:px-6 sm:py-4 py-[10px] text-nowrap bg-primary text-white text-xl  sm:text-2xl hover:bg-brown rounded-full`}>Get Started</button></Link>
+                        <Link to="/signin" className="flex items-center text-nowrap gap-2 text-lg md:text-xl">Learn more <TbExternalLink /></Link>
+                    </div>
+                    <div className="flex flex-row xs:mt-0 mt-2">
+                        {socialMedia.map((social, index) => (
+                            <img
+                                key={social.id}
+                                src={`/${social.icon}`}
+                                alt={social.id}
+                                className={`w-[21px] h-[21px] object-contain cursor-pointer ${index !== socialMedia.length - 1 ? "mr-6" : "mr-0"
+                                    }`}
+                                onClick={() => window.open(social.link)}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </section>
     )
 }

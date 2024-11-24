@@ -12,6 +12,7 @@ const LandingPage = () => {
             <div className={`relative h-[calc(100vh-100px)] flex justify-center items-end`}>
                 <div className="absolute left-0 bottom-0 w-full aspect-[6/0.985] bg-[url('/wave-haikei2.svg')] bg-contain bg-no-repeat">
                 </div>
+                <div className="absolute left-0 bottom-0 w-full h-[20px] bg-primary" />
                 <Hero />
             </div>
             <div id='farmer' className={`bg-white min-h-screen flex flex-col items-center justify-start`}>
@@ -78,11 +79,7 @@ const LandingPage = () => {
                 </div>
             </div> */}
 
-            <div className={`bg-orange-100 ${styles.flexStart}`}>
-                <div className={`${styles.boxWidth}`}>
-                    <Footer />
-                </div>
-            </div>
+            <Footer />
 
         </div>
     )
