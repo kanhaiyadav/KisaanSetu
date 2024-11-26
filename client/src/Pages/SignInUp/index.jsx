@@ -23,11 +23,11 @@ const SignInUp = ({ type }) => {
                         <p className="text-gray-700">Don&apos;t have an account? <Link to={'/signup'} className="text-lg font-semibold text-[#d39a57] hover:underline">Sign Up</Link></p>
                 }
             </div>
-            <div className="relative w-1/2 hidden sm:block">
+            <div className="relative w-1/2 hidden md:block min-w-[400px]">
                 <img src="/SignInUp.jpeg" alt="farmer" className="h-full w-full object-cover" />
                 <div className="absolute top-0 h-full w-full bg-no-repeat" style={{ backgroundImage: 'url(/wave1.svg)' }}></div>
             </div>
-            <LanguageSelector style={{position:"absolute", left: "500px", top: "30px"}}/>
+            <LanguageSelector style={{position:"absolute", right: '10px', top: "30px"}}/>
         </div>
     );
 };
