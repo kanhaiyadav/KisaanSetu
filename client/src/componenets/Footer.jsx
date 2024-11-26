@@ -4,7 +4,7 @@ import { footerLinks, socialMedia } from "./../constant/index.js"
 
 const Footer = () => {
     return (
-        <section className={`bg-orange-100 flex-col h-fit pb-[50px]`}>
+        <section className={`bg-orange-100 flex-col h-fit pb-[50px]fc`}>
             <div className={`flex justify-between md:flex-row flex-col mb-8 w-full px-[20px] md:px-[50px]`}>
                 <div className="flex-[1] flex flex-col justify-start">
                     <div className="flex items-center">
