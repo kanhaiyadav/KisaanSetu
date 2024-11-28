@@ -9,9 +9,10 @@ const SignInUp = ({ type }) => {
     const index = t('index', { returnObjects: true });
     return (
         <div className="relative h-full w-full flex bg-cover">
-            <div className="flex-1 flex flex-col justify-center items-center px-5 gap-8 bg-gray-100">
-                <div className="flex justify-between absolute top-0 left-0 w-full py-2.5 px-5 text-xl font-semibold">
+            <div className="flex-1 flex flex-col justify-between items-center px-5 pb-8 gap-8 bg-gray-100">
+                <div className="flex justify-between w-full py-2.5 px-5">
                     <Logo />
+                    <LanguageSelector />
                 </div>
                 {
                     type === 'signup' ? <Outlet /> : <SignIn />
@@ -27,7 +28,6 @@ const SignInUp = ({ type }) => {
                 <img src="/SignInUp.jpeg" alt="farmer" className="h-full w-full object-cover" />
                 <div className="absolute top-0 h-full w-full bg-no-repeat" style={{ backgroundImage: 'url(/wave1.svg)' }}></div>
             </div>
-            <LanguageSelector style={{position:"absolute", right: '10px', top: "30px"}}/>
         </div>
     );
 };

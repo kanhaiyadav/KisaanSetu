@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 const TransactionCard = ({ sale, bg, ...otherProps }) => {
+    console.log(sale);
     return (
         <div {...otherProps} className={`flex flex-col border-b-4 border-white
         ${bg} p-2 rounded-lg h-fit shadow-lg`}

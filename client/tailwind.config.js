@@ -74,6 +74,10 @@ export default {
                 lg: '0 8px 16px var(--tw-shadow-color)',
                 solid: '3px 2px 0 var(--tw-shadow-color), -1px -1px 0 var(--tw-shadow-color), 1px -1px 0 var(--tw-shadow-color), 1px 1px 0 var(--tw-shadow-color), -1px 1px 0 var(--tw-shadow-color)',
             },
+            screens: {
+                'xs': '475px',
+            },
+            
         },
     },
     plugins: [

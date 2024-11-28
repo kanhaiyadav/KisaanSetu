@@ -15,6 +15,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import ProductCardSkeleton from './Pages/Farmer/ProductCardSkeleton'
 import ErrorBoundary from './componenets/ErrorBoundary'
+import ChatbotScripts from './ChatBot'
 
 const Farmer = lazy(() => import('./Pages/Farmer'));
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
@@ -49,7 +50,7 @@ function App() {
             <ErrorBoundary fallback='There seems to be an error'>
                 <Suspense fallback={<div>Loading...</div>}>
                     <Routes>
-                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/" element={<><LandingPage /><ChatbotScripts /></>} />
                         <Route path="/signup" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
                             <Route index element={<Step1 />} />
                             <Route path=":id" element={<Steps />} />
