@@ -63,7 +63,7 @@ const LanguageSelector = ({ style }) => {
                                     setLanguage(lang.name);
                                     setDropDownClicked(false);
                                 }}>
-                                    <span className=" whitespace-nowrap text-xs">{lang.name}</span>
+                                    <span className=" whitespace-nowrap text-xs xs:text-sm md:text-md">{lang.name}</span>
                                 </div>
                             ))
                         }

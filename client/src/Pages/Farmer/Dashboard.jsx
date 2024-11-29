@@ -48,7 +48,7 @@ const Dashboard = () => {
                         </div>
                     </main>
                 </DashboardCard>
-                <DashboardCard heading={"Customer Review"} subHeading={'Here you will get to see, how customer responded to your products'}>
+                <DashboardCard heading={"Customer Reviews"}>
                     <div className="w-full h-[50px] bg-purple-100  rounded-lg">
 
                     </div>
@@ -64,8 +64,8 @@ const Dashboard = () => {
                                 margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
                             >
                                 <CartesianGrid stroke="#f5f5f5" />
-                                <XAxis dataKey="date" className="text-xs md:text-sm xl:text-lg"/>
-                                <YAxis className="text-xs md:text-sm xl:text-lg" />
+                                <XAxis dataKey="date" className="text-xs md:text-sm xl:text-md"/>
+                                <YAxis className="text-xs md:text-sm xl:text-md" />
                                 <Tooltip className="text-xs md:text-sm xl:text-lg" />
                                 <Legend className="text-xs md:text-sm xl:text-lg" />
                                 <Area type="monotone" dataKey="totalSales" stroke="#97c54b" fill="#b1df68b0" activeDot={{ r: 8 }} />

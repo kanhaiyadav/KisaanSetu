@@ -29,8 +29,8 @@ const Nav = () => {
             setExpanded(false);
         }}>
             <nav className={`${expanded ? 'w-full xs:w-[235px]' : 'w-full xs:w-[50px]'} h-full
-                box-border ${expanded ? 'p-0 xs:p-4' : 'p-0 xs:p-1'} pt-0 flex-col
-                pb-0 xs:pb-4 transition-all duration-300 ease-in-out bg-white rounded-lg
+                box-border ${expanded ? 'p-0 xs:p-2' : 'p-0 xs:px-1 xs:py-2'} pt-0 flex-col
+                 transition-all duration-300 ease-in-out bg-white rounded-lg
                 overflow-hidden shadow-[0px_0px_10px_5px_rgba(0,0,0,0.2)] flex
                 `}
                 onClick={(e) => { e.stopPropagation() }}
@@ -40,7 +40,7 @@ const Nav = () => {
                 </header>
                 <section className="flex xs:flex-col justify-evenly xs:justify-start gap-5 py-2 xs:py-4 h-full">
                     <NavItem to={'.'} onClick={()=>{setExpanded(false)}}>
-                        <MdOutlineDashboard className={`${expanded ? '' : 'ml-0 xs:ml-[3px]'}`} />
+                        <MdOutlineDashboard className={`ml-0 xs:ml-[3px]`} />
                         {
                             expanded ?
                                 <span className={`overflow-hidden whitespace-nowrap`}>Dashboard</span>
@@ -51,7 +51,7 @@ const Nav = () => {
                         }
                     </NavItem>
                     <NavItem to={'products'} onClick={()=>{setExpanded(false)}}>
-                        <TbShoppingBag className={`${expanded ? '' : 'ml-0 xs:ml-[3px]'} text-2xl`} />
+                        <TbShoppingBag className={`ml-0 xs:ml-[1px] xs:text-2xl text-xl `} />
                         {
                             expanded ?
                                 <span className={`overflow-hidden whitespace-nowrap`}>Products</span>
@@ -62,7 +62,7 @@ const Nav = () => {
                         }
                     </NavItem>
                     <NavItem to={'sales'} onClick={()=>{setExpanded(false)}}>
-                        <BsCart4 className={`${expanded ? '' : 'ml-0 xs:ml-[3px]'}`} />
+                        <BsCart4 className={`ml-0 xs:ml-[3px]`} />
                         {
                             expanded ?
                                 <span className={`overflow-hidden whitespace-nowrap`}>Sales</span>
@@ -73,7 +73,7 @@ const Nav = () => {
                         }
                     </NavItem>
                     <NavItem to={'sales-analytics'} onClick={()=>{setExpanded(false)}}>
-                        <IoAnalytics className={`${expanded ? '' : 'ml-0 xs:ml-[3px]'}`} />
+                        <IoAnalytics className={`ml-0 xs:ml-[3px]`} />
                         {
                             expanded ?
                                 <span className={`overflow-hidden whitespace-nowrap`}>Sales Analytics</span>
@@ -90,28 +90,24 @@ const Nav = () => {
                         navigate('/signin');
                         success.play();
                     }}
-                        className={'hidden xs:block'}
+                        className={'hidden xs:grid'}
                     >
-                        <LuLogOut className={`${expanded ? '' : 'ml-0 xs:ml-[3px]'}`} />
-                        {
-                            expanded ?
-                                <span className={`overflow-hidden whitespace-nowrap`}>LogOut</span>
-                                : null
-                        }
+                        <LuLogOut className={`ml-0 xs:ml-[3px]`} />
+                        <span className={`${expanded?'block':'hidden'} overflow-hidden whitespace-nowrap`}>LogOut</span>
                     </NavItem>
                     <button
                         className={`hidden mt-auto w-full h-[45px] p-2 text-gray-600 rounded-md hover:bg-[#efefef] text-xl
-            xs:flex items-center gap-2 cursor-pointer transition-all duration-200 ease-in-out active:scale-90
+                        xs:grid grid-cols-[auto,1fr] items-center gap-2 cursor-pointer transition-all duration-200 ease-in-out active:scale-90
         `}
                         onClick={() => setExpanded(!expanded)}>
                         {
                             expanded ?
-                                <LuPanelRightOpen className={`${expanded ? '' : 'ml-0 xs:ml-[3px]'}`} />
-                                : <LuPanelLeftOpen className={`${expanded ? '' : 'ml-0 xs:ml-[3px]'}`} />
+                                <LuPanelRightOpen className={`ml-0 xs:ml-[3px]'}`} />
+                                : <LuPanelLeftOpen className={`ml-0 xs:ml-[3px]'}`} />
                         }
                         {
                             expanded ?
-                                <span className={`overflow-hidden whitespace-nowrap`}>Close Sidebar</span>
+                                <span className={`overflow-hidden whitespace-nowrap justify-self-start`}>Close Sidebar</span>
                                 : null
                         }
                     </button>
