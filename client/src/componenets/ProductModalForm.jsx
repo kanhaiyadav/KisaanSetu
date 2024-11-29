@@ -111,12 +111,12 @@ const ProductModalForm = ({ product, close, type }) => {
 
     return (
         <Modal onClick={close}>
-            <form onSubmit={handleSubmit(onSubmit)} className="flex gap-4 text-center">
-                <div className="flex flex-col gap-6 items-center">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex md:flex-row flex-col gap-4 text-center">
+                <div className="flex flex-col md:gap-6 items-center">
                     <label htmlFor="image" className="flex items-center justify-center gap-2">
                         {/* Image preview */}
                         {previewUrl ?
-                            <img src={previewUrl} alt="Selected" className=" aspect-square max-w-[290px] object-cover rounded-xl" />
+                            <img src={previewUrl} alt="Selected" className=" aspect-square max-w-[200px] md:max-w-[290px] object-cover rounded-xl" />
                             :
                             <div className="flex flex-col items-center justify-center aspect-square w-[290px] rounded-3xl border-4 border-dashed border-gray-400">
                                 <img src="/imgIcon.svg" alt="" className="w-[170px]" />

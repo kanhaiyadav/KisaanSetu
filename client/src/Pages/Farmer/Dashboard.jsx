@@ -4,7 +4,7 @@ import Header from "../../componenets/DashboardHeader";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FiUserPlus } from "react-icons/fi";
 import { TbShoppingBagCheck } from "react-icons/tb";
-import { AreaChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Area } from 'recharts';
+import { AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Area } from 'recharts';
 import { useSelector } from "react-redux";
 import { selectSales } from "../../redux/product/product.selector";
 

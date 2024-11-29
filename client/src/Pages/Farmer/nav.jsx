@@ -7,7 +7,6 @@ import { BsCart4 } from "react-icons/bs";
 import { TbShoppingBag } from "react-icons/tb";
 import { IoAnalytics } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
-import { signOut } from "../../redux/user/user.slice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import successAudio from '/success.mp3';
