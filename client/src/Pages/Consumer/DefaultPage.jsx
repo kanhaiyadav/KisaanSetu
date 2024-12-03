@@ -27,10 +27,10 @@ const DefaultPage = () => {
             <div className={`relative flex w-full aspect-[16/9] md:aspect-[16/8] bg-[url(/shopping.svg)] bg-cover bg-no-repeat bg-right-top
         `} style={{ backgroundPosition: 'center 0px, right 0px' }}>
                 <div className="w-fit ml-[20px] xs:ml-[60px] md:ml-[80px] lg:ml-[100px] xl:ml-[150px] mt-[10px] xs:mt-[40px] md:mt-[60px] lg:mt-[70px] xl:mt-[100px]">
-                    <h1 className=" font-Playfair_Display text-2xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-primary">Quality</h1>
+                    <h1 id="gr_heading" className="xs:pb-[10px] font-Playfair_Display text-2xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-primary">Quality</h1>
                     <h1 className="mt-[-5px] xs:mt-0 font-Playfair_Display text-2xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-brown">Farmed</h1>
                     <h1 className="mt-[-5px] xs:mt-0 font-Playfair_Display text-2xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-brown">Trusted</h1>
-                    <p className="mt-2 xl:mt-4 max-w-[150px] xs:max-w-[200px] sm:max-w-[250px] md:max-w-[280px] lg:max-w-[320px] xl:max-w-[400px] text-[9px] xs:text-xs sm:text-sm lg:text-lg xl:text-xl font-poppins text-gray-600">Discover the finest produce, grown with care. Shop with confidence, knowing you&apos;re supporting local growers and choosing the best for your family</p>
+                    <p className="mt-2 xl:mt-4 max-w-[150px] xs:max-w-[200px] sm:max-w-[250px] md:max-w-[280px] lg:max-w-[320px] xl:max-w-[450px] text-[9px] xs:text-xs sm:text-sm lg:text-lg xl:text-xl font-poppins text-gray-600">Discover the finest produce, grown with care. Shop with confidence, knowing you&apos;re supporting local growers and choosing the best for your family</p>
                 </div>
             </div>
 
