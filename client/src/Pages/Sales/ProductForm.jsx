@@ -46,7 +46,7 @@ const ProductForm = ({ index, close }) => {
     }, [product, watchPrice, watchQuantity, setValue]);
 
     return (
-        <div className="flex gap-4 md:flex-row flex-col xl:gap-6 justify-star rounded-xl shadow-sm w-fit">
+        <div className="flex gap-4 md:flex-row flex-col xl:gap-6 justify-star rounded-xl w-fit">
             <div className="max-w-[200px] max-h-[250px] xl:max-w-[300px] xl:max-h-[300px] flex flex-col gap-4">
                 <ProductSearch setProduct={setProduct} />
                 {

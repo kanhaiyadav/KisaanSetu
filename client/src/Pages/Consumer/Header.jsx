@@ -12,14 +12,16 @@ const Header = () => {
     const [profile, setProfile] = useState(false);
     const userInfo = useSelector(selectUserInfo);
     return (
-        <div className="w-full p-4 gap-10 flex justify-between bg-white">
-            <Logo style={{height: '45px'}} />
+        <div className="w-full p-4 gap-4 sm:gap-10 flex justify-between bg-white">
+            <div className="hidden md:block">
+                <Logo style={{ height: '45px' }} />
+            </div>
             <SearchBar />
             <div className="flex items-center gap-5">
-                <div  className="relative">
+                <div className="relative hidden md:block">
                     <PiBookBookmarkLight className="text-2xl text-gray-700" />
                 </div>
-                <div className="relative">
+                <div className="relative hidden md:block">
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0"></div>
                     <IoMdNotificationsOutline className="text-2xl text-gray-700" />
