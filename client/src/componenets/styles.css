@@ -10,6 +10,9 @@
     font-family: 'OpenSans', sans-serif;
     color: #4a5568;
     border-bottom: 3px solid transparent;
+    @media screen and (max-width: 768px){
+        font-size: 1rem;
+    }
 }
 
 

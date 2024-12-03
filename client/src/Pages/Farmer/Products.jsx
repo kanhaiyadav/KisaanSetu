@@ -3,20 +3,22 @@ import ProductModalForm from "../../componenets/ProductModalForm";
 import ProductCard from "./ProductCard"
 // import { products } from "./data"
 import Header from "../../componenets/DashboardHeader"
-import { IoMdAdd } from "react-icons/io";
+// import { IoMdAdd } from "react-icons/io";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from 'react-redux';
 import { selectProducts } from '../../redux/product/product.selector';
+import OptionHeader from '../../componenets/OptionHeader';
 
 const Products = () => {
     const [clicked, setClicked] = useState(false);
     const products = useSelector(selectProducts);
     return (
         <>
-            <div className={`flex-1 flex flex-col `}>
+            <div className={`flex-1 flex flex-col h-screen`}>
                 <Header title={'Products'} />
                 {/* <div className='w-full bg-orange-400 h-[60px]'></div> */}
-                <main className={`flex-1 ${products.length > 0 ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'flex items-center justify-center'} overflow-auto p-4 gap-4`}>
+                <OptionHeader onNew={() => setClicked(true)} />
+                <main className={`flex-1 ${products.length > 0 ? 'grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' : 'flex items-center justify-center'} overflow-auto p-4 gap-2 xs:gap-4`}>
                     {
                         products.length > 0 ?
                             products.map((product, index) => <ProductCard key={index} product={product} type={'farmer'} />)
@@ -30,14 +32,14 @@ const Products = () => {
                             </div>
                     }
                 </main>
-                <div className={`h-[60px] w-[60px] absolute left-[42px] bottom-[42px] rounded-full bg-secondary animate-ping`} />
-                <div className={`h-[80px] w-[80px] absolute left-8 bottom-8 text-6xl flex 
+                {/* <div className={`h-[60px] w-[60px] absolute left-[42px] bottom-[42px] rounded-full bg-secondary animate-ping`} /> */}
+                {/* <div className={`h-[80px] w-[80px] absolute left-8 bottom-8 text-6xl flex 
             items-center justify-center rounded-full bg-secondary text-white hover:bg-orange-500 hover:rotate-90 transition-all
             `}
                     onClick={() => setClicked(true)}
                 >
                     <IoMdAdd />
-                </div>
+                </div> */}
             </div>
             <AnimatePresence>
                 {clicked && (

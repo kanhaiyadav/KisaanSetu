@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import plugin from 'tailwindcss/plugin';
+import scrollbarHide from 'tailwind-scrollbar-hide';
 export default {
     content: [
         "./index.html",
@@ -47,6 +48,8 @@ export default {
                 poppins: ["Poppins", "sans-serif"],
                 serif: ['Merriweather', 'serif'],
                 brand: ['Salsa', 'cursive'],
+                Abril_Fatface: ['Abril Fatface', 'cursive'],
+                Playfair_Display: ['Playfair Display', 'serif'],
             },
            
             textColor: {
@@ -77,6 +80,10 @@ export default {
                 lg: '0 8px 16px var(--tw-shadow-color)',
                 solid: '3px 2px 0 var(--tw-shadow-color), -1px -1px 0 var(--tw-shadow-color), 1px -1px 0 var(--tw-shadow-color), 1px 1px 0 var(--tw-shadow-color), -1px 1px 0 var(--tw-shadow-color)',
             },
+            screens: {
+                'xs': '475px',
+            },
+            
         },
     },
     plugins: [
@@ -90,6 +97,7 @@ export default {
                 { values: theme('textShadow') }
             );
         }),
+        scrollbarHide,
     ],
 }
 

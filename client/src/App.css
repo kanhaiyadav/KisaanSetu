@@ -36,6 +36,7 @@ body {
 
 ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -46,7 +47,20 @@ body {
     background-color: #a8a8a8;
 }   
 
-::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
+h1#gr_heading{
+    background: linear-gradient(to right,#97c54b, #5da539, rgb(51, 128, 0), rgb(9, 157, 4), #97c54b);
+    background-size: 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate-gradient 3.5s linear alternate infinite;
 }
 
+@keyframes animate-gradient {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 200%;
+    }
+}

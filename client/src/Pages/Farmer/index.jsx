@@ -17,7 +17,7 @@ const Farmer = () => {
 
     
     return (
-        <div className="flex h-screen bg-gray-200">
+        <div className="h-screen bg-gray-200 pb-[60px] xs:pb-0 ml-0 xs:ml-[50px]">
             <Nav />
             <Outlet />
         </div>

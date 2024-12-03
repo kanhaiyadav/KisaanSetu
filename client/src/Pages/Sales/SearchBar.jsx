@@ -46,7 +46,7 @@ const ProductSearch = ({ style, setProduct }) => {
     return (
         <form style={style} className="flex items-center space-x-2 text-gray-700 relative w-full border-b-2 border-gray-600 focus-within:bg-gray-200 focus-within:border-gray-700" onSubmit={handleSubmit}>
             <input value={product} onChange={handleChange}
-                className="border-none text-xl font-semibold rounded-md  p-1 pl-2 pr-2 outline-none min-w-[100px] font-sans"
+                className="border-none text-md md:text-xl font-semibold rounded-md  p-1 pl-2 pr-2 outline-none min-w-[100px] font-sans"
                 placeholder="Search Product..."
                 onFocus={(e) => {
                     e.target.select()

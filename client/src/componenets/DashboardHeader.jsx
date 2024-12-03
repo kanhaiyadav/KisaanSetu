@@ -1,19 +1,21 @@
 // import CustomButton from "./CustomButton";
-import SearchBar from "./SearchBar";
+// import SearchBar from "./SearchBar";
 import { useState } from "react";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "../redux/user/selectors";
 import CustomButton from "./CustomButton";
 import { motion } from "framer-motion";
+import LanguageSelector from "./LanguageSelector/LanguageSelector";
 
 const Header = ({ title }) => {
     const [profile, setProfile] = useState(false);
     const userInfo = useSelector(selectUserInfo);
     return (
-        <header className="w-full flex items-center p-4 gap-4">
+        <header className="w-full flex items-center p-4 gap-4 bg-gray-50 mb-4 shadow-sm">
             <h1 className="text-xl md:text-3xl font-semibold text-gray-600 flex-1">{title}</h1>
-            <SearchBar style={{ marginRight: "50px" }} />
+            {/* <SearchBar style={{ marginRight: "50px" }} /> */}
+            <LanguageSelector />
             <div className="relative">
                 <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
                 <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0"></div>

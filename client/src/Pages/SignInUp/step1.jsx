@@ -16,7 +16,7 @@ const Step1 = () => {
             </Header>
 
             <div className="flex gap-12 my-5 ">
-                <div className="text-center w-48 flex flex-col items-center gap-4">
+                <div className="text-center w-32 h-32 sm:h-48 sm:w-48 flex flex-col items-center gap-4">
                         <motion.img src="/Farmer.png" alt="Farmer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
                             ()=> {
                                 dispatch(setSignup({ isfarmer: true }));
@@ -26,9 +26,9 @@ const Step1 = () => {
                             whileHover={{ scale: 1.1 }}
                             transition={{ duration: 0.3, type: 'spring', stiffness: 260}}
                         />
-                    <h2 className="text-xl font-semibold m-0 text-gray-700">Farmer</h2>
+                    <h2 className="text-lg sm:text-xl font-semibold m-0 text-gray-700">Farmer</h2>
                 </div>
-                <div className="text-center w-48 flex flex-col items-center gap-4">
+                <div className="text-center w-32 h-32 sm:h-48 sm:w-48 flex flex-col items-center gap-4">
                         <motion.img src="/Consumer.png" alt="Consumer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
                             ()=> {
                                 dispatch(setSignup({ isfarmer: false }));
@@ -38,7 +38,7 @@ const Step1 = () => {
                             whileHover={{ scale: 1.1 }}
                             transition={{ duration: 0.3, type: 'spring', stiffness: 260 }}
                         />
-                    <h2 className="text-xl font-semibold m-0 text-gray-700">Consumer</h2>
+                    <h2 className="text-lg sm:text-xl font-semibold m-0 text-gray-700">Consumer</h2>
                 </div>
             </div>
         </Container>

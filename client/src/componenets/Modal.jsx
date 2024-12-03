@@ -25,7 +25,7 @@ const Modal = ({ children, onClick, ...otherProps }) => {
             onClick={onClick}
             {...otherProps}
         >
-            <motion.div className="bg-gray-100 p-8 rounded-xl shadow-lg"
+            <motion.div className="bg-gray-100 p-6 md:p-8 rounded-xl shadow-lg"
                 variants={flip}
                 initial='hidden'
                 animate='visible'
