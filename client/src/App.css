@@ -9,12 +9,12 @@ body {
     width: 100%;
 }
 
-#root h1{
+/* #root h1{
     align-self:flex-end;
     @media (max-width: 992px) {
         align-self: center;
     }
-}
+} */
 
 #hero{
     display: grid;
@@ -46,6 +46,10 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #a8a8a8;
 }   
+::-webkit-scrollbar-track {
+    background-color: #ffffff;
+    border-radius: 10px;
+}
 
 h1#gr_heading{
     background: linear-gradient(to right,#97c54b, #5da539, rgb(51, 128, 0), rgb(9, 157, 4), #97c54b);

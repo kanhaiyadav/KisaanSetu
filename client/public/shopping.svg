@@ -1156,7 +1156,7 @@
         }
 
         50% {
-          transform: translate(-10px, 0)
+          transform: translate(-20px, 0)
         }
 
         100% {
@@ -1174,7 +1174,7 @@
         }
 
         50% {
-          transform: translate(-5px, -5px)
+          transform: translate(-10px, -10px)
         }
 
         100% {
@@ -1192,7 +1192,7 @@
         }
 
         50% {
-          transform: translate(0, -10px)
+          transform: translate(0, -20px)
         }
 
         100% {
