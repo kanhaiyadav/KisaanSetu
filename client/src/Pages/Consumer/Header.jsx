@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "../../redux/user/selectors";
 import { useState } from "react";
-import { PiBookBookmarkLight } from "react-icons/pi";
+import { MdOutlineCollectionsBookmark } from "react-icons/md";
+// import { MdOutlineCollectionsBookmark } from "react-icons/pi";
 import { TbMessageDots } from "react-icons/tb";
 
 const Header = () => {
@@ -20,7 +21,7 @@ const Header = () => {
             <SearchBar />
             <div className="flex items-center gap-5">
                 <div className="relative hidden sm:block">
-                    <PiBookBookmarkLight className="text-2xl text-gray-700" />
+                    <MdOutlineCollectionsBookmark className="text-2xl text-gray-700" />
                 </div>
                 <div className="relative hidden sm:block">
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
@@ -59,7 +60,7 @@ const Header = () => {
                                     <CustomButton style={{ margin: "15px 0px" }}>Your Profile</CustomButton>
                                     <hr className="block sm:hidden w-full border-t border-gray-500 mb-1" />
                                     <div className="flex flex-col">
-                                        <div className="flex sm:hidden items-center gap-2 w-full p-1 sm:p-2 rounded-lg hover:bg-gray-200"><PiBookBookmarkLight className="text-lg sm: text-gray-700" /> <span className="text-sm sm:text-md">Good Book</span></div>
+                                        <div className="flex sm:hidden items-center gap-2 w-full p-1 sm:p-2 rounded-lg hover:bg-gray-200"><MdOutlineCollectionsBookmark className="text-lg sm: text-gray-700" /> <span className="text-sm sm:text-md">Good Book</span></div>
                                         <div className="flex sm:hidden items-center gap-2 w-full p-1 sm:p-2 rounded-lg hover:bg-gray-200"><TbMessageDots className="text-lg sm:text-2xl text-gray-700" /> <span className="text-sm sm:text-md">Messages</span></div>
                                         <div className="flex sm:hidden items-center gap-2 w-full p-1 sm:p-2 rounded-lg hover:bg-gray-200"><IoMdNotificationsOutline className="text-lg sm:text-2xl text-gray-700" /> <span className="text-sm sm:text-md">Notifications</span></div>
                                     </div>

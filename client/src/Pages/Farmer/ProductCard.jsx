@@ -24,7 +24,7 @@ const ProductCard = ({ product, type }) => {
                 intent={'fitContent'}
                 className={`${!clicked ? 'hover:outline hover:outline-2 max-w-[800px] hover:outline-primary  hover:shadow-lg' : ''} relative flex ${type == 'farmer' ? 'flex-row xs:flex-col' : 'flex-row'} w-full cursor-default ${ stocks<0 ?'grayscale': ''}`}
                 onClick={() => {
-                    if (type === 'farmer')
+                    if (type === 'farmer' && stocks > 0)
                         setClicked(true)
                 }}
                 initial={{ y: 20, opacity: 0 }}
