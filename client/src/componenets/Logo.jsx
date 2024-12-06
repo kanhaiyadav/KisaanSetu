@@ -1,15 +1,11 @@
 import { Link } from "react-router-dom";
 
-const Logo = ({ expanded, setExpanded, ...otherProps }) => {
+const Logo = ({ expanded, ...otherProps }) => {
     return (
         <Link to="/">
             <div className={`${expanded !== false ? 'w-[60px] sm:w-[200px]' : 'w-[45px]'} h-[80px] overflow-hidden grid grid-cols-[auto,1fr] items-center justify-between
             cursor-pointer  transition-all duration-300 ease-in-out animate-expand font-normal
         `}
-                onClick={() => {
-                    setExpanded(!expanded)
-                    console.log('clicked')
-                }}
                 {...otherProps}
             >
                 <div className="w-[45px]">
