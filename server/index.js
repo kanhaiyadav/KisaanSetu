@@ -7,6 +7,9 @@ import router from './Routes/index.js';
 import cors from 'cors';
 import multer from 'multer';
 import { spawn } from 'child_process';
+import fs from 'fs';
+
+
 
 
 const storage = multer.diskStorage({
@@ -58,6 +61,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use('/', router);
 
 app.post('/classify', upload.single('image'), (req, res) => {
+    console.log(req.body);
     console.log('hello from server');
     const imagePath = path.join(__dirname, req.file.path);
 
@@ -76,6 +80,7 @@ app.post('/classify', upload.single('image'), (req, res) => {
 
     // Once the Python process finishes, send the result back to the client
     pythonProcess.on('close', (code) => {
+        fs.unlinkSync(imagePath);
         if (code !== 0) {
             return res.status(500).send('Error in classifying image');
         }

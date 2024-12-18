@@ -36,7 +36,7 @@ const ProductCard = ({ product, type, ...otherProps }) => {
                 transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
                 {...otherProps}
             >
-                <img src={'http://localhost:3000' + image} alt={name} className={` ${type === 'farmer' ? 'w-[100px] xs:w-full aspect-square rounded-t-xl' : 'h-[150px] sm:h-[200px] aspect-square md:aspect-video lg:aspect-square xl:aspect-video rounded-xl'} object-cover `} />
+                <img src={image} alt={name} className={` ${type === 'farmer' ? 'w-[100px] xs:w-full aspect-square rounded-t-xl' : 'h-[150px] sm:h-[200px] aspect-square md:aspect-video lg:aspect-square xl:aspect-video rounded-xl'} object-cover `} />
                 <div className='flex-1'>
                     {
                         type === 'consumer' &&

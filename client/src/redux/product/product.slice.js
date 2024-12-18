@@ -177,6 +177,7 @@ const productSlice = createSlice({
         builder.addCase(fetchProducts.fulfilled, (state, action) => {
             state.status = "succeeded";
             state.products = action.payload.data.products;
+            console.log(action.payload.data.products);  
         });
         builder.addCase(fetchProducts.rejected, (state, action) => {
             state.status = "failed";

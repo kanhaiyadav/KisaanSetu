@@ -4,7 +4,12 @@ export const selectProduct = (state) => state.product;
 
 export const selectProducts = createSelector(
     [selectProduct],
-    (product) => product.products
+    (product) => {
+        if(product.products)
+            return product.products
+        else
+            return []
+    }
 );
 
 export const selectSearchedProducts = createSelector(

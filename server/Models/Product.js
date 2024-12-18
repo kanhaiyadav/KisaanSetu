@@ -26,7 +26,7 @@ const productSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        required: false
     },
     farmer: {
         type: mongoose.Schema.Types.ObjectId,
@@ -34,17 +34,7 @@ const productSchema = new mongoose.Schema({
     },
 });
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "..", PRODUCT_IMAGE_PATH));
-    },
-    filename: function (req, file, cb) {
-        const ext = path.extname(file.originalname);
-        const uniqueSuffix = `${Date.now() + '-' + Math.round(Math.random() * 1E9)}${ext}`;
-        cb(null, file.fieldname + '-' + uniqueSuffix);
-    },
-});
-
+const storage = multer.memoryStorage();
 productSchema.statics.uploadedImage = multer({ storage: storage }).single('image'); // handles multipart form
 productSchema.statics.productImagePath = PRODUCT_IMAGE_PATH;
 
