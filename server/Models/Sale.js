@@ -18,7 +18,8 @@ const SaleSchema = new mongoose.Schema({
         required: true
     },
     customer: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Consumer',
         required: true
     },
     product: {

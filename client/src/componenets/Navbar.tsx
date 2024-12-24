@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Logo from '../componenets/Logo';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
 import { useTranslation } from 'react-i18next';
+//@ts-ignore
 import { Link } from 'react-scroll';
 import { HiMenuAlt3 } from "react-icons/hi";
 import { CgClose } from "react-icons/cg";

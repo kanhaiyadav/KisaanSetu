@@ -11,20 +11,23 @@ import userSlice from "./user/user.slice";
 import formSlice from "./form/form.slice";
 import productSlice from "./product/product.slice";
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
     user: userSlice,
     form: formSlice,
     product: productSlice,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof appReducer>;
 
-// const rootReducer = (state, action) => {
-//     if (action.type === 'LOGOUT') {
-//         state = undefined;  // Reset the state to initial state
-//     }
-//     return appReducer(state, action);
-// };
+const rootReducer = (state: RootState, action: {
+    type: string;
+}) => {
+    if (action.type === 'LOGOUT') {
+        // Reset the state to initial values
+        return appReducer(undefined, action);
+    }
+    return appReducer(state, action);
+};
 
 
 const persistConfig = {

@@ -24,8 +24,8 @@ const Hero = () => {
                 variants={container(0)}
                 initial="hidden"
                 animate="visible"
-                className={` md:font-extrabold font-bold font-poppins text-center lg:text-left w-fit lg:w-full
-                             text-3xl sm:text-4xl md:text-5xl xl:text-6xl text-brown leading-[clamp(30px,7vw,64px)] justify-self-center self-center 
+                className={` md:font-extrabold font-bold font-Abril_Fatface tracking-wide text-center lg:text-left w-fit lg:w-full
+                             text-4xl sm:text-5xl md:text-6xl xl:text-7xl text-brown leading-[clamp(30px,7vw,64px)] justify-self-center self-center 
                              `}>
                 {t('hero.titleP1')}  <br />{" "}
                 <span className='text-gradient'>
@@ -39,7 +39,7 @@ const Hero = () => {
             <motion.p variants={container(0.5)}
                 initial="hidden"
                 animate="visible" className="relative font-poppins
-                     font-normal text-Tprimary lg:mb-4 self-center
+                     font-normal text-Tprimary lg:mb-10 self-center
                       md:text-lg lg:text-xl leading-[30.8px]
                        dark:text-gray-600 z-10 max-w-[300px]  sm:max-w-[470px] mt-5 sm:m-0 ml-[25px]"
                 style={{ gridArea: 'subtitle' }}

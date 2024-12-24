@@ -12,13 +12,18 @@ const LanguageSelector = ({ style }: {
     const [languageList, setLanguageList] = useState(languages);
     const [dropDownClicked, setDropDownClicked] = useState(false);
     const { i18n } = useTranslation();
-    const handleChange = (e) => {
+    interface Language {
+        name: string;
+        code: string;
+    }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.target.value.toLowerCase();
         setLanguage(input);
 
         const newList = languages
-            .filter((lang) => lang.name.toLowerCase().includes(input))
-            .sort((a, b) => {
+            .filter((lang: Language) => lang.name.toLowerCase().includes(input))
+            .sort((a: Language, b: Language) => {
                 const aStartsWith = a.name.toLowerCase().startsWith(input);
                 const bStartsWith = b.name.toLowerCase().startsWith(input);
                 if (aStartsWith && !bStartsWith) return -1;
@@ -30,7 +35,7 @@ const LanguageSelector = ({ style }: {
         setLanguageList(newList);
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (languageList.length === 0) {
             setLanguage("English");
