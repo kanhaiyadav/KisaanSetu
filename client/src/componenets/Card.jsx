@@ -21,11 +21,11 @@ const styles = cva(
 
 const Card = ({ intent, children, className, ...otherProps }) => {
     return (
-        <motion.div className={twMerge(styles({ intent: intent }), className)}
+        <motion.section className={twMerge(styles({ intent: intent }), className)}
             {...otherProps}
         >
             {children}
-        </motion.div>
+        </motion.section>
     )
 }
 

@@ -168,7 +168,7 @@ const ProductModalForm = ({ product, close, type }) => {
                             disabled={!imageChanged}
                             className={`peer PhoneInputInput ${errors.name ? "focus:border-red-500" : "focus:border-[#d39a57]"}`}
                             type="text"
-                            placeholder="onion"
+                            placeholder="fruit/vegetable name"
                             {...register("name", { required: "Name is required*" })}
                         />
                     </div>
@@ -182,7 +182,7 @@ const ProductModalForm = ({ product, close, type }) => {
                         <input
                             className={`peer PhoneInputInput ${errors.price ? "focus:border-red-500" : "focus:border-[#d39a57]"}`}
                             type="text"
-                            placeholder="500"
+                            placeholder="price"
                             {...register("price", { required: "Price is required*" })}
                         />
                     </div>

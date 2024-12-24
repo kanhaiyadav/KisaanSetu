@@ -12,7 +12,7 @@ import { IoCall } from "react-icons/io5";
 import { TbMessage } from "react-icons/tb";
 import { FaStar } from "react-icons/fa6";
 
-const ProductCard = ({ product, type }) => {
+const ProductCard = ({ product, type, ...otherProps }) => {
     const [clicked, setClicked] = useState(false);
     const { _id, name, price, image, stocks } = product;
     const token = useSelector(selectToken);
@@ -34,6 +34,7 @@ const ProductCard = ({ product, type }) => {
                 exit={{ opacity: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.3, type: 'spring', stiffness: 200 }}
+                {...otherProps}
             >
                 <img src={'http://localhost:3000' + image} alt={name} className={` ${type === 'farmer' ? 'w-[100px] xs:w-full aspect-square rounded-t-xl' : 'h-[150px] sm:h-[200px] aspect-square md:aspect-video lg:aspect-square xl:aspect-video rounded-xl'} object-cover `} />
                 <div className='flex-1'>
