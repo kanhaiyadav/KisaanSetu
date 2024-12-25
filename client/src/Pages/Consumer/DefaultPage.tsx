@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Card from "./cards";
 import { Farmers } from './data.js'
-import FarmerCard from "../../componenets/FarmerCard";
+import FarmerCard from "../../components/FarmerCard";
 import { FaChevronRight } from "react-icons/fa";
 import { FaChevronLeft } from "react-icons/fa";
 

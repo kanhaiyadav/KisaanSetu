@@ -10,14 +10,15 @@ import { useEffect } from "react";
 import { selectToken, selectIsFarmer } from './redux/user/selectors'
 import { toast } from "react-toastify";
 import { signOut } from './redux/user/user.slice'
-import Classifier from './componenets/Classifier'
+import Classifier from './components/Classifier'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { SkeletonTheme } from 'react-loading-skeleton'
 import ProductCardSkeleton from './Pages/Farmer/ProductCardSkeleton'
-import ErrorBoundary from './componenets/ErrorBoundary'
-import MainLoader from './componenets/MainLoader'
+import ErrorBoundary from './components/ErrorBoundary'
+import MainLoader from './components/MainLoader'
 import ChatbotScripts from './ChatBot'
-import Basics from './componenets/AgoraBasics/AgoraBasics'
+import Basics from './components/AgoraBasics/AgoraBasics'
+import { AppDispatch } from './redux/store'
 
 const Farmer = lazy(() => import('./Pages/Farmer'));
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
@@ -29,7 +30,7 @@ const DefaultPage = lazy(() => import('./Pages/Consumer/defaultPage'));
 const ProductListingPage = lazy(() => import('./Pages/Consumer/ProductListingPage'));
 
 function App() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const token = useSelector(selectToken);
     const isFarmer = useSelector(selectIsFarmer);
 
@@ -37,7 +38,7 @@ function App() {
         if (token) {
             const promise = dispatch(verify(token)).unwrap();
             toast.promise(promise, {
-                loading: 'Verifying...',
+                pending: 'Verifying...',
                 error: {
                     render({ data }) {
                         dispatch(signOut());

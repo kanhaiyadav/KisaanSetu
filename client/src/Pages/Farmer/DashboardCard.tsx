@@ -1,4 +1,4 @@
-import Card from "../../componenets/Card";
+import Card from "../../components/Card";
 
 const DashboardCard = ({ heading, subHeading, children, className }: {
     heading?: string;

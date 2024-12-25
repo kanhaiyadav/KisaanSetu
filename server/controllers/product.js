@@ -55,12 +55,14 @@ export const getProducts = async (req, res) => {
 export const addProduct = async (req, res) => {
     try {
         console.log(req.file);
-        const { name, price, stocks } = req.body;
+        const { name, price, stocks, priceUnit, stocksUnit } = req.body;
         // console.log(req.body);
         const product = await Product.create({
             name,
             price,
             stocks,
+            priceUnit,
+            stocksUnit,
             farmer: req.user._id,
         });
 
@@ -77,6 +79,15 @@ export const addProduct = async (req, res) => {
                 ContentType: req.file.mimetype,
             })
         );
+
+        const getObjectParams = {
+            Bucket: bucketName,
+            Key: `farmers/${req.user._id}/products/${product.name}.jpeg`,
+        };
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+        product.image = url;
+        product.save();
 
         res.status(200).json({
             data: {

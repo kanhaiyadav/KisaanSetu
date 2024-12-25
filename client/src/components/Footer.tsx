@@ -1,5 +1,5 @@
 import styles from "../style.js"
-import Logo from '../componenets/Logo';
+import Logo from '../components/Logo';
 import { footerLinks, socialMedia } from "../constant/index.js"
 
 const Footer = () => {

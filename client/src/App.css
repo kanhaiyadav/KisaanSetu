@@ -68,3 +68,14 @@ h1#gr_heading{
         background-position: 200%;
     }
 }
+
+
+#modal-root {
+    position: relative;
+    z-index: 1000;
+}
+
+#portal-root {
+    position: relative;
+    z-index: 1100;
+}

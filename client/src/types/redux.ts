@@ -1,8 +1,11 @@
+
 export interface Product {
     _id: string;
     name: string;
     price: number;
     stocks: number;
+    priceUnit: string;
+    stocksUnit: string;
     description?: string;
     image: string;
     farmer: User;

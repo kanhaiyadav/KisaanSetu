@@ -15,12 +15,12 @@ const Features = () => {
         <section id="features" className={`w-full grid sm:grid-cols-2 grid-cols-1 grid-rows-[auto,auto,auto] sm:grid-rows-[1fr,auto] px-[20px] sm:pl-[30px] md:px-[50px] lg:px-[100px]`}>
             <div className={`${layout.sectionInfo} h-fit`}>
                 <h2
-                    className={`font-bold font-poppins text-brown w-full md:font-extrabold lg:text-left 
+                    className={`font-bold font-Abril_Fatface tracking-wide text-brown w-full md:font-extrabold lg:text-left 
                              text-3xl sm:text-4xl md:text-5xl leading-[clamp(30px,7vw,64px)] justify-self-center self-center 
                              `}>
                     {t('farmerFeaturesPage.titleP1')}<br/>{t('farmerFeaturesPage.titleP2')}
                 </h2>
-                <p className={`mt-5 text-gray-700 font-poppins text-md lg:text-lg`}>
+                <p className={`mt-5 text-gray-700 font-poppins text-lg lg:text-xl`}>
                     {t('farmerFeaturesPage.subtitle')}
                 </p>
             </div>

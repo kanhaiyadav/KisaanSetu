@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 //@ts-ignore
 import { createSale } from "../../redux/product/product.slice";
-import CustomButton from "../../componenets/CustomButton";
+import CustomButton from "../../components/CustomButton";
 import { motion } from "framer-motion";
 import ProductSearch from "./SearchBar";
 import { selectUserInfo } from "../../redux/user/selectors";

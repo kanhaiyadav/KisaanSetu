@@ -28,6 +28,16 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: false
     },
+    priceUnit: {
+        type: String,
+        enum: ['kg', 'lb', 'g', 'dz', 'pc', 'tonne'],
+        required: true
+    },
+    stocksUnit: {
+        type: String,
+        enum: ['kg', 'lb', 'g', 'dz', 'pc', 'tonne'],
+        required: true
+    },
     farmer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Farmer'

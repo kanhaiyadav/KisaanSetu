@@ -17,16 +17,24 @@ const Cfeatures = () => {
     const { t } = useTranslation('landingPage');
     const features: Feature[] = t('customerFeaturesPage.features', { returnObjects: true }) as Feature[];
     return (
-        <section id="features" className={`w-full grid sm:grid-cols-2 grid-cols-1 grid-rows-[auto,auto,auto] sm:grid-rows-[1fr,auto] px-[20px] sm:pl-[30px] md:px-[50px] lg:px-[100px]`}>
+        <section
+            id="features"
+            className={`w-full grid sm:grid-cols-2 grid-cols-1 grid-rows-[auto,auto,auto] sm:grid-rows-[1fr,auto] px-[20px] sm:pl-[30px] md:px-[50px] lg:px-[100px]`}
+        >
             <div className={`${layout.sectionInfo} h-fit`}>
                 <h2
-                    className={`font-bold font-poppins text-brown w-full md:font-extrabold lg:text-left 
+                    className={`font-bold font-Abril_Fatface tracking-wide text-brown w-full md:font-extrabold lg:text-left 
                              text-3xl sm:text-4xl md:text-5xl leading-[clamp(30px,7vw,64px)] justify-self-center self-center 
-                             `}>
-                    {t('customerFeaturesPage.titleP1')}<br/>{t('customerFeaturesPage.titleP2')}
+                             `}
+                >
+                    {t("customerFeaturesPage.titleP1")}
+                    <br />
+                    {t("customerFeaturesPage.titleP2")}
                 </h2>
-                <p className={`mt-5 text-gray-700 font-poppins text-md lg:text-lg`}>
-                    {t('customerFeaturesPage.subtitle')}
+                <p
+                    className={`mt-5 text-gray-700 font-poppins text-md lg:text-lg`}
+                >
+                    {t("customerFeaturesPage.subtitle")}
                 </p>
             </div>
             <motion.div
@@ -61,8 +69,19 @@ const Cfeatures = () => {
                 <hr className="border-t-2 border-brown w-full mt-6" />
                 <div className="py-4 pr-2 md:pr-8 flex  justify-between xs:items-center w-full h-fit">
                     <div className="flex xs:flex-row flex-col gap-2 md:gap-4 text-xl text-gray-600 items-center">
-                        <Link to="/signup" ><button className={`px-4 sm:px-6 sm:py-4 py-[10px] text-nowrap bg-primary text-white text-xl  sm:text-2xl hover:bg-brown rounded-full`}>Get Started</button></Link>
-                        <Link to="/signin" className="flex items-center text-nowrap gap-2 text-lg md:text-xl">Learn more <TbExternalLink /></Link>
+                        <Link to="/signup">
+                            <button
+                                className={`px-4 sm:px-6 sm:py-4 py-[10px] text-nowrap bg-primary text-white text-xl  sm:text-2xl hover:bg-brown rounded-full`}
+                            >
+                                Get Started
+                            </button>
+                        </Link>
+                        <Link
+                            to="/signin"
+                            className="flex items-center text-nowrap gap-2 text-lg md:text-xl"
+                        >
+                            Learn more <TbExternalLink />
+                        </Link>
                     </div>
                     <div className="flex flex-row xs:mt-0 mt-2">
                         {socialMedia.map((social, index) => (
@@ -70,8 +89,11 @@ const Cfeatures = () => {
                                 key={social.id}
                                 src={`/${social.icon}`}
                                 alt={social.id}
-                                className={`w-[21px] h-[21px] object-contain cursor-pointer ${index !== socialMedia.length - 1 ? "mr-6" : "mr-0"
-                                    }`}
+                                className={`w-[21px] h-[21px] object-contain cursor-pointer ${
+                                    index !== socialMedia.length - 1
+                                        ? "mr-6"
+                                        : "mr-0"
+                                }`}
                                 onClick={() => window.open(social.link)}
                             />
                         ))}
@@ -79,7 +101,7 @@ const Cfeatures = () => {
                 </div>
             </div>
         </section>
-    )
+    );
 }
 
 export default Cfeatures;

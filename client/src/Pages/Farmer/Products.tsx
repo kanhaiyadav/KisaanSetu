@@ -1,18 +1,17 @@
 import { useState } from "react";
-import ProductModalForm from "../../componenets/ProductModalForm";
+import ProductModalForm from "../../components/ProductModalForm";
 import ProductCard from "./ProductCard";
 // import { products } from "./data"
-import Header from "../../componenets/DashboardHeader";
+import Header from "../../components/DashboardHeader";
 // import { IoMdAdd } from "react-icons/io";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectProducts } from "../../redux/product/product.selector";
-import OptionHeader from "../../componenets/OptionHeader";
+import OptionHeader from "../../components/OptionHeader";
 
 const Products = () => {
     const [sortItem, setSortItem] = useState("name");
     const [acending, setAcending] = useState(true);
-    const [clicked, setClicked] = useState(false);
     let products = useSelector(selectProducts);
     if (sortItem === "price")
         acending
@@ -31,12 +30,10 @@ const Products = () => {
             ? (products = products.slice().sort((a, b) => a.stocks - b.stocks))
             : (products = products.slice().sort((a, b) => b.stocks - a.stocks));
     return (
-        <>
             <div className={`flex-1 flex flex-col h-screen`}>
                 <Header title={"Products"} />
                 {/* <div className='w-full bg-orange-400 h-[60px]'></div> */}
                 <OptionHeader
-                    onNew={() => setClicked(true)}
                     acending={acending}
                     setAcending={setAcending}
                     currSortItem={sortItem}
@@ -93,29 +90,6 @@ const Products = () => {
                     <IoMdAdd />
                 </div> */}
             </div>
-            <AnimatePresence>
-                {clicked && (
-                    <ProductModalForm
-                        key="modal" // Optional: Add a unique key if needed
-                        product={{
-                            _id: "",
-                            name: "",
-                            price: 0,
-                            image: "",
-                            stocks: 0,
-                            farmer: {
-                                _id: "",
-                                name: "",
-                                avatar: "",
-                                email: "",
-                            },
-                        }}
-                        close={() => setClicked(false)}
-                        type={"create"}
-                    />
-                )}
-            </AnimatePresence>
-        </>
     );
 };
 

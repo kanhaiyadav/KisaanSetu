@@ -1,9 +1,9 @@
-import Navbar from "../componenets/Navbar"
-import Hero from "../componenets/Hero"
+import Navbar from "../components/Navbar"
+import Hero from "../components/Hero"
 import styles from "../style.js"
-import Features from "../componenets/FarmersPage.jsx";
-import Footer from "../componenets/Footer.jsx"
-import Cfeatures from "../componenets/CustomerPage.jsx";
+import Features from "../components/FarmersPage.jsx";
+import Footer from "../components/Footer.jsx"
+import Cfeatures from "../components/CustomerPage.jsx";
 
 const LandingPage = () => {
     return (

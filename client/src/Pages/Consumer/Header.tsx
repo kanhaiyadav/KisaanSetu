@@ -1,7 +1,7 @@
 import SearchBar from "./SearchBar";
-import Logo from "../../componenets/Logo";
+import Logo from "@/components/Logo";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import CustomButton from "../../componenets/CustomButton";
+import CustomButton from "@/components/CustomButton";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { selectUserInfo } from "../../redux/user/selectors";

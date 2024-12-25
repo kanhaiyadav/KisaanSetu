@@ -1,4 +1,18 @@
-import React, { useState } from "react";
+import * as React from "react";
+
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+
+import { Input } from "@/components/ui/input";
+
+import { useState } from "react";
 import CustomButton from "./CustomButton";
 import Modal from "./Modal";
 import "./styles.css";
@@ -13,6 +27,7 @@ import { FaDotCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Product } from "../types/redux";
 import { AppDispatch } from "../redux/store";
+import { units } from "@/constant";
 
 const ProductModalForm = ({
     product,
@@ -20,9 +35,11 @@ const ProductModalForm = ({
     type,
 }: {
     product: Product;
-    close: () => void;
+    close: (open: boolean) => void;
     type: "create" | "update";
-}) => {
+    }) => {
+    const [priceUnit, setPriceUnit] = useState("kg");
+    const [stocksUnit, setStocksUnit] = useState("kg");
     const [imageChanged, setImageChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
@@ -59,6 +76,8 @@ const ProductModalForm = ({
         formData.append("name", data.name);
         formData.append("price", data.price.toString());
         formData.append("stocks", data.stocks.toString());
+        formData.append("priceUnit", priceUnit);
+        formData.append("stocksUnit", stocksUnit);
 
         // Append the file if selected
         if (selectedImage) {
@@ -109,7 +128,7 @@ const ProductModalForm = ({
                 }
                 setIsLoading(false);
                 reset(); // Reset the form
-                close();
+                close(false); // Close the modal
             } else {
                 setIsLoading(false);
                 setIsMatched(false);
@@ -124,7 +143,9 @@ const ProductModalForm = ({
     };
 
     // Function to handle file input change and set preview
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleFileChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
         setImageChanged(true);
         const files = event.target.files;
         if (files && files[0]) {
@@ -140,7 +161,8 @@ const ProductModalForm = ({
     };
 
     return (
-        <Modal onClick={close}>
+        // <Modal onClick={close}>
+        <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex md:flex-row flex-col gap-4 text-center"
@@ -225,15 +247,13 @@ const ProductModalForm = ({
                                 {errors.name?.message}
                             </i>
                         </div>
-                        <input
+                        <Input
                             disabled={!imageChanged}
-                            className={`peer PhoneInputInput ${
-                                errors.name
-                                    ? "focus:border-red-500"
-                                    : "focus:border-[#d39a57]"
+                            className={`peer  ${
+                                errors.name ? "focus-visible:ring-red-400" : ""
                             }`}
                             type="text"
-                            placeholder="onion"
+                            placeholder="Product Name"
                             {...register("name", {
                                 required: "Name is required*",
                             })}
@@ -248,18 +268,38 @@ const ProductModalForm = ({
                                 {errors.price?.message}
                             </i>
                         </div>
-                        <input
-                            className={`peer PhoneInputInput ${
-                                errors.price
-                                    ? "focus:border-red-500"
-                                    : "focus:border-[#d39a57]"
-                            }`}
-                            type="text"
-                            placeholder="500"
-                            {...register("price", {
-                                required: "Price is required*",
-                            })}
-                        />
+                        <div className="flex gap-2 w-full">
+                            <Input
+                                className={`peer  max-w-[190px] ${
+                                    errors.price
+                                        ? "focus-visible:ring-red-400"
+                                        : ""
+                                }`}
+                                type="text"
+                                placeholder="price"
+                                {...register("price", {
+                                    required: "Price is required*",
+                                })}
+                            />
+                            <Select defaultValue="kg" onValueChange={setPriceUnit} value={priceUnit}>
+                                <SelectTrigger className="w-[100px]">
+                                    <SelectValue placeholder="Unit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Units</SelectLabel>
+                                        {units.map((unit) => (
+                                            <SelectItem
+                                                key={unit.id}
+                                                value={unit.value}
+                                            >
+                                                {unit.value}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
 
                     {/* Stocks input */}
@@ -270,18 +310,38 @@ const ProductModalForm = ({
                                 {errors.stocks?.message}
                             </i>
                         </div>
-                        <input
-                            className={`peer PhoneInputInput ${
-                                errors.stocks
-                                    ? "focus:border-red-500"
-                                    : "focus:border-[#d39a57]"
-                            }`}
-                            type="text"
-                            placeholder="Stock quantity"
-                            {...register("stocks", {
-                                required: "Stocks are required*",
-                            })}
-                        />
+                        <div className="flex gap-2 w-full">
+                            <Input
+                                className={`peer max-w-[190px]  ${
+                                    errors.stocks
+                                        ? "focus-visible:ring-red-400"
+                                        : ""
+                                }`}
+                                type="text"
+                                placeholder="Stock quantity"
+                                {...register("stocks", {
+                                    required: "Stocks are required*",
+                                })}
+                            />
+                            <Select defaultValue="kg" onValueChange={setStocksUnit} value={stocksUnit}>
+                                <SelectTrigger className="w-[100px]">
+                                    <SelectValue placeholder="Unit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Units</SelectLabel>
+                                        {units.map((unit) => (
+                                            <SelectItem
+                                                key={unit.id}
+                                                value={unit.value}
+                                            >
+                                                {unit.value}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                     {/* Submit button */}
                     <CustomButton
@@ -339,7 +399,8 @@ const ProductModalForm = ({
                     )}
                 </motion.div>
             )}
-        </Modal>
+        </>
+        // </Modal>
     );
 };
 

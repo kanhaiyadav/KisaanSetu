@@ -86,4 +86,42 @@ export const footerLinks = [
       icon: 'linkedin.svg',
       link: "https://www.linkedin.com/",
     },
-  ];
+];
+  
+export const units = [
+    {
+      id: "unit-1",
+      name: "Kilogram",
+      value: "kg",
+    },
+    {
+      id: "unit-2",
+      name: "Gram",
+      value: "g",
+    },
+    {
+      id: "unit-5",
+      name: "Piece",
+      value: "pc",
+    },
+    {
+      id: "unit-6",
+      name: "Dozen",
+      value: "dz",
+    },
+    {
+      id: "unit-8",
+      name: "Packet",
+      value: "pkt",
+    },
+    {
+      id: "unit-11",
+      name: "Carton",
+      value: "carton",
+    },
+    {
+        id: "unit-12",
+        name: "tonne",
+        value: "tonne",
+    }
+];

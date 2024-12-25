@@ -1,5 +1,5 @@
-import Header from "../../componenets/SignInUpHeader";
-import Container from "../../componenets/Container";
+import Header from "../../components/SignInUpHeader";
+import Container from "../../components/Container";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setSignup } from "../../redux/form/form.slice";

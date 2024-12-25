@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Logo from '../componenets/Logo';
+import Logo from '../components/Logo';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
 import { useTranslation } from 'react-i18next';
 //@ts-ignore

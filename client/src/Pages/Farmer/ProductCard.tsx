@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Card from '../../componenets/Card';
-import ProductModalForm from "../../componenets/ProductModalForm";
+import Card from '../../components/Card';
+import ProductModalForm from "../../components/ProductModalForm";
 // import { AnimatePresence } from 'framer-motion';
 import { GoTrash } from "react-icons/go";
 import { deleteProduct } from '../../redux/product/product.slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectToken } from '../../redux/user/selectors';
-import ProductDescription from '../../componenets/ProductDescription';
-import Modal from '../../componenets/Modal';
+import ProductDescription from '../../components/ProductDescription';
+import Modal from '../../components/Modal';
 import { IoCall } from "react-icons/io5";
 import { TbMessage } from "react-icons/tb";
 import { FaStar } from "react-icons/fa6";
@@ -21,7 +21,7 @@ const ProductCard = ({ product, type, ...otherProps }: {
     id?: string
 }) => {
     const [clicked, setClicked] = useState(false);
-    const { _id, name, price, image, stocks } = product;
+    const { _id, name, price, image, stocks, stocksUnit, priceUnit } = product;
     const token = useSelector(selectToken);
     const dispatch = useDispatch<AppDispatch>();
 
@@ -62,7 +62,7 @@ const ProductCard = ({ product, type, ...otherProps }: {
                     <div className="sm:pt-2 w-full flex justify-between items-center">
                         <div>
                             <h1 className={`text-md capitalize ${type === 'farmer' ? '' : 'hidden'} md:text-lg font-semibold text-gray-800 whitespace-nowrap`}>{name}</h1>
-                            <p className="text-gray-600 text-xl md:text-2xl">₹{price}<span className=' text-xs md:text-sm text-gray-500 ml-[1px]'>per kg</span></p>
+                            <p className="text-gray-600 text-xl md:text-2xl">₹{price}<span className=' text-xs md:text-sm text-gray-500 ml-[1px]'>per {priceUnit}</span></p>
                         </div>
                         {
                             type === 'farmer' &&
@@ -80,7 +80,7 @@ const ProductCard = ({ product, type, ...otherProps }: {
                         }
                         {/* <div className="absolute bg-primary top-0 right-6 p-2 min-h-[50px] rounded-b-2xl">{remainingStock}</div> */}
                     </div>
-                    <p className='text-gray-600 text-xs sm:text-sm md:text-md font-sans'>{stocks}kg Remaining</p>
+                    <p className='text-gray-600 text-xs sm:text-sm md:text-md font-sans'>{stocks}{stocksUnit} Remaining</p>
                     {
                         type !== 'farmer' && <p className='text-gray-600 text-xs sm:text-sm font-sans hover:underline hover:text-primary mt-1'>Rate the product</p>
                     }

@@ -1,9 +1,9 @@
-import Container from "../../componenets/Container";
-import Form from "../../componenets/Form";
+import Container from "@/components/Container";
+import Form from "@/components/Form";
 // import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import "../../componenets/styles.css";
-import SignUpButton from "../../componenets/SignUpButton";
+import "../../components/styles.css";
+import SignUpButton from "@/components/SignUpButton";
 import { useForm } from "react-hook-form";
 import { setSignup } from "../../redux/form/form.slice";
 import { useDispatch } from "react-redux";

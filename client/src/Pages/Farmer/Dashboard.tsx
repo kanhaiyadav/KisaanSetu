@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import DashboardCard from "./DashboardCard";
-import Header from "../../componenets/DashboardHeader";
+import Header from "../../components/DashboardHeader";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FiUserPlus } from "react-icons/fi";
 import { TbShoppingBagCheck } from "react-icons/tb";

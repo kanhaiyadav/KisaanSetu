@@ -5,10 +5,10 @@ import {
   selectSales,
 } from "../../redux/product/product.selector";
 import ProductForm from "./ProductForm";
-import Header from "../../componenets/DashboardHeader";
+import Header from "../../components/DashboardHeader";
 import TransactionCard from "./TransactionCard";
-import OptionHeader from "../../componenets/OptionHeader";
-import Modal from "../../componenets/Modal";
+import OptionHeader from "../../components/OptionHeader";
+import Modal from "../../components/Modal";
 
 const Sales = () => {
     const [clicked, setClicked] = useState(false);

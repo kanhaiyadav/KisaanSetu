@@ -1,9 +1,9 @@
 import React from "react";
-import Container from "../../componenets/Container";
-import Form from "../../componenets/Form";
-import SignUpButton from "../../componenets/SignUpButton";
-import "./../../componenets/styles.css";
-import Header from "../../componenets/SignInUpHeader";
+import Container from "../../components/Container";
+import Form from "../../components/Form";
+import SignUpButton from "../../components/SignUpButton";
+import "./../../components/styles.css";
+import Header from "../../components/SignInUpHeader";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

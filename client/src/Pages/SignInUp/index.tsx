@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
-import Logo from "../../componenets/Logo";
+import Logo from "../../components/Logo";
 import SignIn from "./SignIn";
-import LanguageSelector from "../../componenets/LanguageSelector/LanguageSelector";
+import LanguageSelector from "../../components/LanguageSelector/LanguageSelector";
 import { useTranslation } from "react-i18next";
 
 const SignInUp = ({ type }: {
