@@ -76,6 +76,8 @@ const OptionHeader = ({
                             name: "",
                             price: 0,
                             image: "",
+                            priceUnit: "kg",
+                            stocksUnit: "kg",
                             stocks: 0,
                             farmer: {
                                 _id: "",

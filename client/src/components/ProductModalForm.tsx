@@ -263,7 +263,7 @@ const ProductModalForm = ({
                     {/* Price input */}
                     <div className="w-full flex flex-col items-start gap-1">
                         <div className="w-full flex justify-between">
-                            <label htmlFor="price">Price</label>
+                            <label htmlFor="price">Price(₹)</label>
                             <i className="text-sm text-red-500">
                                 {errors.price?.message}
                             </i>
@@ -281,7 +281,11 @@ const ProductModalForm = ({
                                     required: "Price is required*",
                                 })}
                             />
-                            <Select defaultValue="kg" onValueChange={setPriceUnit} value={priceUnit}>
+                            <Select
+                                defaultValue="kg"
+                                onValueChange={setPriceUnit}
+                                value={priceUnit}
+                            >
                                 <SelectTrigger className="w-[100px]">
                                     <SelectValue placeholder="Unit" />
                                 </SelectTrigger>
@@ -293,7 +297,7 @@ const ProductModalForm = ({
                                                 key={unit.id}
                                                 value={unit.value}
                                             >
-                                                {unit.value}
+                                                /{unit.value}
                                             </SelectItem>
                                         ))}
                                     </SelectGroup>
@@ -323,7 +327,11 @@ const ProductModalForm = ({
                                     required: "Stocks are required*",
                                 })}
                             />
-                            <Select defaultValue="kg" onValueChange={setStocksUnit} value={stocksUnit}>
+                            <Select
+                                defaultValue="kg"
+                                onValueChange={setStocksUnit}
+                                value={stocksUnit}
+                            >
                                 <SelectTrigger className="w-[100px]">
                                     <SelectValue placeholder="Unit" />
                                 </SelectTrigger>
