@@ -61,7 +61,7 @@ const OptionHeader = ({
                         <span className="text-md md:text-xl">New</span>
                     </div>
                 </DialogTrigger>
-                <DialogContent className="max-w-[350px] md:max-w-xl">
+                <DialogContent className="max-w-[350px] md:max-w-2xl">
                     <DialogHeader>
                         <DialogTitle>Add a new product</DialogTitle>
                         <DialogDescription>

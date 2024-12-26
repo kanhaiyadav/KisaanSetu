@@ -28,6 +28,8 @@ import { motion } from "framer-motion";
 import { Product } from "../types/redux";
 import { AppDispatch } from "../redux/store";
 import { units } from "@/constant";
+import { Button } from "./ui/button";
+import { Label } from "@/components/ui/label";
 
 const ProductModalForm = ({
     product,
@@ -48,7 +50,7 @@ const ProductModalForm = ({
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const { _id, name, price, image, stocks } = product;
     const [previewUrl, setPreviewUrl] = useState(
-        image ? `http://localhost:3000${image}` : null
+        image ? `${image}` : null
     ); // Set initial preview if `image` is provided
     const { register, handleSubmit, formState, reset, setValue, watch } =
         useForm({
@@ -165,7 +167,7 @@ const ProductModalForm = ({
         <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="flex md:flex-row flex-col gap-4 text-center"
+                className="flex md:flex-row flex-col gap-4 text-center justify-between"
             >
                 <div className="flex flex-col md:gap-6 items-center">
                     <label
@@ -238,11 +240,11 @@ const ProductModalForm = ({
                         }}
                     />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-4">
                     {/* Name input */}
                     <div className="w-full flex flex-col items-start gap-1">
                         <div className="flex justify-between items-center w-full">
-                            <label htmlFor="name">Name</label>
+                            <Label htmlFor="name">Name</Label>
                             <i className="text-sm text-red-500">
                                 {errors.name?.message}
                             </i>
@@ -263,7 +265,7 @@ const ProductModalForm = ({
                     {/* Price input */}
                     <div className="w-full flex flex-col items-start gap-1">
                         <div className="w-full flex justify-between">
-                            <label htmlFor="price">Price(₹)</label>
+                            <Label htmlFor="price">Price(₹)</Label>
                             <i className="text-sm text-red-500">
                                 {errors.price?.message}
                             </i>
@@ -275,7 +277,7 @@ const ProductModalForm = ({
                                         ? "focus-visible:ring-red-400"
                                         : ""
                                 }`}
-                                type="text"
+                                type="number"
                                 placeholder="price"
                                 {...register("price", {
                                     required: "Price is required*",
@@ -309,7 +311,7 @@ const ProductModalForm = ({
                     {/* Stocks input */}
                     <div className="w-full flex flex-col items-start gap-1">
                         <div className="w-full flex justify-between">
-                            <label htmlFor="stocks">Stocks</label>
+                            <Label htmlFor="stocks">Stocks</Label>
                             <i className="text-sm text-red-500">
                                 {errors.stocks?.message}
                             </i>
@@ -321,7 +323,7 @@ const ProductModalForm = ({
                                         ? "focus-visible:ring-red-400"
                                         : ""
                                 }`}
-                                type="text"
+                                type="number"
                                 placeholder="Stock quantity"
                                 {...register("stocks", {
                                     required: "Stocks are required*",
@@ -352,10 +354,7 @@ const ProductModalForm = ({
                         </div>
                     </div>
                     {/* Submit button */}
-                    <CustomButton
-                        type="submit"
-                        style={{ width: "100%", marginTop: "10px" }}
-                    >
+                    <Button disabled={isLoading} type="submit" variant="default">
                         {isLoading ? (
                             <>
                                 <img
@@ -368,7 +367,7 @@ const ProductModalForm = ({
                         ) : (
                             <span>Done</span>
                         )}
-                    </CustomButton>
+                    </Button>
                 </div>
             </form>
             {!isMatched && (

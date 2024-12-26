@@ -62,7 +62,7 @@ function App() {
                         <Route path="/signin" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signin' />} />
                         <Route path='/farmer' element={token ? <Farmer /> : <Navigate to={'/signin'} />}>
                             <Route index element={<Dashboard />} />
-                            <Route path='products' element={<Suspense fallback={<ProductCardSkeleton cards={8} type={'farmer'} />}><Products /></Suspense>} />
+                            <Route path='products' element={<Suspense fallback={<ProductCardSkeleton cards={10} type={'farmer'} />}><Products /></Suspense>} />
                             <Route path='sales' element={<Sales />} />
                         </Route>
                         <Route path='/consumer' element={<Consumer />} >

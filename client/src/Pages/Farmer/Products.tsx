@@ -30,8 +30,7 @@ const Products = () => {
             ? (products = products.slice().sort((a, b) => a.stocks - b.stocks))
             : (products = products.slice().sort((a, b) => b.stocks - a.stocks));
     return (
-            <div className={`flex-1 flex flex-col h-screen`}>
-                <Header title={"Products"} />
+            <>
                 {/* <div className='w-full bg-orange-400 h-[60px]'></div> */}
                 <OptionHeader
                     acending={acending}
@@ -89,7 +88,7 @@ const Products = () => {
                 >
                     <IoMdAdd />
                 </div> */}
-            </div>
+            </>
     );
 };
 

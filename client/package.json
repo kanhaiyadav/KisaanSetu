@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.4",
+    "@radix-ui/react-dropdown-menu": "^2.1.4",
+    "@radix-ui/react-label": "^2.1.1",
     "@radix-ui/react-select": "^2.1.4",
+    "@radix-ui/react-slot": "^1.1.1",
     "@reduxjs/toolkit": "^2.2.7",
     "agora-rtc-react": "^2.3.0",
     "agora-rtc-sdk-ng": "^4.22.2",
