@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { MdOutlineSearch } from "react-icons/md";
 import { HiChevronUpDown } from "react-icons/hi2";
 import ProductModalForm from "./ProductModalForm";
+
 import {
     Dialog,
     DialogContent,
@@ -53,12 +54,12 @@ const OptionHeader = ({
         };
     }, []);
     return (
-        <div className="flex mx-4 gap-4 md:gap-8 items-center pb-4 pt-2">
+        <div className="flex gap-4 md:gap-8 items-center pb-4 bg-gray-200 w-full px-4">
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger onClick={() => setOpen(true)}>
-                    <div className="flex hover:bg-primary hover:text-white text-gray-600 gap-1 items-center justify-center px-2 py-0 border-2 hover:border-primary border-gray-600 rounded-lg">
-                        <span className="text-xl md:text-3xl ">+</span>
-                        <span className="text-md md:text-xl">New</span>
+                    <div className=" flex hover:bg-primary hover:text-white text-gray-600 gap-1 items-center justify-center px-4 py-1 border shadow-sm bg-gray-100 border-border hover:border-primary rounded-lg">
+                        <span className="text-xl md:text-2xl ">+</span>
+                        <span className="text-md md:text-lg">New</span>
                     </div>
                 </DialogTrigger>
                 <DialogContent className="max-w-[350px] md:max-w-2xl">
@@ -98,7 +99,7 @@ const OptionHeader = ({
                     setSortMenu((prev) => !prev);
                 }}
             >
-                <span>Sort</span>
+                <span className="text-md md:text-lg">Sort</span>
                 <span>
                     <HiChevronUpDown className="text-md" />
                 </span>
@@ -162,7 +163,7 @@ const OptionHeader = ({
                 )}
             </div>
             <div className="text-md md:text-xl text-gray-600 flex md:gap-1 items-center justify-center">
-                <span>View</span>
+                <span className="text-md md:text-lg">View</span>
                 <span>
                     <HiChevronUpDown className="text-md" />
                 </span>
@@ -199,14 +200,14 @@ const OptionHeader = ({
                         console.log("Element not found");
                     }
                 }}
-                className="ml-auto   px-1 flex items-center justify-center outline outline-gray-600 focus-within:outline-gray-700 outline-2 rounded-lg"
+                className="ml-auto px-1 flex items-center justify-center outline outline-gray-500 focus-within:outline-gray-600 outline-1 rounded-lg"
             >
                 <input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     type="text"
                     placeholder="Search"
-                    className="flex-1 text-md md:text-xl w-[100px] md:w-[200px] bg-transparent text-gray-600 px-2 py-1 border-none outline-none"
+                    className="flex-1 text-md w-[100px] md:w-[200px] bg-transparent text-gray-600 px-2 py-1 border-none outline-none placeholder:text-gray-500"
                 />
                 <MdOutlineSearch className="text-xl md:text-2xl text-gray-600" />
             </form>

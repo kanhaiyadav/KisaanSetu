@@ -77,12 +77,16 @@ export const deleteProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
     "product/updateProduct",
     async (data: {
-        formData: FormData;
+        formData: FormData,
+        token: string,
     }, { rejectWithValue }) => {
         try {
             const response = await fetch(`http://localhost:3000/api/products`, {
                 method: "PUT",
                 body: data.formData,
+                headers: {
+                    "Authorization": data.token,
+                },
             });
             const result = await response.json();
             if (response.ok) {

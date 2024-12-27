@@ -42,7 +42,7 @@ const Products = () => {
                 />
                 <main
                     id="productList"
-                    className={`flex-1 ${
+                    className={`flex-1 shadow-[inset_0_0_2px_2px_rgba(0,0,0,0.2)] bg-gray-200 ${
                         products.length > 0
                             ? "grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
                             : "flex items-center justify-center"

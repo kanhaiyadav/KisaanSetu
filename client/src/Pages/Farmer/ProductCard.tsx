@@ -145,12 +145,13 @@ const ProductCard = ({
                                             Edit
                                         </DropdownMenuItem>
                                     </DialogTrigger>
-                                    <DropdownMenuItem disabled={stocks <= 0}
+                                    <DropdownMenuItem
+                                        disabled={stocks <= 0}
                                         onClick={(e) => {
                                             alert("Out of Stock");
                                         }}
                                     >
-                                        <TbBoxOff/>
+                                        <TbBoxOff />
                                         Out of Stock
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
@@ -164,6 +165,7 @@ const ProductCard = ({
                                                 })
                                             );
                                         }}
+                                        className="focus:bg-red-100 text-red-600 focus:text-red-600"
                                     >
                                         <GoTrash />
                                         Delete
@@ -202,26 +204,6 @@ const ProductCard = ({
                     4.5{<FaStar className="text-[#FFD700]" />}
                 </div>
             </Card>
-
-            {/* {
-                clicked && (
-                    type === 'farmer' ? (
-                        <ProductModalForm
-                            key="modal"
-                            product={product}
-                            close={() => setClicked(false)}
-                            type={'update'}
-                        />
-                    ) : type === 'consumer' ? (
-                        <Modal
-                            // product={product}
-                            onClick={() => setClicked(false)}
-                        >
-                            <ProductDescription product={product} />
-                        </Modal>
-                    ) : null
-                )
-            } */}
         </>
     );
 };

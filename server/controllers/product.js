@@ -9,7 +9,6 @@ import {
 import dotenv from "dotenv";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-
 dotenv.config();
 
 const bucketName = process.env.BUCKET_NAME;
@@ -37,7 +36,9 @@ export const getProducts = async (req, res) => {
                 Key: `farmers/${req.params.farmerId}/products/${products[i].name}.jpeg`,
             };
             const command = new GetObjectCommand(getObjectParams);
-            const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+            const url = await getSignedUrl(s3Client, command, {
+                expiresIn: 3600,
+            });
             products[i].image = url;
         }
 
@@ -121,21 +122,50 @@ export const deleteProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
     try {
-        const { _id, name, price, stocks } = req.body;
+        const { _id, name, price, stocks, stocksUnit, priceUnit } = req.body;
         if (req.file) {
             console.log("i am with file");
+            
+            await s3Client.send(
+                new PutObjectCommand({
+                    Bucket: bucketName,
+                    Key: `farmers/${req.user._id}/products/${req.body.name}.jpeg`,
+                    Body: req.file.buffer,
+                    ContentType: req.file.mimetype,
+                })
+            );
+            const getObjectParams = {
+                Bucket: bucketName,
+                Key: `farmers/${req.user._id}/products/${name}.jpeg`,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            const url = await getSignedUrl(s3Client, command, {
+                expiresIn: 3600,
+            });
             await Product.findByIdAndUpdate(_id, {
                 name,
                 price,
                 stocks,
-                image: Product.productImagePath + "\\" + req.file.filename,
+                stocksUnit,
+                priceUnit,
+                image: url,
             });
         } else {
             console.log("i am without file");
-            await Product.findByIdAndUpdate(_id, { name, price, stocks });
+            const p = await Product.findById(_id);
+            console.log(p.image);
+            const getObjectParams = {
+                Bucket: bucketName,
+                Key: `farmers/${req.user._id}/products/${name}.jpeg`,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            const url = await getSignedUrl(s3Client, command, {
+                expiresIn: 3600,
+            });
+            await Product.findByIdAndUpdate(_id, { name, price, stocks, stocksUnit, priceUnit, image: url });
         }
         const product = await Product.findById(_id);
-        console.log(product, _id);
+        console.log(product.image);
         res.status(200).json({
             data: {
                 product,
@@ -143,6 +173,7 @@ export const updateProduct = async (req, res) => {
             message: "Product updated successfully",
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: error.message });
     }
 };

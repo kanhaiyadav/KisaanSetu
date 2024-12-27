@@ -30,6 +30,7 @@ import { AppDispatch } from "../redux/store";
 import { units } from "@/constant";
 import { Button } from "./ui/button";
 import { Label } from "@/components/ui/label";
+import { toast } from "react-toastify";
 
 const ProductModalForm = ({
     product,
@@ -40,8 +41,8 @@ const ProductModalForm = ({
     close: (open: boolean) => void;
     type: "create" | "update";
     }) => {
-    const [priceUnit, setPriceUnit] = useState("kg");
-    const [stocksUnit, setStocksUnit] = useState("kg");
+    const [priceUnit, setPriceUnit] = useState(product.priceUnit || "kg");
+    const [stocksUnit, setStocksUnit] = useState(product.stocksUnit || "kg");
     const [imageChanged, setImageChanged] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
@@ -121,12 +122,17 @@ const ProductModalForm = ({
                 } else {
                     formData.append("_id", _id);
                     // Update the product
-                    dispatch(
+                    const promise = dispatch(
                         updateProduct({
                             formData,
-                            // token,
+                            token,
                         })
-                    );
+                    ).unwrap();
+                    toast.promise(promise, {
+                        pending: "Updating product...",
+                        success: "Product updated successfully",
+                        error: "Failed to update product",
+                    });
                 }
                 setIsLoading(false);
                 reset(); // Reset the form
