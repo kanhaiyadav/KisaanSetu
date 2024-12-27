@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Product, Sale } from "../../types/redux";
+import { stat } from "fs";
 
 export const fetchProducts = createAsyncThunk(
     "product/fetchProducts",
@@ -164,6 +165,27 @@ export const searchProduct = createAsyncThunk(
     }
 )
 
+export const outOfStock = createAsyncThunk(
+    "product/outOfStock",
+    async (productId: string, { rejectWithValue }) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/products/outOfStock/${productId}`, {
+            method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            const result = await response.json();
+            if (response.ok) {
+                return result;
+            }
+            return rejectWithValue(result);
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
 const initialState: {
     products: Product[],
     searchedProducts: Product[],
@@ -187,6 +209,16 @@ const productSlice = createSlice({
         },
         addSale: (state, action:PayloadAction<Sale>) => {
             state.sales.push(action.payload);
+        },
+        localOutofStock: (state, action: PayloadAction<string>) => { 
+            const newProducts = state.products.map((product) => {
+                if (product._id === action.payload) {
+                    product.stocks = 0;
+                }
+                return product;
+            });
+            console.log(newProducts);
+            state.products = newProducts;
         }
     },
     extraReducers: (builder) => {
@@ -279,5 +311,5 @@ const productSlice = createSlice({
     },
 });
 
-export const { clearError, addSale } = productSlice.actions;
+export const { clearError, addSale, localOutofStock } = productSlice.actions;
 export default productSlice.reducer;

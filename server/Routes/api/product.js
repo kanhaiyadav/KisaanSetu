@@ -11,6 +11,7 @@ import {
     createSale,
     search,
     getSales,
+    outOfStock
 } from "../../controllers/product.js";
 
 router.get("/:farmerId", getProducts);
@@ -31,6 +32,9 @@ router.put(
     Product.uploadedImage,
     updateProduct
 );
+
+router.patch("/outOfStock/:id", outOfStock);
+
 router.post("/createSale", createSale);
 router.get("/getSales/:farmerId", getSales);
 router.get("/search/:name", search);

@@ -12,7 +12,7 @@ const Header = ({ title }: { title: string; className?: string }) => {
     const [profile, setProfile] = useState(false);
     const userInfo = useSelector(selectUserInfo);
     return (
-        <header className="w-full flex items-center p-4 gap-4 bg-gray-50 mb-4 shadow-sm">
+        <header className="w-full flex items-center p-4 gap-4 bg-gray-50 mb-4 shadow-md">
             <h1 className="text-xl md:text-3xl font-semibold text-gray-600 flex-1 capitalize">
                 {title}
             </h1>

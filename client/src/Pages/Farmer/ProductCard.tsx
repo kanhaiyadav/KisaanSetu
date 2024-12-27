@@ -3,7 +3,7 @@ import Card from "../../components/Card";
 import ProductModalForm from "../../components/ProductModalForm";
 import { GoTrash } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
-import { deleteProduct } from "../../redux/product/product.slice";
+import { deleteProduct, outOfStock } from "../../redux/product/product.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToken } from "../../redux/user/selectors";
 // import ProductDescription from "../../components/ProductDescription";
@@ -15,6 +15,7 @@ import { AppDispatch } from "../../redux/store";
 
 import { HiOutlineArchiveBoxXMark } from "react-icons/hi2";
 import { TbBoxOff } from "react-icons/tb";
+import { localOutofStock } from "../../redux/product/product.slice";
 
 import {
     DropdownMenu,
@@ -148,7 +149,8 @@ const ProductCard = ({
                                     <DropdownMenuItem
                                         disabled={stocks <= 0}
                                         onClick={(e) => {
-                                            alert("Out of Stock");
+                                            dispatch(localOutofStock(_id));
+                                            dispatch(outOfStock(_id));
                                         }}
                                     >
                                         <TbBoxOff />
@@ -175,10 +177,9 @@ const ProductCard = ({
 
                             <DialogContent className="max-w-[350px] md:max-w-xl">
                                 <DialogHeader>
-                                    <DialogTitle>Add a new product</DialogTitle>
+                                    <DialogTitle>Product updation form</DialogTitle>
                                     <DialogDescription>
-                                        Fill in the following details to add a
-                                        new product to your inventory
+                                        You can change any of the following information.
                                     </DialogDescription>
                                 </DialogHeader>
                                 <ProductModalForm

@@ -5,6 +5,7 @@ import {
     S3Client,
     PutObjectCommand,
     GetObjectCommand,
+    DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -104,11 +105,18 @@ export const addProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     try {
+        const product = await Product.findById(req.params.id);
         await Product.findByIdAndDelete(req.params.id);
         await Farmer.updateOne(
             { _id: req.user._id },
             { $pull: { products: req.params.id } }
         );
+        await s3Client.send(
+            new DeleteObjectCommand({
+                Bucket: bucketName,
+                Key: `farmers/${req.user._id}/products/${product.name}.jpeg`,
+            })
+        )
         res.status(200).json({
             data: {
                 _id: req.params.id,
@@ -125,7 +133,7 @@ export const updateProduct = async (req, res) => {
         const { _id, name, price, stocks, stocksUnit, priceUnit } = req.body;
         if (req.file) {
             console.log("i am with file");
-            
+
             await s3Client.send(
                 new PutObjectCommand({
                     Bucket: bucketName,
@@ -134,38 +142,24 @@ export const updateProduct = async (req, res) => {
                     ContentType: req.file.mimetype,
                 })
             );
-            const getObjectParams = {
-                Bucket: bucketName,
-                Key: `farmers/${req.user._id}/products/${name}.jpeg`,
-            };
-            const command = new GetObjectCommand(getObjectParams);
-            const url = await getSignedUrl(s3Client, command, {
-                expiresIn: 3600,
-            });
-            await Product.findByIdAndUpdate(_id, {
-                name,
-                price,
-                stocks,
-                stocksUnit,
-                priceUnit,
-                image: url,
-            });
-        } else {
-            console.log("i am without file");
-            const p = await Product.findById(_id);
-            console.log(p.image);
-            const getObjectParams = {
-                Bucket: bucketName,
-                Key: `farmers/${req.user._id}/products/${name}.jpeg`,
-            };
-            const command = new GetObjectCommand(getObjectParams);
-            const url = await getSignedUrl(s3Client, command, {
-                expiresIn: 3600,
-            });
-            await Product.findByIdAndUpdate(_id, { name, price, stocks, stocksUnit, priceUnit, image: url });
         }
+        const getObjectParams = {
+            Bucket: bucketName,
+            Key: `farmers/${req.user._id}/products/${name}.jpeg`,
+        };
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(s3Client, command, {
+            expiresIn: 3600,
+        });
+        await Product.findByIdAndUpdate(_id, {
+            name,
+            price,
+            stocks,
+            stocksUnit,
+            priceUnit,
+            image: url,
+        });
         const product = await Product.findById(_id);
-        console.log(product.image);
         res.status(200).json({
             data: {
                 product,
@@ -177,6 +171,17 @@ export const updateProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const outOfStock = async (req, res) => {
+    try {
+        console.log(req.params.id);
+        await Product.findByIdAndUpdate(req.params.id, { stocks: 0 });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: error.message });
+    }
+}
 
 export const createSale = async (req, res) => {
     try {
