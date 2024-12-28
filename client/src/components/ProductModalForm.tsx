@@ -40,7 +40,7 @@ const ProductModalForm = ({
     product: Product;
     close: (open: boolean) => void;
     type: "create" | "update";
-    }) => {
+}) => {
     const [priceUnit, setPriceUnit] = useState(product.priceUnit || "kg");
     const [stocksUnit, setStocksUnit] = useState(product.stocksUnit || "kg");
     const [imageChanged, setImageChanged] = useState(false);
@@ -50,9 +50,7 @@ const ProductModalForm = ({
     const token: string = useSelector(selectToken);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const { _id, name, price, image, stocks } = product;
-    const [previewUrl, setPreviewUrl] = useState(
-        image ? `${image}` : null
-    ); // Set initial preview if `image` is provided
+    const [previewUrl, setPreviewUrl] = useState(image ? `${image}` : null); // Set initial preview if `image` is provided
     const { register, handleSubmit, formState, reset, setValue, watch } =
         useForm({
             defaultValues: {
@@ -360,7 +358,11 @@ const ProductModalForm = ({
                         </div>
                     </div>
                     {/* Submit button */}
-                    <Button disabled={isLoading} type="submit" variant="default">
+                    <Button
+                        disabled={isLoading}
+                        type="submit"
+                        variant="default"
+                    >
                         {isLoading ? (
                             <>
                                 <img

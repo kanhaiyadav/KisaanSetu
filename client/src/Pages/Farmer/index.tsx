@@ -22,7 +22,7 @@ const Farmer = () => {
     return (
         <div className="h-screen bg-gray-200 pb-[60px] xs:pb-0 ml-0 xs:ml-[50px]">
             <Nav />
-            <div className="flex-1 h-full flex flex-col overflow-y-auto overflow-x-hidden">
+            <div className="flex-1 h-full flex flex-col">
                 <Header title={path?path:'Dashboard'} />
                 <Outlet />
             </div>

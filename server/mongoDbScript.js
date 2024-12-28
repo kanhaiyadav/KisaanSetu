@@ -12,18 +12,25 @@ async function start() {
         console.log("Database connection successful...");
 
         // Perform user updates inside the same function
-        // await updateUserStatuses();
+        await Operation();
     } catch (err) {
-        // console.error('Problem connecting to the database', err);  // Connection error handling
+        console.error('Problem connecting to the database', err);  // Connection error handling
     } finally {
         mongoose.connection.close(); // Close the connection after the operation
     }
 }
 
 // Function to update user statuses
-async function updateUserStatuses() {
+async function Operation() {
     try {
-        
+        const farmers = await Farmer.find();
+        for(let farmer of farmers) {
+            if (farmer.sales)
+            {
+                farmer.sales = [];
+                await farmer.save();
+            }
+        }
     } catch (error) {
         console.error('Error updating users:', error);
     }

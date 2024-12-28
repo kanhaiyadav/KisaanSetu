@@ -3,29 +3,43 @@ import mongoose from 'mongoose';
 const SaleSchema = new mongoose.Schema({
     price: {
         type: Number,
-        required: true
+        required: true,
     },
     quantity: {
         type: Number,
-        required: true
+        required: true,
     },
     total: {
         type: Number,
-        required: true
+        required: true,
     },
     date: {
         type: Date,
-        required: true
+        required: true,
+    },
+    productName: {
+        type: String,
+        required: true,
+    },
+    priceUnit: {
+        type: String,
+        enum: ["kg", "g", "pc", "dz", "tonne", "pkt", "carton"],
+        required: true,
+    },
+    stocksUnit: {
+        type: String,
+        enum: ["kg", "g", "pc", "dz", "tonne", "pkt", "carton"],
+        required: true,
     },
     customer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Consumer',
-        required: true
+        type: String,
+        ref: "Consumer",
+        required: true,
     },
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
+        ref: "Product",
+        required: true,
     },
 });
 

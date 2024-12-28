@@ -185,25 +185,30 @@ export const outOfStock = async (req, res) => {
 
 export const createSale = async (req, res) => {
     try {
-        const { price, quantity, total, product, date, customer, userId } =
+        const { price, quantity, total, product, productName,priceUnit, stocksUnit, date, customer, userId } =
             req.body;
         const sale = await Sale.create({
             price,
             quantity,
             total,
             product,
+            priceUnit,
+            stocksUnit,
+            productName,
             date,
             customer,
         });
         console.log(sale);
-        const productToUpdate = await Product.findById(product);
-        productToUpdate.stocks -= quantity;
-        productToUpdate.price = price;
-        await productToUpdate.save();
+        await Product.updateOne({ _id: product }, { $inc: { stocks: -quantity } });
+        // const productToUpdate = await Product.findById(product);
+        // productToUpdate.stocks -= quantity;
+        // await productToUpdate.save();
         await Farmer.updateOne({ _id: userId }, { $push: { sales: sale._id } });
         return res.status(201).json({
+            message: "Sale created successfully",
             data: {
-                product: productToUpdate,
+                sale: sale,
+                // product: productToUpdate,
             },
         });
     } catch (error) {

@@ -24,7 +24,10 @@ export interface User {
 
 export interface Sale {
     _id: string;
-    product: Product;
+    product: string;
+    productName: string;
+    priceUnit: string;
+    stocksUnit: string;
     price: number;
     quantity: number;
     total: number;

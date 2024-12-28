@@ -19,6 +19,7 @@ import MainLoader from './components/MainLoader'
 import ChatbotScripts from './ChatBot'
 import Basics from './components/AgoraBasics/AgoraBasics'
 import { AppDispatch } from './redux/store'
+import ErrorPage from './components/ErrorPage'
 
 const Farmer = lazy(() => import('./Pages/Farmer'));
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
@@ -50,7 +51,7 @@ function App() {
     }, [dispatch, token]);
     return (
         <SkeletonTheme baseColor='#edf2f7' highlightColor="#f7fafc">
-            <ErrorBoundary fallback='There seems to be an error'>
+            <ErrorBoundary fallback={<ErrorPage/>}>
                 <Suspense fallback={<MainLoader />}>
                     <Routes>
                         <Route path="/test" element={<Basics />} />

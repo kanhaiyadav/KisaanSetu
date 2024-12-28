@@ -277,9 +277,13 @@ const productSlice = createSlice({
         });
         builder.addCase(createSale.fulfilled, (state, action) => {
             state.status = "succeeded";
-            state.products = state.products.map((product) =>
-                product._id === action.payload.data.product._id ? action.payload.data.product : product
-            );
+            state.sales.push(action.payload.data.sale);
+            state.products = state.products.map((product) => {
+                if (product._id === action.payload.data.sale.product) {
+                    product.stocks -= action.payload.data.sale.quantity;
+                }
+                return product;
+            });
         });
         builder.addCase(createSale.rejected, (state, action) => {
             state.status = "failed";

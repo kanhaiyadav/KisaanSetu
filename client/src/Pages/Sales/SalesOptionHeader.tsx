@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { MdOutlineSearch } from "react-icons/md";
 import { HiChevronUpDown } from "react-icons/hi2";
-import ProductModalForm from "./ProductModalForm";
+import ProductModalForm from "@/components/ProductModalForm";
+import ProductForm from "./ProductForm";
 
 import {
     Dialog,
@@ -58,32 +59,14 @@ const OptionHeader = ({
                         <span className="text-md md:text-lg">New</span>
                     </div>
                 </DialogTrigger>
-                <DialogContent className="max-w-[350px] md:max-w-2xl">
+                <DialogContent className="max-w-[350px] md:max-w-[100vw] w-fit h-fit]">
                     <DialogHeader>
-                        <DialogTitle>Add a new product</DialogTitle>
+                        <DialogTitle>Create new transaction</DialogTitle>
                         <DialogDescription>
-                            Fill in the following details to add a new product
-                            to your inventory
+                            fill in the following fields to create a new transaction
                         </DialogDescription>
                     </DialogHeader>
-                    <ProductModalForm
-                        key="modal" // Optional: Add a unique key if needed
-                        product={{
-                            _id: "",
-                            name: "",
-                            price: 0,
-                            image: "",
-                            priceUnit: "kg",
-                            stocksUnit: "kg",
-                            stocks: 0,
-                            farmer: {
-                                _id: "",
-                                name: "",
-                                avatar: "",
-                                email: "",
-                            },
-                        }}
-                        type="create"
+                    <ProductForm
                         close={setOpen}
                     />
                 </DialogContent>
