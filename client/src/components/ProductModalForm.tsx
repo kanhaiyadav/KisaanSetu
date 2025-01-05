@@ -89,7 +89,7 @@ const ProductModalForm = ({
             let result = name.toLowerCase();
             if (imageChanged) {
                 const res = await axios.post(
-                    "http://localhost:3000/classify",
+                    "http://localhost:5000/api/classify",
                     formData,
                     {
                         headers: {
@@ -97,13 +97,14 @@ const ProductModalForm = ({
                         },
                     }
                 );
-                result = res.data.result.split("$")[1];
-                console.log(res.data.result);
-                console.log(
-                    result.trim().toLowerCase(),
-                    watchName.trim().toLowerCase()
-                );
-                setPrediction(result.trim().toLowerCase());
+                // result = res.data.result.split("$")[1];
+                // console.log(res.data.result);
+                // console.log(
+                //     result.trim().toLowerCase(),
+                //     watchName.trim().toLowerCase()
+                // );
+                result = res.data.name;
+                setPrediction(res.data.name.trim().toLowerCase());
             } else {
                 setPrediction(watchName.toLowerCase());
             }
