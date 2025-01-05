@@ -242,6 +242,18 @@ export const search = async (req, res) => {
         const products = await Product.find({
             name: { $regex: new RegExp(name, "i") },
         }).populate("farmer");
+        for(let i=0; i<products.length; i++){
+            const getObjectParams = {
+                Bucket: bucketName,
+                Key: `farmers/${products[i].farmer._id}/products/${products[i].name}.jpeg`,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            const url = await getSignedUrl(s3Client, command, {
+                expiresIn: 3600,
+            });
+            products[i].image = url;
+            await products[i].save();
+        }
         res.status(200).json({
             data: {
                 products,

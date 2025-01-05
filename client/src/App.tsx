@@ -20,6 +20,7 @@ import ChatbotScripts from './ChatBot'
 import Basics from './components/AgoraBasics/AgoraBasics'
 import { AppDispatch } from './redux/store'
 import ErrorPage from './components/ErrorPage'
+import AgoraChat from './components/AgoraChat'
 
 const Farmer = lazy(() => import('./Pages/Farmer'));
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
@@ -55,6 +56,7 @@ function App() {
                 <Suspense fallback={<MainLoader />}>
                     <Routes>
                         <Route path="/test" element={<Basics />} />
+                        <Route path="/agora-chat" element={<AgoraChat />} />
                         <Route path="/" element={<><LandingPage /><ChatbotScripts /></>} />
                         <Route path="/signup" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
                             <Route index element={<Step1 />} />
