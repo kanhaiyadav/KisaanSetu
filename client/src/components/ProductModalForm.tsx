@@ -89,7 +89,7 @@ const ProductModalForm = ({
             let result = name.toLowerCase();
             if (imageChanged) {
                 const promise = axios.post(
-                    "http://127.0.0.1:10000/api/classify",
+                    "https://kisaansetu.onrender.com/api/classify",
                     formData,
                     {
                         headers: {

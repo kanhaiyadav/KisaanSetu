@@ -28,7 +28,7 @@ const Dashboard = lazy(() => import('./Pages/Farmer/Dashboard'));
 const Products = lazy(() => import('./Pages/Farmer/Products'));
 const Sales = lazy(() => import('./Pages/Sales/Sales'));
 const Consumer = lazy(() => import('./Pages/Consumer'));
-const DefaultPage = lazy(() => import('./Pages/Consumer/defaultPage'));
+const DefaultPage = lazy(() => import('./Pages/Consumer/DefaultPage'));
 const ProductListingPage = lazy(() => import('./Pages/Consumer/ProductListingPage'));
 
 function App() {

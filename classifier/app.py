@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from ultralytics import YOLO
 from werkzeug.utils import secure_filename
+from flask_cors import cross_origin
 from io import BytesIO
 from PIL import Image
 import numpy as np
@@ -82,4 +83,4 @@ def classify_image():
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Get PORT from Render
-    app.run(host='0.0.0.0', port=port, debug=True)  # Bind to 0.0.0.0 for Render
+    app.run(host='0.0.0.0', port=port, debug=False)  # Bind to 0.0.0.0 for Render
