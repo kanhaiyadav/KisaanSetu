@@ -88,7 +88,7 @@ const ProductModalForm = ({
         try {
             let result = name.toLowerCase();
             if (imageChanged) {
-                const res = await axios.post(
+                const promise = axios.post(
                     "http://localhost:5000/api/classify",
                     formData,
                     {
@@ -97,8 +97,22 @@ const ProductModalForm = ({
                         },
                     }
                 );
+                const res = await toast.promise(promise, {
+                    pending: {
+                        render: "Classifying image...",
+                        position: "bottom-right",
+                    },
+                    success: {
+                        render: "Image classified successfully",
+                        position: "bottom-right",
+                    },
+                    error: {
+                        render: "Failed to classify image",
+                        position: "bottom-right",
+                    },
+                });
                 // result = res.data.result.split("$")[1];
-                // console.log(res.data.result);
+                console.log(res.data);
                 // console.log(
                 //     result.trim().toLowerCase(),
                 //     watchName.trim().toLowerCase()
@@ -112,12 +126,26 @@ const ProductModalForm = ({
                 watchName.trim().toLowerCase() === result.trim().toLowerCase()
             ) {
                 if (type === "create") {
-                    dispatch(
+                    const promise = dispatch(
                         addProduct({
                             formData,
                             token,
                         })
-                    );
+                    ).unwrap();
+                    toast.promise(promise, {
+                        pending: {
+                            render: "Adding product to your inventory",
+                            position: "bottom-right",
+                        },
+                        success: {
+                            render: "Product added successfully",
+                            position: "bottom-right",
+                        },
+                        error: {
+                            render: "Failed to add product",
+                            position: "bottom-right",
+                        },
+                    })
                 } else {
                     formData.append("_id", _id);
                     // Update the product
@@ -386,10 +414,20 @@ const ProductModalForm = ({
                     className="w-full p-2 bg-red-300 absolute top-[105%] left-0 rounded-xl border-[3px] border-red-600 border-dashed"
                 >
                     {prediction === "failed" ? (
-                        <p className="text-red-600 flex gap-2">
-                            <FaDotCircle className="text-xs text-red-600 mt-2" />
-                            {`Failed to classify the image`}
-                        </p>
+                        <>
+                            <p className="text-red-600 flex gap-2">
+                                <FaDotCircle className="text-xs text-red-600 mt-2" />
+                                {`Failed to classify the image`}
+                            </p>
+                            <p className="text-red-600 flex gap-2">
+                                <FaDotCircle className="text-xs text-red-600 mt-2" />
+                                Confirm the image is not blurred and does not
+                            </p>
+                            <p className="text-red-600 flex gap-2">
+                                <FaDotCircle className="text-xs text-red-600 mt-2" />
+                                contain any other elements except the product
+                            </p>
+                        </>
                     ) : (
                         <>
                             <p className="text-red-600 flex gap-2">

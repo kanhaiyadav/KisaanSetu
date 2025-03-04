@@ -1,0 +1,2 @@
+[phases.setup]
+nixPkgs = ['libGL', 'libGLU', 'xorg.libX11', 'xorg.libXext', 'xorg.libXrender', 'xorg.libXtst', 'xorg.libXi', 'xorg.libXft', 'xorg.libXt', 'fontconfig', 'freetype', 'glib', 'ffmpeg', 'libsm']

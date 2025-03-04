@@ -30,9 +30,9 @@ def classify(img_file):
         conf = float(probs.top1conf)
         if conf < 0.5:
             return {"status": "Fail", "confidence": conf}
-        return {"name": name, "confidence": conf}
+        return {"status": "Success", "name": name, "confidence": conf}
     except Exception as e:
-        return {"error": f"Unsupported image type or processing error: {str(e)}"}
+        return {"error": f"Unsupported image type or processing error: {str(e)}", "status": "Fail"}
 
 # Route for image classification
 @app.route('/api/classify', methods=['POST'])
@@ -48,6 +48,9 @@ def classify_image():
     try:
         img_data = BytesIO(img_file.read())
         result = classify(img_data)
+        print(result)
+        if(result["status"] == "Fail"):
+            return jsonify(result), 400
         return jsonify(result), 200
     except Exception as e:
         print(e)
