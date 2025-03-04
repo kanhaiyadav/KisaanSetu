@@ -73,7 +73,7 @@ const Hero = () => {
             </div>
             <div
                 style={{ gridArea: "img" }}
-                className={`sm:left-0 min-w-full sm:min-w-[400px] md:bg-bottom w-full relative lg:mt-0 lg:col-span-5 lg:flex bg-[url('marketplace.svg')] bg-no-repeat bg-cover sm:bg-contain`}
+                className={`sm:left-0 min-w-full sm:min-w-[400px] md:bg-bottom w-full relative lg:mt-0 lg:col-span-5 lg:flex bg-[url('/marketplace.svg')] bg-no-repeat bg-cover sm:bg-contain`}
             ></div>
         </section>
     );
