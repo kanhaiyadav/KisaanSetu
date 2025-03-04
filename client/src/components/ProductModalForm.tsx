@@ -89,7 +89,7 @@ const ProductModalForm = ({
             let result = name.toLowerCase();
             if (imageChanged) {
                 const promise = axios.post(
-                    "http://localhost:5000/api/classify",
+                    "http://127.0.0.1:10000/api/classify",
                     formData,
                     {
                         headers: {

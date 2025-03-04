@@ -9,7 +9,14 @@ import os
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)  # Allow all origins
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["http://localhost:5173"],
+        "supports_credentials": True,
+        "allow_headers": ["Content-Type"],
+        "methods": ["POST", "OPTIONS"]
+    }
+})
 
 # Load YOLO model
 MODEL_PATH = os.getenv("MODEL_PATH", "./best.pt")  # Ensure model path is correctly set
@@ -46,10 +53,13 @@ def classify(img_file):
         return {"error": f"Unsupported image type or processing error: {str(e)}", "status": "Fail"}
 
 # Route for image classification
-@app.route('/api/classify', methods=['POST'])
+@app.route('/api/classify', methods=['POST', 'OPTIONS'])
+@cross_origin()
 def classify_image():
     if 'image' not in request.files:
-        return jsonify({"error": "No image file uploaded"}), 400
+        response = jsonify({"error": "No image file uploaded"})
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+        return response, 400
 
     img_file = request.files['image']
     if img_file.filename == '':
@@ -62,7 +72,9 @@ def classify_image():
 
         if result["status"] == "Fail":
             return jsonify(result), 400
-        return jsonify(result), 200
+        response = jsonify(result)
+        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+        return response
 
     except Exception as e:
         print(e)
