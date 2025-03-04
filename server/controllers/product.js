@@ -1,4 +1,4 @@
-import Product from "../Models/product.js";
+import Product from "../Models/Product.js";
 import Farmer from "../Models/Farmer.js";
 import Sale from "../Models/Sale.js";
 import {
