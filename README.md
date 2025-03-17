@@ -6,7 +6,8 @@
 
 KisaanSetu is an online platform that connects farmers directly with consumers, enabling them to buy fresh produce without intermediaries. The platform allows farmers to list their products, set prices, and manage orders, while consumers can browse, order, and learn about sustainable agriculture practices.  
 Production Deploy: [https://kisaansetu.kanhaiya.me](https://kisaansetu.kanhaiya.me)     
-Video Preview: [https://youtu.be/VdaOQMOajNc?si=f58zDN_X4GyYSynF](https://youtu.be/VdaOQMOajNc?si=f58zDN_X4GyYSynF)
+Video Preview: [https://youtu.be/VdaOQMOajNc?si=f58zDN_X4GyYSynF](https://youtu.be/VdaOQMOajNc?si=f58zDN_X4GyYSynF)   
+**Note**: We couldn't deploy our model for free on any platform, in doing so it was just running out of memory of the free tier of any hosting platform. So the image classification part will not be working in the the given production link, so you won't be able to add any product to inventory. You might just run the classifier server locally that can resolve the issue, since the website is making request to the local server only for classification.
 
 ## Features
 
