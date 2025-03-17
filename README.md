@@ -1,6 +1,12 @@
+<p align="center">
+  <img src="https://github.com/kanhaiyadav/KisaanSetu/blob/main/client/public/icon.png?raw=true" alt="Invictus Logo" width="200">
+</p>
+
 # KisaanSetu
 
-KisaanSetu is an online platform that connects farmers directly with consumers, enabling them to buy fresh produce without intermediaries. The platform allows farmers to list their products, set prices, and manage orders, while consumers can browse, order, and learn about sustainable agriculture practices.
+KisaanSetu is an online platform that connects farmers directly with consumers, enabling them to buy fresh produce without intermediaries. The platform allows farmers to list their products, set prices, and manage orders, while consumers can browse, order, and learn about sustainable agriculture practices.  
+Production Deploy: [https://kisaansetu.kanhaiya.me](https://kisaansetu.kanhaiya.me)     
+Video Preview: [https://youtu.be/VdaOQMOajNc?si=f58zDN_X4GyYSynF](https://youtu.be/VdaOQMOajNc?si=f58zDN_X4GyYSynF)
 
 ## Features
 
@@ -48,18 +54,74 @@ Make sure your MongoDB server is running on the default port (`mongodb://localho
 5. Install dependencies:
    ```bash
    npm install
-6. Start the client(frontend) server:
+6. 3. **Configure environment variables**  
+   Create a `.env` file in the root of `server` directory and set up the following variables:
+   ```env
+   # Aws credentials
+   BUCKET_REGION=
+   BUCKET_NAME=
+   ACCESS_KEY=
+   SECRET_ACCESS_KEY=
+
+   # MongoDb uri
+   MONGODB_URI=
+   ```
+   Create a `.env` file in the root of `client` directory and set up the following variables:
+   ```env
+   VITE_BACKEND_URL=http://localhost:3000
+   ```
+7. Navigate to classifier directory
    ```bash
-   npm run dev
-7. Navigate to server(backend) directory:
-   ```bash
-   cd client
-8. Install dependencies:
-   ```bash
-   npm install
-6. Start the backend server:
-   ```bash
-   npm run dev
+   cd classifier
+   ```
+8. Create a Virtual Environment
+   Run the following command:
+   ```sh
+   python -m venv venv
+   ```
+    This will create a virtual environment named `venv`.
+
+9. Activate the Virtual Environment
+    #### **On Windows (Command Prompt)**
+    ```sh
+    venv\Scripts\activate
+    ```
+    If using **PowerShell**, run:
+    ```sh
+    venv\Scripts\Activate.ps1
+    ```
+
+    #### **On macOS/Linux (Terminal)**
+    ```sh
+    source venv/bin/activate
+    ```
+
+10. Install Dependencies
+    Once the virtual environment is activated, install required dependencies:
+    ```sh
+    pip install -r requirements.txt
+    ```
+11. Start the classifier model server
+    ```bash
+    python app.py
+    ```
+
+12. Start the client(frontend) server:
+    ```bash
+    npm run dev
+    ```
+13. Navigate to server(backend) directory:
+    ```bash
+    cd client
+    ```
+14. Install dependencies:
+    ```bash
+    npm install
+    ```
+15. Start the backend server:
+    ```bash
+    npm run dev
+    ```
 
 ## Usage
 - For Farmers: Sign up, create your profile, and list your produce. Manage your orders from the sales page.
