@@ -20,7 +20,7 @@ const Step1 = () => {
                         <motion.img src="/Farmer.png" alt="Farmer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
                             ()=> {
                                 dispatch(setSignup({ isfarmer: true }));
-                                navigate('./2')
+                                navigate('./register')
                             }
                         }
                             whileHover={{ scale: 1.1 }}
@@ -32,7 +32,7 @@ const Step1 = () => {
                         <motion.img src="/Consumer.png" alt="Consumer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
                             ()=> {
                                 dispatch(setSignup({ isfarmer: false }));
-                                navigate('./2')
+                                navigate('/consumer')
                             }
                         }
                             whileHover={{ scale: 1.1 }}

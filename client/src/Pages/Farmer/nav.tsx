@@ -15,12 +15,14 @@ import { toast } from "react-toastify";
 import { LuPanelLeftOpen } from "react-icons/lu";
 import { LuPanelRightOpen } from "react-icons/lu";
 import { MdOutlineInventory2 } from "react-icons/md";
+import { useAuth } from "@/contexts/authContext";
 
 const Nav = () => {
     const [expanded, setExpanded] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const success = new Audio(successAudio);
+    const { logout } = useAuth();
     // const error = new Audio(errorAudio);
 
     return (
@@ -138,7 +140,7 @@ const Nav = () => {
               to={"logout"}
               onClick={(e: React.MouseEvent) => {
                 e.preventDefault();
-                dispatch({ type: "LOGOUT" });
+                logout();
                 toast.success("Logged out successfully");
                 navigate("/signin");
                 success.play();

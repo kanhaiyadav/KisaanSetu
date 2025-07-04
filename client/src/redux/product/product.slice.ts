@@ -5,14 +5,17 @@ import { stat } from "fs";
 
 export const fetchProducts = createAsyncThunk(
     "product/fetchProducts",
-    async (farmerId:string, { rejectWithValue }) => {
+    async (farmerId: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/products/${farmerId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products/${farmerId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -26,18 +29,24 @@ export const fetchProducts = createAsyncThunk(
 
 export const addProduct = createAsyncThunk(
     "product/addProduct",
-    async (data: {
-        formData: FormData;
-        token: string;
-    }, { rejectWithValue }) => {
+    async (
+        data: {
+            formData: FormData;
+            token: string;
+        },
+        { rejectWithValue }
+    ) => {
         try {
-            const response = await fetch("http://localhost:3000/api/products", {
-                method: "POST",
-                headers: {
-                    "Authorization": data.token,
-                },
-                body: data.formData,
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products`,
+                {
+                    method: "POST",
+                    headers: {
+                        Authorization: data.token,
+                    },
+                    body: data.formData,
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -51,19 +60,25 @@ export const addProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
     "product/deleteProduct",
-    async (data: {
-        _id: string;
-        token: string;
-    }, { rejectWithValue }) => {
-        console.log(data);  
+    async (
+        data: {
+            _id: string;
+            token: string;
+        },
+        { rejectWithValue }
+    ) => {
+        console.log(data);
         try {
-            const response = await fetch(`http://localhost:3000/api/products/${data._id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": data.token
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products/${data._id}`,
+                {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: data.token,
+                    },
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -77,18 +92,24 @@ export const deleteProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
     "product/updateProduct",
-    async (data: {
-        formData: FormData,
-        token: string,
-    }, { rejectWithValue }) => {
+    async (
+        data: {
+            formData: FormData;
+            token: string;
+        },
+        { rejectWithValue }
+    ) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/products`, {
-                method: "PUT",
-                body: data.formData,
-                headers: {
-                    "Authorization": data.token,
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products`,
+                {
+                    method: "PUT",
+                    body: data.formData,
+                    headers: {
+                        Authorization: data.token,
+                    },
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -102,15 +123,18 @@ export const updateProduct = createAsyncThunk(
 
 export const createSale = createAsyncThunk(
     "product/createSale",
-    async (sale:Sale, { rejectWithValue }) => {
+    async (sale: Sale, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:3000/api/products/createSale", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(sale),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products/createSale`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(sale),
+                }
+            );
             const data = await response.json();
             if (response.ok) {
                 console.log(response.ok);
@@ -125,14 +149,17 @@ export const createSale = createAsyncThunk(
 
 export const getSales = createAsyncThunk(
     "product/getSales",
-    async (farmerId:string, { rejectWithValue }) => {
+    async (farmerId: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/products/getSales/${farmerId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products/getSales/${farmerId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -148,12 +175,15 @@ export const searchProduct = createAsyncThunk(
     "product/searchProduct",
     async (name: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/products/search/${name}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products/search/${name}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -163,18 +193,21 @@ export const searchProduct = createAsyncThunk(
             return rejectWithValue(error);
         }
     }
-)
+);
 
 export const outOfStock = createAsyncThunk(
     "product/outOfStock",
     async (productId: string, { rejectWithValue }) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/products/outOfStock/${productId}`, {
-            method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/products/outOfStock/${productId}`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -184,14 +217,14 @@ export const outOfStock = createAsyncThunk(
             return rejectWithValue(error);
         }
     }
-)
+);
 
 const initialState: {
-    products: Product[],
-    searchedProducts: Product[],
-    sales: Sale[],
-    status: string,
-    error: any
+    products: Product[];
+    searchedProducts: Product[];
+    sales: Sale[];
+    status: string;
+    error: any;
 } = {
     products: [],
     searchedProducts: [],
@@ -207,10 +240,10 @@ const productSlice = createSlice({
         clearError: (state) => {
             state.error = null;
         },
-        addSale: (state, action:PayloadAction<Sale>) => {
+        addSale: (state, action: PayloadAction<Sale>) => {
             state.sales.push(action.payload);
         },
-        localOutofStock: (state, action: PayloadAction<string>) => { 
+        localOutofStock: (state, action: PayloadAction<string>) => {
             const newProducts = state.products.map((product) => {
                 if (product._id === action.payload) {
                     product.stocks = 0;
@@ -219,7 +252,7 @@ const productSlice = createSlice({
             });
             console.log(newProducts);
             state.products = newProducts;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProducts.pending, (state) => {
@@ -228,7 +261,7 @@ const productSlice = createSlice({
         builder.addCase(fetchProducts.fulfilled, (state, action) => {
             state.status = "succeeded";
             state.products = action.payload.data.products;
-            console.log(action.payload.data.products);  
+            console.log(action.payload.data.products);
         });
         builder.addCase(fetchProducts.rejected, (state, action) => {
             state.status = "failed";
@@ -252,7 +285,9 @@ const productSlice = createSlice({
         });
         builder.addCase(deleteProduct.fulfilled, (state, action) => {
             state.status = "succeeded";
-            state.products = state.products.filter((product) => product._id !== action.payload.data._id);
+            state.products = state.products.filter(
+                (product) => product._id !== action.payload.data._id
+            );
         });
         builder.addCase(deleteProduct.rejected, (state, action) => {
             state.status = "failed";
@@ -263,9 +298,11 @@ const productSlice = createSlice({
         });
         builder.addCase(updateProduct.fulfilled, (state, action) => {
             state.status = "succeeded";
-            console.log(action.payload.data)
+            console.log(action.payload.data);
             state.products = state.products.map((product) =>
-                product._id === action.payload.data.product._id ? action.payload.data.product : product
+                product._id === action.payload.data.product._id
+                    ? action.payload.data.product
+                    : product
             );
         });
         builder.addCase(updateProduct.rejected, (state, action) => {
@@ -299,7 +336,7 @@ const productSlice = createSlice({
         builder.addCase(searchProduct.rejected, (state, action) => {
             state.status = "failed";
             state.error = action.payload;
-        }); 
+        });
         builder.addCase(getSales.pending, (state) => {
             state.status = "loading";
         });
@@ -311,7 +348,6 @@ const productSlice = createSlice({
             state.status = "failed";
             state.error = action.payload;
         });
-        
     },
 });
 

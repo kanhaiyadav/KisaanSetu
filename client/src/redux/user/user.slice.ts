@@ -11,13 +11,16 @@ export const signUp = createAsyncThunk(
         isfarmer: boolean;
     }, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:3000/api/auth/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -36,13 +39,16 @@ export const signIn = createAsyncThunk(
         password: string;
     }, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:3000/api/auth/signin", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/auth/signin`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;
@@ -58,12 +64,15 @@ export const verify = createAsyncThunk(
     "user/verify",
     async (token: string, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:3000/api/users/verify", {
-                method: "GET",
-                headers: {
-                    "Authorization": token,
-                },
-            });
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/api/users/verify`,
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: token,
+                    },
+                }
+            );
             const result = await response.json();
             if (response.ok) {
                 return result;

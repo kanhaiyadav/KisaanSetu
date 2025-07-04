@@ -60,13 +60,16 @@ const Step2 = () => {
                         },
                         validate: {
                             unique: async(value) => {
-                                const response = await fetch('http://localhost:3000/api/users/unique', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ email: value })
-                                });
+                                const response = await fetch(
+                                    `${import.meta.env.VITE_BACKEND_URL}/api/users/unique`,
+                                    {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({ email: value }),
+                                    }
+                                );
                                 const data = await response.json();
                                 if (data.error) {
                                     return 'Email already exists*';

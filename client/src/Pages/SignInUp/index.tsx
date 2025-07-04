@@ -3,6 +3,7 @@ import Logo from "../../components/Logo";
 import SignIn from "./SignIn";
 import LanguageSelector from "../../components/LanguageSelector/LanguageSelector";
 import { useTranslation } from "react-i18next";
+import { LoginForm } from "@/components/LoginForm";
 
 const SignInUp = ({ type }: {
     type: 'signin' | 'signup';

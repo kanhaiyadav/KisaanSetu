@@ -15,7 +15,7 @@ export interface Navlink {
 
 const Navbar = () => {
     const { t } = useTranslation('landingPage');
-    const navLinks: Navlink[] = t('navLinks', { returnObjects: true }) as Navlink[];
+    const   navLinks: Navlink[] = t('navLinks', { returnObjects: true }) as Navlink[];
     console.log(navLinks);
     const [toggle, setToggle] = useState(false);
     return (

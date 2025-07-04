@@ -21,6 +21,7 @@ import Basics from './components/AgoraBasics/AgoraBasics'
 import { AppDispatch } from './redux/store'
 import ErrorPage from './components/ErrorPage'
 import AgoraChat from './components/AgoraChat'
+import { useAuth } from './contexts/authContext'
 
 const Farmer = lazy(() => import('./Pages/Farmer'));
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
@@ -30,8 +31,10 @@ const Sales = lazy(() => import('./Pages/Sales/Sales'));
 const Consumer = lazy(() => import('./Pages/Consumer'));
 const DefaultPage = lazy(() => import('./Pages/Consumer/DefaultPage'));
 const ProductListingPage = lazy(() => import('./Pages/Consumer/ProductListingPage'));
+const SignUpPage = lazy(() => import('@/components/RegisterForm'));
 
 function App() {
+    const { currentUser } = useAuth()
     const dispatch = useDispatch<AppDispatch>();
     const token = useSelector(selectToken);
     const isFarmer = useSelector(selectIsFarmer);
@@ -44,7 +47,7 @@ function App() {
                 error: {
                     render({ data }) {
                         dispatch(signOut());
-                        return data.message;
+                        return (data as any)?.message || 'An error occurred';
                     }
                 }
             });
@@ -58,12 +61,12 @@ function App() {
                         <Route path="/test" element={<Basics />} />
                         <Route path="/agora-chat" element={<AgoraChat />} />
                         <Route path="/" element={<><LandingPage /><ChatbotScripts /></>} />
-                        <Route path="/signup" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
+                        <Route path="/signup" element={currentUser ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
                             <Route index element={<Step1 />} />
-                            <Route path=":id" element={<Steps />} />
+                            <Route path="register" element={<SignUpPage />} />
                         </Route>
-                        <Route path="/signin" element={token ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signin' />} />
-                        <Route path='/farmer' element={token ? <Farmer /> : <Navigate to={'/signin'} />}>
+                        <Route path="/signin" element={currentUser ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signin' />} />
+                        <Route path='/farmer' element={currentUser ? <Farmer /> : <Navigate to={'/signin'} />}>
                             <Route index element={<Dashboard />} />
                             <Route path='products' element={<Suspense fallback={<ProductCardSkeleton cards={10} type={'farmer'} />}><Products /></Suspense>} />
                             <Route path='sales' element={<Sales />} />

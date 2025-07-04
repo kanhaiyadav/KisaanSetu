@@ -11,23 +11,26 @@ import "react-toastify/dist/ReactToastify.css";
 import "./i18n.js";
 import React from "react";
 import AgoraRTC, { AgoraRTCProvider } from "agora-rtc-react";
+import { AuthProvider } from "./contexts/authContext.js";
 
 // In voice call, set mode to "rtc"
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
 createRoot(document.getElementById("root")!).render(
-  // <StrictMode>
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <React.Suspense fallback="loading...">
-          <AgoraRTCProvider client={client}>
-            <App />
-          </AgoraRTCProvider>
-        </React.Suspense>
-        <ToastContainer />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
-  // </StrictMode>,
+    // <StrictMode>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <AuthProvider>
+                <BrowserRouter>
+                    <React.Suspense fallback="loading...">
+                        <AgoraRTCProvider client={client}>
+                            <App />
+                        </AgoraRTCProvider>
+                    </React.Suspense>
+                    <ToastContainer />
+                </BrowserRouter>
+            </AuthProvider>
+        </PersistGate>
+    </Provider>
+    // </StrictMode>,
 );
