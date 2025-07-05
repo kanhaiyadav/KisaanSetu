@@ -34,6 +34,7 @@ def classify(img_file):
     except Exception as e:
         return {"error": f"Unsupported image type or processing error: {str(e)}", "status": "Fail"}
 
+
 # Route for image classification
 @app.route('/api/classify', methods=['POST'])
 def classify_image():

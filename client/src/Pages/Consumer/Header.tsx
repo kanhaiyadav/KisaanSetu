@@ -9,6 +9,7 @@ import { useState } from "react";
 import { MdOutlineCollectionsBookmark } from "react-icons/md";
 // import { MdOutlineCollectionsBookmark } from "react-icons/pi";
 import { TbMessageDots } from "react-icons/tb";
+import { BsCart4 } from "react-icons/bs";
 
 const Header = () => {
     const [profile, setProfile] = useState(false);
@@ -22,6 +23,9 @@ const Header = () => {
             <div className="flex items-center gap-5">
                 <div className="relative hidden sm:block">
                     <MdOutlineCollectionsBookmark className="text-2xl text-gray-700" />
+                </div>
+                <div className="relative hidden sm:block">
+                    <BsCart4 className="text-2xl text-gray-700" />
                 </div>
                 <div className="relative hidden sm:block">
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>

@@ -153,7 +153,7 @@ const Dashboard = () => {
     return (
         <main
             className={`flex-1 p-4 flex flex-col
-            justify-items-center items-center gap-4 overflow-auto`}
+            justify-items-center items-center gap-4`}
         >
             <div className="flex justify-between w-full gap-4">
                 <DashboardCard heading={"Today's Summary"}>

@@ -35,5 +35,7 @@ Thumbs.db
 
 #Python virtual environment
 env
+.env
 
 classifier/.venv
+classifier/node_modules

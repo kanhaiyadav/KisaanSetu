@@ -34,21 +34,13 @@ body {
     -webkit-text-stroke: 1px #00000073;
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+.scrollbar {
+    scrollbar-color: #bababa #ffffff;
 }
 
-::-webkit-scrollbar-thumb {
-    background-color: #d1d3d7;
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background-color: #a8a8a8;
-}   
-::-webkit-scrollbar-track {
-    background-color: #ffffff;
-    border-radius: 10px;
+.thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #bababa #ffffff;
 }
 
 h1#gr_heading{

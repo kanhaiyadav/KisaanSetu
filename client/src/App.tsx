@@ -22,6 +22,7 @@ import { AppDispatch } from './redux/store'
 import ErrorPage from './components/ErrorPage'
 import AgoraChat from './components/AgoraChat'
 import { useAuth } from './contexts/authContext'
+import ProfilePage from './Pages/Farmer/profile2'
 
 const Farmer = lazy(() => import('./Pages/Farmer'));
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
@@ -32,6 +33,7 @@ const Consumer = lazy(() => import('./Pages/Consumer'));
 const DefaultPage = lazy(() => import('./Pages/Consumer/DefaultPage'));
 const ProductListingPage = lazy(() => import('./Pages/Consumer/ProductListingPage'));
 const SignUpPage = lazy(() => import('@/components/RegisterForm'));
+const RealProfilePage = lazy(() => import('@/Pages/Farmer/profile'));
 
 function App() {
     const { currentUser } = useAuth()
@@ -55,7 +57,7 @@ function App() {
     }, [dispatch, token]);
     return (
         <SkeletonTheme baseColor='#edf2f7' highlightColor="#f7fafc">
-            <ErrorBoundary fallback={<ErrorPage/>}>
+            <ErrorBoundary fallback={<ErrorPage />}>
                 <Suspense fallback={<MainLoader />}>
                     <Routes>
                         <Route path="/test" element={<Basics />} />
@@ -70,6 +72,8 @@ function App() {
                             <Route index element={<Dashboard />} />
                             <Route path='products' element={<Suspense fallback={<ProductCardSkeleton cards={10} type={'farmer'} />}><Products /></Suspense>} />
                             <Route path='sales' element={<Sales />} />
+                            <Route path='profile' element={<RealProfilePage />} />
+                            <Route path='profile2' element={<ProfilePage />} />
                         </Route>
                         <Route path='/consumer' element={<Consumer />} >
                             <Route index element={<DefaultPage />} />
