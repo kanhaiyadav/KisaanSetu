@@ -20,6 +20,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.12",
     "@reduxjs/toolkit": "^2.2.7",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "agora-chat": "latest",
     "agora-rtc-react": "^2.3.0",
     "agora-rtc-sdk-ng": "^4.22.2",
