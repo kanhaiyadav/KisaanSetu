@@ -16,6 +16,7 @@ import { useAuth } from '@/contexts/authContext';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import Skeleton from 'react-loading-skeleton';
+import FarmerProfileForm from '@/components/Modals/UserProfileEditForm';
 
 const Profile = () => {
 
@@ -163,7 +164,11 @@ const Profile = () => {
                             </div>
                             <div className='flex items-center gap-2 text-gray-600'>
                                 <LuCalendarDays className='text-lg' />
-                                <span>Joined on January 1, 2020</span>
+                                <span>Joined on {currentUser?.metadata.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                }) : 'Unknown'}</span>
                             </div>
                         </div>
                         <div className='flex items-center gap-4 w-fit'>
@@ -179,6 +184,7 @@ const Profile = () => {
                                 Share
                             </Button>
                         </div>
+                        <FarmerProfileForm />
                     </div>
                 </div>
                 <div className='flex-1 flex flex-col gap-[30px]'>
