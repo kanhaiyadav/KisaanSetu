@@ -11,22 +11,141 @@ import { PiCarrotFill } from "react-icons/pi";
 import { FaUserCheck } from "react-icons/fa";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { BsGraphUpArrow } from "react-icons/bs";
+import { Camera } from "lucide-react";
+import { useAuth } from '@/contexts/authContext';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
+import Skeleton from 'react-loading-skeleton';
 
 const Profile = () => {
+
+    const { logout, currentUser } = useAuth();
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [user, setUser] = React.useState<any>(null);
+    const navigate = useNavigate();
     const [expanded, setExpanded] = React.useState(false);
+    const [profileImage, setProfileImage] = React.useState<string | null>(null);
+    const [bannerImage, setBannerImage] = React.useState<string | null>(null);
+    const profileInputRef = React.useRef<HTMLInputElement>(null);
+    const bannerInputRef = React.useRef<HTMLInputElement>(null);
+
+    const handleProfileImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target?.result && typeof e.target.result === 'string') {
+                    setProfileImage(e.target.result);
+                }
+            };
+            reader.readAsDataURL(file);
+            const formData = new FormData();
+            formData.append('image', file);
+            const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/users/uploadAvatar?email=${currentUser?.email}`
+                , formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                }
+            )
+        }
+    };
+
+    const handleBannerImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (e.target?.result && typeof e.target.result === 'string') {
+                    setBannerImage(e.target.result);
+                }
+            };
+            reader.readAsDataURL(file);
+            const formData = new FormData();
+            formData.append('image', file);
+            const res = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/users/uploadBanner?email=${currentUser?.email}`
+                , formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                }
+            )
+        }
+    };
+
+    const handleProfileClick = () => {
+        profileInputRef.current?.click();
+    };
+
+    const handleBannerClick = () => {
+        bannerInputRef.current?.click();
+    };
+
+    React.useEffect(() => {
+
+        const getUserData = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users?email=${currentUser?.email}`);
+                const userData = response.data.data.userData;
+                console.log("User Data:", userData);
+                if (userData.avatar.length > 0) {
+                    setProfileImage(userData.avatar);
+                }
+                if (userData.banner.length > 0) {
+                    setBannerImage(userData.banner);
+                }
+                setUser(userData);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+            finally {
+                setIsLoading(false);
+            }
+        }
+
+        if (currentUser) {
+            getUserData();
+        } else {
+            navigate('/signin');
+        }
+
+    }, []);
 
     return (
         <div className='flex-1 w-full p-[30px] px-[100px]'>
             <div className='w-full h-full flex gap-[100px]'>
                 <div className='w-[300px] flex flex-col items-center gap-[30px] py-[20px] rounded-3xl'>
-                    <div className='bg-primary/10 border-2 border-dashed border-primary rounded-full w-[220px] h-[220px] flex items-center justify-center'>
-                        <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
+                    <div
+                        className={`bg-primary/10 ${profileImage || isLoading ? 'shadow-sm' : 'border-2 border-dashed border-primary'} rounded-full w-[220px] h-[220px] flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors relative overflow-hidden`}
+                        onClick={handleProfileClick}
+                    >
+                        {
+                            isLoading ? (
+                                <Skeleton circle={true} className='w-full h-full' />
+                            ) : profileImage ? (
+                                <img
+                                    src={profileImage}
+                                    alt="Profile"
+                                    className='w-full h-full object-cover rounded-full'
+                                />
+                            ) : (
+                                <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
+                            )}
+                        <input
+                            ref={profileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleProfileImageChange}
+                            className="hidden"
+                        />
                     </div>
                     <div className='w-full flex flex-col gap-[20px] p-[10px]'>
                         <div className='flex items-center justify-between'>
                             <div>
-                                <h1 className='text-2xl text-gray-700 font-semibold'>John Doe</h1>
-                                <h2 className='text-sm text-gray-600'>example.name@gmail.com</h2>
+                                <h1 className='text-2xl text-gray-700 font-semibold'>{currentUser?.displayName}</h1>
+                                <h2 className='text-sm text-gray-600'>{currentUser?.email}</h2>
                             </div>
                             <div className='bg-white rounded-full px-4 py-2 shadow-sm'>
                                 4.5 <span className='text-lg text-yellow-500'>★</span>
@@ -63,8 +182,29 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className='flex-1 flex flex-col gap-[30px]'>
-                    <div className='bg-primary/10 border-2 border-dashed border-primary rounded-3xl w-full h-[250px] flex items-center justify-center'>
-                        <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
+                    <div
+                        className={`bg-primary/10  ${bannerImage || isLoading ? 'shadow-sm' : 'border-2 border-dashed border-primary'} rounded-3xl w-full h-[250px] flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors relative overflow-hidden`}
+                        onClick={handleBannerClick}
+                    >
+                        {
+                            isLoading ? (
+                                <Skeleton circle={false} className='w-full h-full' />
+                            ) : bannerImage ? (
+                                <img
+                                    src={bannerImage}
+                                    alt="Banner"
+                                    className='w-full h-full object-cover rounded-3xl'
+                                />
+                            ) : (
+                                <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
+                            )}
+                        <input
+                            ref={bannerInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleBannerImageChange}
+                            className="hidden"
+                        />
                     </div>
                     <Tabs defaultValue="overview" className="w-full">
                         <TabsList>
@@ -73,9 +213,10 @@ const Profile = () => {
                             <TabsTrigger value="subscribers">Subscribers</TabsTrigger>
                             <TabsTrigger value="reviews">Reviews</TabsTrigger>
                             <TabsTrigger value="settings">Settings</TabsTrigger>
+                            <TabsTrigger value="account">Account</TabsTrigger>
                         </TabsList>
                         <TabsContent value="overview" className='w-full mt-4 flex flex-col gap-[20px] items-center'>
-                            
+
                             <div className='flex items-center justify-between w-full gap-[20px]'>
                                 <div className='flex-1 p-[20px] bg-white rounded-lg shadow-sm flex flex-col items-center gap-1'>
                                     <div className='bg-primary/10 p-4 rounded-full'>
@@ -147,7 +288,17 @@ const Profile = () => {
                                 </div>
                             </div>
                         </TabsContent>
-                        <TabsContent value="products">Change your password here.</TabsContent>
+                        <TabsContent value="account">
+                            <Button
+                                variant={'destructive'}
+                                onClick={() => {
+                                    logout();
+                                    navigate('/farmer');
+                                }}
+                            >
+                                Log out
+                            </Button>
+                        </TabsContent>
                     </Tabs>
                 </div>
             </div>

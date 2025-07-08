@@ -28,26 +28,12 @@ const farmerSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'https://cdn-icons-png.flaticon.com/128/16359/16359510.png'
+        default: ''
     },
-    products: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Product'
-        }
-    ],
-    orders: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Order'
-        }
-    ],
-    sales: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Sale'
-        }
-    ],
+    banner: {
+        type: String,
+        default: ''
+    },
 });
 
 const Farmer = mongoose.model('Farmer', farmerSchema);

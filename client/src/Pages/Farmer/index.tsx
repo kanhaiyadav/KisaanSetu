@@ -1,21 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Nav from "./nav";
-import { selectUserInfo } from "../../redux/user/selectors";
-import { getSales } from "../../redux/product/product.slice";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../redux/product/product.slice";
-import { AppDispatch } from "../../redux/store";
+import { useState } from "react";
 import Header from "@/components/DashboardHeader";
 
 const Farmer = () => {
-    const dispatch = useDispatch<AppDispatch>();
     const [expanded, setExpanded] = useState(false);
-    const user = useSelector(selectUserInfo);
-    useEffect(() => {
-        dispatch(fetchProducts(user._id));
-        dispatch(getSales(user._id));
-    }, [dispatch, user._id]);
 
     return (
         <div className="flex flex-col h-screen w-full bg-gray-200 pb-[60px] xs:pb-0">

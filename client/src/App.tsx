@@ -4,12 +4,10 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import SignInUp from './Pages/SignInUp'
 import Step1 from './Pages/SignInUp/step1'
 import Steps from './Pages/SignInUp/steps'
-import { verify } from './redux/user/user.slice'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { selectToken, selectIsFarmer } from './redux/user/selectors'
 import { toast } from "react-toastify";
-import { signOut } from './redux/user/user.slice'
 import Classifier from './components/Classifier'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { SkeletonTheme } from 'react-loading-skeleton'
@@ -37,24 +35,8 @@ const RealProfilePage = lazy(() => import('@/Pages/Farmer/profile'));
 
 function App() {
     const { currentUser } = useAuth()
-    const dispatch = useDispatch<AppDispatch>();
-    const token = useSelector(selectToken);
     const isFarmer = useSelector(selectIsFarmer);
 
-    useEffect(() => {
-        if (token) {
-            const promise = dispatch(verify(token)).unwrap();
-            toast.promise(promise, {
-                pending: 'Verifying...',
-                error: {
-                    render({ data }) {
-                        dispatch(signOut());
-                        return (data as any)?.message || 'An error occurred';
-                    }
-                }
-            });
-        }
-    }, [dispatch, token]);
     return (
         <SkeletonTheme baseColor='#edf2f7' highlightColor="#f7fafc">
             <ErrorBoundary fallback={<ErrorPage />}>

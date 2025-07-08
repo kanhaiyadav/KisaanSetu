@@ -1,6 +1,5 @@
 import { Router } from "express";
 import Product from "../../Models/Product.js";
-import passport from "passport";
 const router = Router();
 
 import {
@@ -17,18 +16,15 @@ import {
 router.get("/:farmerId", getProducts);
 router.post(
     "/",
-    passport.authenticate("jwt", { session: false }),
     Product.uploadedImage,
     addProduct
 );
 router.delete(
     "/:id",
-    passport.authenticate("jwt", { session: false }),
     deleteProduct
 );
 router.put(
     "/",
-    passport.authenticate("jwt", { session: false }),
     Product.uploadedImage,
     updateProduct
 );

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { ConfirmationResult } from "firebase/auth";
 import { useNavigate } from "react-router";
+import { setUser } from "@/redux/user/user.slice";
+import { useDispatch } from "react-redux";
 
 interface AuthState {
     loading: boolean;
@@ -48,6 +50,7 @@ export const useAuthState = () => {
 };
 
 export const useEmailAuth = () => {
+    const dispatch = useDispatch();
     const auth = useAuth();
     const { setLoading, setError, setSuccess, ...state } = useAuthState();
     const navigate = useNavigate();
@@ -60,10 +63,27 @@ export const useEmailAuth = () => {
         try {
             setLoading(true);
             await auth.signup(email, password, displayName);
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    type: "farmer",
+                    name: displayName,
+                    email,
+                }),
+            })
+            const resJson = await res.json();
+            if (!res.ok) {
+                throw new Error(resJson.message || "Failed to create user profile");
+            } else {
+                dispatch(setUser(resJson.data.user));
+            }
             setSuccess(
                 "Account created successfully! Please check your email for verification."
             );
-            navigate("/signin"); // Redirect to login page after signup
+            navigate("/signin");
         } catch (error: any) {
             setError(getErrorMessage(error));
         }
@@ -74,7 +94,21 @@ export const useEmailAuth = () => {
             setLoading(true);
             await auth.login(email, password);
             setSuccess("Logged in successfully!");
-            navigate("/farmer"); // Redirect to farmer dashboard after login
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users?email=${email}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const resJson = await res.json();
+            console.log("*************", resJson);
+            if (!res.ok) {
+                throw new Error(resJson.message || "Failed to fetch user profile");
+            }
+            dispatch(setUser(resJson.data.user));
+            
+            navigate("/farmer");
         } catch (error: any) {
             setError(getErrorMessage(error));
         }

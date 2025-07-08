@@ -4,17 +4,6 @@ import rootReducer from "./rootReducer";
 import { applyMiddleware } from "@reduxjs/toolkit";
 //@ts-ignore
 import persistStore from "redux-persist/es/persistStore";
-import { Middleware } from "@reduxjs/toolkit";
-
-
-
-
-const logoutMiddleware: Middleware = (store) => (next) => (action: any) => {
-    if (action.type === "LOGOUT") {
-        persistor.purge(); // Automatically clear storage on LOGOUT
-    }
-    return next(action);
-};
 
 
 const store = configureStore({
@@ -29,7 +18,7 @@ const store = configureStore({
                 // Ignore these paths in the state
                 ignoredPaths: ['register', 'rehydrate', 'product.formData'],
             },
-        }).concat(logoutMiddleware),
+        }),
 });
 
 

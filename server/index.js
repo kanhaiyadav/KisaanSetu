@@ -1,6 +1,5 @@
 import express from "express";
 import "./config/database.js";
-import "./config/passportJwt.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import router from "./Routes/index.js";
