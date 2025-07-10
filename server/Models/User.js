@@ -15,10 +15,34 @@ const userSchema = new mongoose.Schema(
             type: String,
             unique: true,
         },
+        about: {
+            type: String,
+        },
+        dateOfBirth: {
+            type: Date,
+        },
+        languages: {
+            type: [String],
+            default: [],
+        },
         phone: {
             type: String,
             unique: true,
         },
+        socialMediaLinks: [
+            {
+                platform: {
+                    type: String,
+                    enum: ["facebook", "instagram", "twitter", "linkedin", "youtube"],
+                },
+                url: {
+                    type: String,
+                },
+                id: {
+                    type: String,
+                },
+            }
+        ],
         address: {
             country: {
                 type: String,
@@ -29,9 +53,12 @@ const userSchema = new mongoose.Schema(
             city: {
                 type: String,
             },
-            fullAddress: {
+            streetAddress: {
                 type: String,
-            }
+            },
+            postalCode: {
+                type: String,
+            },
         },
         stats: {
             subscribers: {

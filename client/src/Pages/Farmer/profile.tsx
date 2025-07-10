@@ -15,12 +15,13 @@ import { Camera } from "lucide-react";
 import { useAuth } from '@/contexts/authContext';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-import Skeleton from 'react-loading-skeleton';
-import FarmerProfileForm from '@/components/Modals/UserProfileEditForm';
+import FarmerProfileForm from '@/components/Modals/UserProfileEditModal';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const Profile = () => {
 
     const { logout, currentUser } = useAuth();
+    console.log("Current User:", currentUser);
     const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState<any>(null);
     const navigate = useNavigate();
@@ -89,6 +90,7 @@ const Profile = () => {
         const getUserData = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users?email=${currentUser?.email}`);
+                console.log('&&&&&&&&&&', response.data);
                 const userData = response.data.data.userData;
                 console.log("User Data:", userData);
                 if (userData.avatar.length > 0) {
@@ -124,13 +126,14 @@ const Profile = () => {
                     >
                         {
                             isLoading ? (
-                                <Skeleton circle={true} className='w-full h-full' />
+                                <Skeleton className='w-full h-full rounded-full' />
                             ) : profileImage ? (
-                                <img
-                                    src={profileImage}
-                                    alt="Profile"
-                                    className='w-full h-full object-cover rounded-full'
-                                />
+                                // <img
+                                //     src={profileImage}
+                                //     alt="Profile"
+                                //     className='w-full h-full object-cover rounded-full'
+                                // />
+                                <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
                             ) : (
                                 <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
                             )}
@@ -160,7 +163,7 @@ const Profile = () => {
                             </div>
                             <div className='flex items-center gap-2 text-gray-600'>
                                 <LuMapPin className='text-lg' />
-                                <span>123 Main St, City, Country</span>
+                                <span>{user?.address?.streetAddress}</span>
                             </div>
                             <div className='flex items-center gap-2 text-gray-600'>
                                 <LuCalendarDays className='text-lg' />
@@ -172,19 +175,42 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className='flex items-center gap-4 w-fit'>
-                            <ImFacebook2 className='text-2xl text-[#1877F2]' />
-                            <FaXTwitter className='text-2xl' />
-                            <FaYoutube className='text-3xl text-[#FF0000]' />
+                            {
+                                user?.socialMediaLinks?.map((link: any) => {
+                                    switch (link.platform) {
+                                        case 'facebook':
+                                            return (
+                                                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                                    <ImFacebook2 key={link.id} className='text-2xl text-blue-600 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />;
+                                                </a>
+                                            )
+                                        case 'twitter':
+                                            return (
+                                                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                                    < FaXTwitter key={link.id} className='text-2xl text-blue-400 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />
+                                                </a>
+                                            )
+                                        case 'youtube':
+                                            return (
+                                                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                                    < FaYoutube key={link.id} className='text-2xl text-red-600 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />
+                                                </a>
+                                            )
+                                        default:
+                                            return null;
+                                    }
+                                })
+                            }
                         </div>
                         <div className='flex gap-4'>
-                            <Button className='w-full'>
+                            <Button variant={'secondary'} className='w-full'>
                                 Subscribe
                             </Button>
-                            <Button className='w-full'>
+                            <Button variant={'secondary'} className='w-full'>
                                 Share
                             </Button>
                         </div>
-                        <FarmerProfileForm />
+                        <FarmerProfileForm user={user} />
                     </div>
                 </div>
                 <div className='flex-1 flex flex-col gap-[30px]'>
@@ -194,13 +220,14 @@ const Profile = () => {
                     >
                         {
                             isLoading ? (
-                                <Skeleton circle={false} className='w-full h-full' />
+                                <Skeleton className='w-full h-full' />
                             ) : bannerImage ? (
-                                <img
-                                    src={bannerImage}
-                                    alt="Banner"
-                                    className='w-full h-full object-cover rounded-3xl'
-                                />
+                                // <img
+                                //     src={bannerImage}
+                                //     alt="Banner"
+                                //     className='w-full h-full object-cover rounded-3xl'
+                                // />
+                                <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
                             ) : (
                                 <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
                             )}
@@ -255,7 +282,7 @@ const Profile = () => {
                             </div>
                             <div className="bg-white p-5 rounded-lg shadow-sm">
                                 <p className={expanded ? "" : "line-clamp-3"}>
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi ea alias fugiat laboriosam quasi excepturi, fugit atque omnis dolore hic, natus vero quisquam nihil eum incidunt quae aut quaerat illo. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa rem eum sed laboriosam eos nulla deserunt vitae facere, illo dolor tenetur corrupti deleniti quas, tempore ex cupiditate, iusto autem dolorem?
+                                    {user?.about}
                                 </p>
                                 {!expanded && (
                                     <button
@@ -277,18 +304,24 @@ const Profile = () => {
                                     <div>
                                         <h3 className='font-bold text-black'>Farm Details</h3>
                                         <ul className='ml-5 list-disc'>
-                                            <li><span className='font-semibold text-black'>Location:</span> 123 Farm Lane, Springfield</li>
-                                            <li><span className='font-semibold text-black'>Size:</span> 50 acres</li>
-                                            <li><span className='font-semibold text-black'>Type:</span> Organic</li>
-                                            <li><span className='font-semibold text-black'>Primary crops:</span> Onion, Potato, Tomato</li>
+                                            <li><span className='font-semibold text-black'>Location:</span>{user?.farm?.location}</li>
+                                            <li><span className='font-semibold text-black'>Size:</span> {user?.farm?.size} {user?.farm?.sizeUnit}</li>
+                                            <li><span className='font-semibold text-black'>Primary crops:</span>
+                                                {user?.farm?.primaryCrops?.map((crop: string, index: number) => {
+                                                    if (index === user?.farm?.primaryCrops.length - 1) {
+                                                        return <span key={index}>{crop}</span>
+                                                    }
+                                                    return <span key={index}>{crop}, </span>
+                                                })}
+                                            </li>
                                         </ul>
                                     </div>
                                     <div>
                                         <h3 className='font-bold text-black'>Languages</h3>
                                         <ul className='ml-5 list-disc'>
-                                            <li>Hindi</li>
-                                            <li>Bengla</li>
-                                            <li>English</li>
+                                            {user?.languages?.map((lang: string, index: number) => (
+                                                <li key={index}>{lang}</li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>

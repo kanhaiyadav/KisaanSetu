@@ -103,8 +103,6 @@ export const uploadAvatar = async (req, res) => {
             return res.status(400).json({ message: "No file uploaded" });
         }
 
-        console.log("@@@@@@@@@@@@@@@@@@@", file);
-
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -183,6 +181,40 @@ export const uploadBanner = async (req, res) => {
         
     } catch (error) {
         console.error("Error uploading banner:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+export const updateUser = async (req, res) => {
+    try {
+        const { email } = req.query;
+        const { userData } = req.body;
+
+        console.log("***********************", email, userData);
+
+        if (!email || !userData) {
+            return res.status(400).json({ message: "Email and user data are required" });
+        }
+
+        const user = await User.findOneAndUpdate(
+            { email },
+            { $set: userData },
+            { new: true }
+        ).lean();
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({
+            error: null,
+            data: {
+                userData: user,
+            },
+        });
+    } catch (error) {
+        console.error("Error updating user:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };

@@ -102,7 +102,6 @@ export const useEmailAuth = () => {
             });
 
             const resJson = await res.json();
-            console.log("*************", resJson);
             if (!res.ok) {
                 throw new Error(resJson.message || "Failed to fetch user profile");
             }
