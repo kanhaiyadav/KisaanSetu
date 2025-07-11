@@ -18,11 +18,32 @@ import axios from 'axios';
 import FarmerProfileForm from '@/components/Modals/UserProfileEditModal';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const StatCard = ({ icon: Icon, title, value, loading }: { icon: React.ElementType, title: string, value: string, loading: boolean }) => {
+    return (
+        <>
+            {
+                loading ? (
+                    <Skeleton className='flex-1 h-[174px] rounded-lg shadow-sm ' />
+                ) : (
+                    <div className='flex-1 p-[20px] bg-white rounded-lg shadow-sm flex flex-col items-center gap-1'>
+                        <div className='bg-primary/10 p-4 rounded-full'>
+                            <Icon className='text-3xl text-primary' />
+                        </div>
+                        <h4>{title}</h4>
+                        <span className='text-4xl font-bold'>{value}</span>
+                    </div>
+
+                )
+            }
+        </>
+    )
+}
+
 const Profile = () => {
 
     const { logout, currentUser } = useAuth();
+    const [userLoading, setUserLoading] = React.useState(true);
     console.log("Current User:", currentUser);
-    const [isLoading, setIsLoading] = React.useState(true);
     const [user, setUser] = React.useState<any>(null);
     const navigate = useNavigate();
     const [expanded, setExpanded] = React.useState(false);
@@ -86,11 +107,10 @@ const Profile = () => {
     };
 
     React.useEffect(() => {
-
+        setUserLoading(true);
         const getUserData = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users?email=${currentUser?.email}`);
-                console.log('&&&&&&&&&&', response.data);
                 const userData = response.data.data.userData;
                 console.log("User Data:", userData);
                 if (userData.avatar.length > 0) {
@@ -104,7 +124,7 @@ const Profile = () => {
                 console.error("Error fetching user data:", error);
             }
             finally {
-                setIsLoading(false);
+                setUserLoading(false);
             }
         }
 
@@ -121,19 +141,18 @@ const Profile = () => {
             <div className='w-full h-full flex gap-[100px]'>
                 <div className='w-[300px] flex flex-col items-center gap-[30px] py-[20px] rounded-3xl'>
                     <div
-                        className={`bg-primary/10 ${profileImage || isLoading ? 'shadow-sm' : 'border-2 border-dashed border-primary'} rounded-full w-[220px] h-[220px] flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors relative overflow-hidden`}
+                        className={`bg-primary/10 ${profileImage || userLoading ? 'shadow-sm' : 'border-2 border-dashed border-primary'} rounded-full w-[220px] h-[220px] flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors relative overflow-hidden`}
                         onClick={handleProfileClick}
                     >
                         {
-                            isLoading ? (
+                            userLoading ? (
                                 <Skeleton className='w-full h-full rounded-full' />
                             ) : profileImage ? (
-                                // <img
-                                //     src={profileImage}
-                                //     alt="Profile"
-                                //     className='w-full h-full object-cover rounded-full'
-                                // />
-                                <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
+                                <img
+                                    src={profileImage}
+                                    alt="Profile"
+                                    className='w-full h-full object-cover rounded-full'
+                                />
                             ) : (
                                 <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
                             )}
@@ -145,89 +164,118 @@ const Profile = () => {
                             className="hidden"
                         />
                     </div>
-                    <div className='w-full flex flex-col gap-[20px] p-[10px]'>
-                        <div className='flex items-center justify-between'>
-                            <div>
-                                <h1 className='text-2xl text-gray-700 font-semibold'>{currentUser?.displayName}</h1>
-                                <h2 className='text-sm text-gray-600'>{currentUser?.email}</h2>
-                            </div>
-                            <div className='bg-white rounded-full px-4 py-2 shadow-sm'>
-                                4.5 <span className='text-lg text-yellow-500'>★</span>
-                            </div>
-                        </div>
-
-                        <div className='flex flex-col gap-4'>
-                            <div className='flex items-center gap-2 text-gray-600'>
-                                <FiPhoneCall className='text-lg' />
-                                <span>+123 456 7890</span>
-                            </div>
-                            <div className='flex items-center gap-2 text-gray-600'>
-                                <LuMapPin className='text-lg' />
-                                <span>{user?.address?.streetAddress}</span>
-                            </div>
-                            <div className='flex items-center gap-2 text-gray-600'>
-                                <LuCalendarDays className='text-lg' />
-                                <span>Joined on {currentUser?.metadata.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric'
-                                }) : 'Unknown'}</span>
-                            </div>
-                        </div>
-                        <div className='flex items-center gap-4 w-fit'>
-                            {
-                                user?.socialMediaLinks?.map((link: any) => {
-                                    switch (link.platform) {
-                                        case 'facebook':
-                                            return (
-                                                <a href={link.url} target="_blank" rel="noopener noreferrer">
-                                                    <ImFacebook2 key={link.id} className='text-2xl text-blue-600 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />;
-                                                </a>
-                                            )
-                                        case 'twitter':
-                                            return (
-                                                <a href={link.url} target="_blank" rel="noopener noreferrer">
-                                                    < FaXTwitter key={link.id} className='text-2xl text-blue-400 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />
-                                                </a>
-                                            )
-                                        case 'youtube':
-                                            return (
-                                                <a href={link.url} target="_blank" rel="noopener noreferrer">
-                                                    < FaYoutube key={link.id} className='text-2xl text-red-600 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />
-                                                </a>
-                                            )
-                                        default:
-                                            return null;
+                    {
+                        userLoading ? (
+                            <div className='w-full flex flex-col gap-[20px] p-[10px]'>
+                                <Skeleton className='w-full h-[70px] rounded-lg shadow-sm' />
+                                <div className='flex flex-col gap-4'>
+                                    <Skeleton className='w-full h-[30px] rounded-lg shadow-sm' />
+                                    <Skeleton className='w-full h-[30px] rounded-lg shadow-sm' />
+                                    <Skeleton className='w-full h-[30px] rounded-lg shadow-sm' />
+                                </div>
+                                <div className='flex items-center gap-4 w-fit'>
+                                    {
+                                        Array.from({ length: 4 }, (_, index) => (
+                                            <Skeleton className='w-[30px] h-[30px] rounded-full' />
+                                        ))
                                     }
-                                })
-                            }
-                        </div>
-                        <div className='flex gap-4'>
-                            <Button variant={'secondary'} className='w-full'>
-                                Subscribe
-                            </Button>
-                            <Button variant={'secondary'} className='w-full'>
-                                Share
-                            </Button>
-                        </div>
-                        <FarmerProfileForm user={user} />
-                    </div>
+                                </div>
+                                <div className='flex gap-4'>
+                                    <Skeleton className='flex-1 h-[40px] rounded-lg shadow-sm' />
+                                    <Skeleton className='flex-1 h-[40px] rounded-lg shadow-sm' />
+                                </div>
+                                <Skeleton className='w-full h-[40px] rounded-lg shadow-sm mt-[-10px]'/>
+                            </div>
+                        ) :
+                            <div className='w-full flex flex-col gap-[20px] p-[10px]'>
+                                <div className='flex items-center justify-between'>
+                                    <div>
+                                        <h1 className='text-2xl text-gray-700 font-semibold'>{currentUser?.displayName}</h1>
+                                        <h2 className='text-sm text-gray-600'>{currentUser?.email}</h2>
+                                    </div>
+                                    <div className='bg-white rounded-full px-4 py-2 shadow-sm'>
+                                        4.5 <span className='text-lg text-yellow-500'>★</span>
+                                    </div>
+                                </div>
+
+                                <div className='flex flex-col gap-4'>
+                                    {
+                                        user?.phone &&
+                                        <div className='flex items-center gap-2 text-gray-600'>
+                                            <FiPhoneCall className='text-lg' />
+                                            <span>{user?.phone}</span>
+                                        </div>
+                                    }
+                                    {
+                                        user?.address &&
+                                        <div className='flex items-center gap-2 text-gray-600'>
+                                            <LuMapPin className='text-lg' />
+                                            <span>{user?.address?.streetAddress}</span>
+                                        </div>
+                                    }
+                                    <div className='flex items-center gap-2 text-gray-600'>
+                                        <LuCalendarDays className='text-lg' />
+                                        <span>Joined on {currentUser?.metadata.creationTime ? new Date(currentUser.metadata.creationTime).toLocaleDateString('en-US', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        }) : 'Unknown'}</span>
+                                    </div>
+                                </div>
+                                <div className='flex items-center gap-4 w-fit'>
+                                    {
+                                        user?.socialMediaLinks?.map((link: any) => {
+                                            switch (link.platform) {
+                                                case 'facebook':
+                                                    return (
+                                                        <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                                            <ImFacebook2 key={link.id} className='text-2xl text-blue-600 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />;
+                                                        </a>
+                                                    )
+                                                case 'twitter':
+                                                    return (
+                                                        <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                                            < FaXTwitter key={link.id} className='text-2xl text-blue-400 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />
+                                                        </a>
+                                                    )
+                                                case 'youtube':
+                                                    return (
+                                                        <a href={link.url} target="_blank" rel="noopener noreferrer">
+                                                            < FaYoutube key={link.id} className='text-2xl text-red-600 cursor-pointer' onClick={() => window.open(link.url, '_blank')} />
+                                                        </a>
+                                                    )
+                                                default:
+                                                    return null;
+                                            }
+                                        })
+                                    }
+                                </div>
+                                <div className='flex gap-4'>
+                                    <Button variant={'secondary'} className='w-full'>
+                                        Subscribe
+                                    </Button>
+                                    <Button variant={'secondary'} className='w-full'>
+                                        Share
+                                    </Button>
+                                </div>
+                                <FarmerProfileForm user={user} />
+                            </div>
+                    }
                 </div>
                 <div className='flex-1 flex flex-col gap-[30px]'>
                     <div
-                        className={`bg-primary/10  ${bannerImage || isLoading ? 'shadow-sm' : 'border-2 border-dashed border-primary'} rounded-3xl w-full h-[250px] flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors relative overflow-hidden`}
+                        className={`bg-primary/10  ${bannerImage || userLoading ? 'shadow-sm' : 'border-2 border-dashed border-primary'} rounded-3xl w-full h-[250px] flex items-center justify-center cursor-pointer hover:bg-primary/20 transition-colors relative overflow-hidden`}
                         onClick={handleBannerClick}
                     >
                         {
-                            isLoading ? (
+                            userLoading ? (
                                 <Skeleton className='w-full h-full' />
                             ) : bannerImage ? (
-                                // <img
-                                //     src={bannerImage}
-                                //     alt="Banner"
-                                //     className='w-full h-full object-cover rounded-3xl'
-                                // />
-                                <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
+                                <img
+                                    src={bannerImage}
+                                    alt="Banner"
+                                    className='w-full h-full object-cover rounded-3xl'
+                                />
                             ) : (
                                 <img src="/placeholder.png" alt="" className='w-[100px] h-[100px] opacity-60' />
                             )}
@@ -251,81 +299,96 @@ const Profile = () => {
                         <TabsContent value="overview" className='w-full mt-4 flex flex-col gap-[20px] items-center'>
 
                             <div className='flex items-center justify-between w-full gap-[20px]'>
-                                <div className='flex-1 p-[20px] bg-white rounded-lg shadow-sm flex flex-col items-center gap-1'>
-                                    <div className='bg-primary/10 p-4 rounded-full'>
-                                        <FaUserCheck className='text-3xl text-primary' />
-                                    </div>
-                                    <h4>Subscribers</h4>
-                                    <span className='text-4xl font-bold'>150K</span>
-                                </div>
-                                <div className='flex-1 p-[20px] bg-white rounded-lg shadow-sm flex flex-col items-center gap-1'>
-                                    <div className='bg-primary/10 p-4 rounded-full'>
-                                        <PiCarrotFill className='text-3xl text-primary' />
-                                    </div>
-                                    <h4>Products</h4>
-                                    <span className='text-4xl font-bold'>230</span>
-                                </div>
-                                <div className='flex-1 p-[20px] bg-white rounded-lg shadow-sm flex flex-col items-center gap-1'>
-                                    <div className='bg-primary/10 p-4 rounded-full'>
-                                        <BsClipboard2CheckFill className='text-3xl text-primary' />
-                                    </div>
-                                    <h4>Orders Completed</h4>
-                                    <span className='text-4xl font-bold'>51k</span>
-                                </div>
-                                <div className='flex-1 p-[20px] bg-white rounded-lg shadow-sm flex flex-col items-center gap-1'>
-                                    <div className='bg-primary/10 p-4 rounded-full'>
-                                        <BsGraphUpArrow className='text-3xl text-primary' />
-                                    </div>
-                                    <h4>Success Rate</h4>
-                                    <span className='text-4xl font-bold'>95%</span>
-                                </div>
+                                <StatCard
+                                    icon={PiCarrotFill}
+                                    title="Products"
+                                    value={user?.products?.length || '0'}
+                                    loading={userLoading}
+                                />
+                                <StatCard
+                                    icon={FaUserCheck}
+                                    title="Subscribers"
+                                    value={user?.subscribers?.length || '0'}
+                                    loading={userLoading}
+                                />
+                                <StatCard
+                                    icon={BsClipboard2CheckFill}
+                                    title="Reviews"
+                                    value={user?.reviews?.length || '0'}
+                                    loading={userLoading}
+                                />
+                                <StatCard
+                                    icon={BsGraphUpArrow}
+                                    title="Growth Rate"
+                                    value="5%"
+                                    loading={userLoading}
+                                />
                             </div>
-                            <div className="bg-white p-5 rounded-lg shadow-sm">
-                                <p className={expanded ? "" : "line-clamp-3"}>
-                                    {user?.about}
-                                </p>
-                                {!expanded && (
-                                    <button
-                                        className="text-blue-600 inline-block hover:text-blue-800"
-                                        onClick={() => setExpanded(true)}
-                                    >
-                                        Show more
-                                    </button>
-                                )}
-                                {expanded && (
-                                    <button
-                                        className="text-blue-600 inline-block hover:text-blue-800"
-                                        onClick={() => setExpanded(false)}
-                                    >
-                                        Show less
-                                    </button>
-                                )}
-                                <div className='flex  gap-[100px] mt-4'>
-                                    <div>
-                                        <h3 className='font-bold text-black'>Farm Details</h3>
-                                        <ul className='ml-5 list-disc'>
-                                            <li><span className='font-semibold text-black'>Location:</span>{user?.farm?.location}</li>
-                                            <li><span className='font-semibold text-black'>Size:</span> {user?.farm?.size} {user?.farm?.sizeUnit}</li>
-                                            <li><span className='font-semibold text-black'>Primary crops:</span>
-                                                {user?.farm?.primaryCrops?.map((crop: string, index: number) => {
-                                                    if (index === user?.farm?.primaryCrops.length - 1) {
-                                                        return <span key={index}>{crop}</span>
-                                                    }
-                                                    return <span key={index}>{crop}, </span>
-                                                })}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h3 className='font-bold text-black'>Languages</h3>
-                                        <ul className='ml-5 list-disc'>
-                                            {user?.languages?.map((lang: string, index: number) => (
-                                                <li key={index}>{lang}</li>
-                                            ))}
-                                        </ul>
+                            {
+                                user?.abbout || user?.farm?.size || user?.languages &&
+                                <div className="bg-white p-5 rounded-lg shadow-sm w-full">
+                                    {
+                                        user?.about &&
+                                        <>
+                                            <p className={expanded ? "" : "line-clamp-3"}>
+                                                {user?.about}
+                                            </p>
+                                            {!expanded && (
+                                                <button
+                                                    className="text-blue-600 inline-block hover:text-blue-800"
+                                                    onClick={() => setExpanded(true)}
+                                                >
+                                                    Show more
+                                                </button>
+                                            )}
+                                            {expanded && (
+                                                <button
+                                                    className="text-blue-600 inline-block hover:text-blue-800"
+                                                    onClick={() => setExpanded(false)}
+                                                >
+                                                    Show less
+                                                </button>
+                                            )}
+                                        </>
+                                    }
+                                    <div className='flex  gap-[100px] mt-4'>
+                                        {
+                                            user?.farm &&
+                                            <div>
+                                                <h3 className='font-bold text-black'>Farm Details</h3>
+                                                <ul className='ml-5 list-disc'>
+                                                    <li><span className='font-semibold text-black'>Location:</span>{user?.farm?.location}</li>
+                                                    <li><span className='font-semibold text-black'>Size:</span> {user?.farm?.size} {user?.farm?.sizeUnit}</li>
+                                                    <li><span className='font-semibold text-black'>Primary crops:</span>
+                                                        {user?.farm?.primaryCrops?.map((crop: string, index: number) => {
+                                                            if (index === user?.farm?.primaryCrops.length - 1) {
+                                                                return <span key={index}>{crop}</span>
+                                                            }
+                                                            return <span key={index}>{crop}, </span>
+                                                        })}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+                                        {
+                                            user?.languages &&
+                                            <div>
+                                                <h3 className='font-bold text-black'>Languages</h3>
+                                                <ul className='ml-5 list-disc'>
+                                                    {user?.languages?.map((lang: string, index: number) => (
+                                                        <li key={index}>{lang}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            {
+                                userLoading && (
+                                    <Skeleton className='bg-white p-5 rounded-lg shadow-sm w-full h-[130px]' />
+                                )
+                            }
                         </TabsContent>
                         <TabsContent value="account">
                             <Button
