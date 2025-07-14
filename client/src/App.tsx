@@ -19,6 +19,7 @@ import ErrorPage from './components/ErrorPage'
 import AgoraChat from './components/AgoraChat'
 import { useAuth } from './contexts/authContext'
 import ProfilePage from './Pages/Farmer/profile2'
+import GeminiImageClassifier from './components/ImageClassifier'
 
 const Farmer = lazy(() => import('./Pages/Farmer'));
 const LandingPage = lazy(() => import('./Pages/LandingPage'));
@@ -47,6 +48,7 @@ function App() {
                         <Route path="/test" element={<Basics />} />
                         <Route path="/agora-chat" element={<AgoraChat />} />
                         <Route path="/" element={<><LandingPage /><ChatbotScripts /></>} />
+                        <Route path="/classify-gemini" element={<GeminiImageClassifier />} />
                         <Route path="/signup" element={currentUser ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
                             <Route index element={<Step1 />} />
                             <Route path="register" element={<SignUpPage />} />

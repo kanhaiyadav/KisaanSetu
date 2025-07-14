@@ -5,7 +5,6 @@ import { GoTrash } from "react-icons/go";
 import { FiEdit } from "react-icons/fi";
 import { deleteProduct, outOfStock } from "../../redux/product/product.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { selectToken } from "../../redux/user/selectors";
 // import ProductDescription from "../../components/ProductDescription";
 import { IoCall } from "react-icons/io5";
 import { TbMessage } from "react-icons/tb";
@@ -51,7 +50,6 @@ const ProductCard = ({
 }) => {
     const [open, setOpen] = useState(false);
     const { _id, name, price, image, stocks, stocksUnit, priceUnit } = product;
-    const token = useSelector(selectToken);
     const dispatch = useDispatch<AppDispatch>();
 
     return (
@@ -163,7 +161,6 @@ const ProductCard = ({
                                             dispatch(
                                                 deleteProduct({
                                                     _id,
-                                                    token,
                                                 })
                                             );
                                         }}

@@ -19,6 +19,8 @@ import { TbShoppingBagCheck } from "react-icons/tb";
 import { ClipboardPen } from "lucide-react";
 import { TbBrandGoogleAnalytics } from "react-icons/tb";
 import { selectUserAvatar } from "@/redux/user/selectors";
+import { getUserInitials } from "@/lib/user";
+import { stringToColor } from "@/lib/utils";
 
 const Nav = ({ expanded, setExpanded }: {
     expanded: boolean;
@@ -161,8 +163,17 @@ const Nav = ({ expanded, setExpanded }: {
                         noStyle
                     >
                         <Avatar>
-                            <AvatarImage src={avatar ||currentUser?.photoURL || '/user.png'} />
-                            <AvatarFallback>CN</AvatarFallback>
+                            {
+                                avatar || currentUser?.photoURL ?
+                                    <AvatarImage src={(avatar || currentUser?.photoURL) as string} />
+                                    :
+                                    <AvatarFallback className="text-white"
+                                        style={{
+                                            backgroundColor: stringToColor(currentUser?.email || currentUser?.phoneNumber || currentUser?.displayName || "User"),
+                                            opacity: 0.7
+                                        }}
+                                    >{getUserInitials(currentUser)}</AvatarFallback>
+                            }
                         </Avatar>
                         <span
                             className={`${expanded ? "block" : "hidden"

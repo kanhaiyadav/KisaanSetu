@@ -32,7 +32,6 @@ export const addProduct = createAsyncThunk(
     async (
         data: {
             formData: FormData;
-            token: string;
         },
         { rejectWithValue }
     ) => {
@@ -41,9 +40,6 @@ export const addProduct = createAsyncThunk(
                 `${import.meta.env.VITE_BACKEND_URL}/api/products`,
                 {
                     method: "POST",
-                    headers: {
-                        Authorization: data.token,
-                    },
                     body: data.formData,
                 }
             );
@@ -63,7 +59,6 @@ export const deleteProduct = createAsyncThunk(
     async (
         data: {
             _id: string;
-            token: string;
         },
         { rejectWithValue }
     ) => {
@@ -75,7 +70,6 @@ export const deleteProduct = createAsyncThunk(
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: data.token,
                     },
                 }
             );
@@ -95,7 +89,6 @@ export const updateProduct = createAsyncThunk(
     async (
         data: {
             formData: FormData;
-            token: string;
         },
         { rejectWithValue }
     ) => {
@@ -105,9 +98,6 @@ export const updateProduct = createAsyncThunk(
                 {
                     method: "PUT",
                     body: data.formData,
-                    headers: {
-                        Authorization: data.token,
-                    },
                 }
             );
             const result = await response.json();

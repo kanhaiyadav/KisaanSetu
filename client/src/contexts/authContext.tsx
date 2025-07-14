@@ -18,6 +18,8 @@ import {
 import { auth } from '@/firebase/firebase';
 import { useDispatch } from 'react-redux';
 import { resetUser, setUser } from '@/redux/user/user.slice';
+import { current } from '@reduxjs/toolkit';
+import { getUserDoc } from '@/lib/user';
 
 interface AuthContextType {
     currentUser: User | null;
@@ -35,7 +37,7 @@ interface AuthContextType {
     signUpWithPhone: (displayName: string, phoneNumber: string) => Promise<ConfirmationResult>;
     verifyPhoneCode: (confirmationResult: ConfirmationResult, code: string) => Promise<void>;
     // Profile methods
-    updateUserProfile: (displayName?: string, photoURL?: string) => Promise<void>;
+    updateUserProfile: (params: { displayName?: string; photoURL?: string; email?: string; phoneNumber?: string; }) => Promise<void>;
     sendVerificationEmail: () => Promise<void>;
 }
 
@@ -130,11 +132,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     // Profile methods
-    const updateUserProfile = async (displayName?: string, photoURL?: string) => {
+    const updateUserProfile = async({
+        displayName,
+        photoURL,
+        email,
+        phoneNumber,
+    }: {
+        displayName?: string;
+        photoURL?: string;
+        email?: string;
+        phoneNumber?: string;
+        }) => {
+        console.log('Updating user profile:', {
+            displayName,
+            photoURL,
+            email,
+            phoneNumber,
+        });
         if (!currentUser) throw new Error('No user logged in');
         await updateProfile(currentUser, {
             ...(displayName && { displayName }),
             ...(photoURL && { photoURL }),
+            ...(email && { email }),
+            ...(phoneNumber && { phoneNumber }),
         });
     };
 
@@ -154,19 +174,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     useEffect(() => {
         const getUserData = async () => {
-            const queryParam = currentUser?.email ? `email=${currentUser.email}` : `phone=${currentUser?.phoneNumber}`;
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users?${queryParam}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            const resJson = await res.json();
-            if (!res.ok) {
-                throw new Error(resJson.message || "Failed to fetch user profile");
+            
+            const res = await getUserDoc(currentUser?.email ?? undefined, currentUser?.phoneNumber ?? undefined);            
+            const userData = res.data;
+            let newUserData = {
+                ...(currentUser?.displayName ? {} : { displayName: userData.name }),
+                ...(currentUser?.photoURL ? {} : { photoURL: userData.avatar }),
+                ...(currentUser?.email ? {} : { email: userData.email }),
+                ...(currentUser?.phoneNumber ? {} : { phoneNumber: userData.phone }),
             }
-            dispatch(setUser(resJson.data.userData));
+            updateUserProfile(newUserData);
+            dispatch(setUser(res.data));
         }
         if (currentUser) {
             getUserData();

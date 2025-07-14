@@ -20,7 +20,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 //@ts-ignore
 import { addProduct } from "../redux/product/product.slice.ts";
-import { selectToken } from "../redux/user/selectors";
 import { updateProduct } from "../redux/product/product.slice";
 import axios from "axios";
 import { FaDotCircle } from "react-icons/fa";
@@ -47,7 +46,6 @@ const ProductModalForm = ({
     const [isLoading, setIsLoading] = useState(false);
     const [isMatched, setIsMatched] = useState(true);
     const [prediction, setPrediction] = useState("");
-    const token: string = useSelector(selectToken);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const { _id, name, price, image, stocks } = product;
     const [previewUrl, setPreviewUrl] = useState(image ? `${image}` : null); // Set initial preview if `image` is provided
@@ -129,7 +127,6 @@ const ProductModalForm = ({
                     const promise = dispatch(
                         addProduct({
                             formData,
-                            token,
                         })
                     ).unwrap();
                     toast.promise(promise, {
@@ -152,7 +149,6 @@ const ProductModalForm = ({
                     const promise = dispatch(
                         updateProduct({
                             formData,
-                            token,
                         })
                     ).unwrap();
                     toast.promise(promise, {
