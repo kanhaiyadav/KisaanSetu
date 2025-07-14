@@ -15,6 +15,8 @@ import {
     sendPasswordResetEmail,
 } from 'firebase/auth';
 import { auth } from '@/firebase/firebase';
+import { useDispatch } from 'react-redux';
+import { resetUser, setUser } from '@/redux/user/user.slice';
 
 interface AuthContextType {
     currentUser: User | null;
@@ -26,7 +28,7 @@ interface AuthContextType {
     resetPassword: (email: string) => Promise<void>;
     // Google auth
     signInWithGoogle: () => Promise<void>;
-    // Phone auth
+    // Phone auth (updated)
     setupRecaptcha: (elementId: string) => void;
     signInWithPhone: (phoneNumber: string) => Promise<ConfirmationResult>;
     verifyPhoneCode: (confirmationResult: ConfirmationResult, code: string) => Promise<void>;
@@ -52,6 +54,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
     // Email/Password Authentication
     const signup = async (email: string, password: string, displayName?: string) => {
@@ -68,6 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const logout = async () => {
         await signOut(auth);
+        dispatch(resetUser());
     };
 
     const resetPassword = async (email: string) => {
@@ -135,6 +139,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        const getUserData = async () => {
+            const queryParam = currentUser?.email ? `email=${currentUser.email}` : `phone=${currentUser?.phoneNumber}`;
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users?${queryParam}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const resJson = await res.json();
+            if (!res.ok) {
+                throw new Error(resJson.message || "Failed to fetch user profile");
+            }
+            dispatch(setUser(resJson.data.userData));
+        }
+        if (currentUser) {
+            getUserData();
+        }
+    }, [currentUser])
 
     const value: AuthContextType = {
         currentUser,

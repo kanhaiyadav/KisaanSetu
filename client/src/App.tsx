@@ -1,12 +1,10 @@
 import './App.css'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import SignInUp from './Pages/SignInUp'
 import Step1 from './Pages/SignInUp/step1'
-import Steps from './Pages/SignInUp/steps'
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { selectToken, selectIsFarmer } from './redux/user/selectors'
+import { useSelector } from "react-redux";
+import { selectIsFarmer } from './redux/user/selectors'
 import { toast } from "react-toastify";
 import Classifier from './components/Classifier'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -36,6 +34,10 @@ const RealProfilePage = lazy(() => import('@/Pages/Farmer/profile'));
 function App() {
     const { currentUser } = useAuth()
     const isFarmer = useSelector(selectIsFarmer);
+
+    // useEffect(() => {
+    //     throw new Error("This is a test error");
+    // }, [])
 
     return (
         <SkeletonTheme baseColor='#edf2f7' highlightColor="#f7fafc">

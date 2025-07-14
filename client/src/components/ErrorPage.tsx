@@ -1,24 +1,24 @@
 import { useNavigate } from "react-router";
-import { Button } from "./ui/button";
-import { IoMdArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const ErrorPage = () => {
     const navigate = useNavigate();
     return (
         <div className="h-screen w-screen flex items-center justify-center">
-            <img src="/errorPage.svg" alt="" className="w-[600px]" />
-            {/* <Button
-                variant="destructive"
-                className="absolute top-4 left-4"
-                onClick={() => {
-                    navigate(-1);
-                    window.location.reload();
-                }}
-            >
-                <IoMdArrowBack />
-                Back
-            </Button> */}
+            <DotLottieReact
+                src="/lottie/error.lottie"
+                loop
+                autoplay
+                style={{ width: '300px', height: '300px' }}
+            />
+            <div className="absolute bottom-10">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="bg-primary text-black px-6 py-2 rounded-lg hover:bg-brown transition-colors"
+                >
+                    Go Back
+                </button>
+            </div>
         </div>
     );
 }

@@ -1,23 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface UserState { 
+interface UserState {
     _id?: string;
+    type?: "farmer" | "consumer" | "admin";
+    avatar?: string;
     name?: string;
     email?: string;
     phone?: string;
 }
 
-const initialState:UserState = {};
+const initialState: UserState = {};
 
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUser: (state, action) => { 
+        setUser: (state, action) => {
             console.log("Setting user state:", action.payload);
-            state = action.payload;
-        }
+            return action.payload; // ✅ Return the new state
+        },
+        resetUser: () => initialState, // Reset to initial state
     },
 });
-export const { setUser } = userSlice.actions;
+export const { setUser, resetUser } = userSlice.actions;
 export default userSlice.reducer;

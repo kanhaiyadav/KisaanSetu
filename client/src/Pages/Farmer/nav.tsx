@@ -7,7 +7,7 @@ import { BsCart4 } from "react-icons/bs";
 import { TbShoppingBag } from "react-icons/tb";
 import { IoAnalytics } from "react-icons/io5";
 import { LuLogOut } from "react-icons/lu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import successAudio from '/success.mp3';
 // import errorAudio from '/error.mp3';
@@ -18,6 +18,7 @@ import { AiTwotoneShop } from "react-icons/ai";
 import { TbShoppingBagCheck } from "react-icons/tb";
 import { ClipboardPen } from "lucide-react";
 import { TbBrandGoogleAnalytics } from "react-icons/tb";
+import { selectUserAvatar } from "@/redux/user/selectors";
 
 const Nav = ({ expanded, setExpanded }: {
     expanded: boolean;
@@ -27,6 +28,7 @@ const Nav = ({ expanded, setExpanded }: {
     const navigate = useNavigate();
     const success = new Audio(successAudio);
     const { currentUser, logout } = useAuth();
+    const avatar = useSelector(selectUserAvatar)
     // const error = new Audio(errorAudio);
 
     return (
@@ -158,7 +160,7 @@ const Nav = ({ expanded, setExpanded }: {
                         noStyle
                     >
                         <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarImage src={avatar || '/user.png'} />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <span

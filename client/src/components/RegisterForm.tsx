@@ -4,30 +4,47 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useEmailAuth, useGoogleAuth} from '@/hooks/useAuthState';
-import { Loader2, Mail, Eye, EyeOff } from 'lucide-react';
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useEmailAuth, useGoogleAuth, usePhoneAuth } from '@/hooks/useAuthState';
+import { Loader2, Mail, Phone, Eye, EyeOff } from 'lucide-react';
 
 const RegisterForm: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
+    const [emailFormData, setEmailFormData] = useState({
         email: '',
         password: '',
         confirmPassword: '',
         displayName: ''
     });
+    const [phoneFormData, setPhoneFormData] = useState({
+        phoneNumber: '',
+        displayName: '',
+        verificationCode: ''
+    });
 
     const emailAuth = useEmailAuth();
     const googleAuth = useGoogleAuth();
+    const phoneAuth = usePhoneAuth();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (formData.password !== formData.confirmPassword) {
+        if (emailFormData.password !== emailFormData.confirmPassword) {
             return;
         }
 
-        await emailAuth.handleSignup(formData.email, formData.password, formData.displayName);
+        await emailAuth.handleSignup(emailFormData.email, emailFormData.password, emailFormData.displayName);
+    };
+
+    const handlePhoneSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!phoneAuth.codeSent) {
+            await phoneAuth.sendCode(phoneFormData.phoneNumber);
+        } else {
+            await phoneAuth.verifyCode(phoneFormData.verificationCode);
+            // You might want to update the user's display name after successful phone verification
+            // This can be done in your phone auth hook or here
+        }
     };
 
     return (
@@ -35,85 +52,151 @@ const RegisterForm: React.FC = () => {
             <CardHeader>
                 <CardTitle>Create Account</CardTitle>
                 <CardDescription>
-                    Sign up for a new account
+                    Choose your preferred registration method
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="displayName">Full Name</Label>
-                        <Input
-                            id="displayName"
-                            type="text"
-                            placeholder="Enter your full name"
-                            value={formData.displayName}
-                            onChange={(e) => setFormData(prev => ({ ...prev, displayName: e.target.value }))}
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="Enter your email"
-                            value={formData.email}
-                            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                            required
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
-                        <div className="relative">
-                            <Input
-                                id="password"
-                                type={showPassword ? 'text' : 'password'}
-                                placeholder="Enter your password"
-                                value={formData.password}
-                                onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                                required
-                            />
-                            <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="confirmPassword">Confirm Password</Label>
-                        <Input
-                            id="confirmPassword"
-                            type="password"
-                            placeholder="Confirm your password"
-                            value={formData.confirmPassword}
-                            onChange={(e) => setFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                            required
-                        />
-                    </div>
-                    {formData.password !== formData.confirmPassword && formData.confirmPassword && (
-                        <Alert className="border-red-200">
-                            <AlertDescription className="text-red-700">
-                                Passwords do not match
-                            </AlertDescription>
-                        </Alert>
-                    )}
-                    <Button type="submit" className="w-full" disabled={emailAuth.loading}>
-                        {emailAuth.loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
-                        Create Account
-                    </Button>
-                </form>
+                <Tabs defaultValue="phone" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="phone">Phone</TabsTrigger>
+                        <TabsTrigger value="email">Email</TabsTrigger>
+                    </TabsList>
 
-                {(emailAuth.error || emailAuth.success) && (
-                    <Alert className={`mt-4 ${emailAuth.error ? 'border-red-200' : 'border-green-200'}`}>
-                        <AlertDescription className={emailAuth.error ? 'text-red-700' : 'text-green-700'}>
-                            {emailAuth.error || emailAuth.success}
-                        </AlertDescription>
-                    </Alert>
-                )}
+                    <TabsContent value="phone" className="space-y-4">
+                        <form onSubmit={handlePhoneSubmit} className="space-y-4">
+                            {!phoneAuth.codeSent ? (
+                                <>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="phone-name">Full Name (Optional)</Label>
+                                        <Input
+                                            id="phone-name"
+                                            type="text"
+                                            placeholder="Enter your full name"
+                                            value={phoneFormData.displayName}
+                                            onChange={(e) => setPhoneFormData(prev => ({ ...prev, displayName: e.target.value }))}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="phone-number">Phone Number</Label>
+                                        <Input
+                                            id="phone-number"
+                                            type="tel"
+                                            placeholder="+1234567890"
+                                            value={phoneFormData.phoneNumber}
+                                            onChange={(e) => setPhoneFormData(prev => ({ ...prev, phoneNumber: e.target.value }))}
+                                            required
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <div className="space-y-2">
+                                    <Label htmlFor="phone-code">Verification Code</Label>
+                                    <Input
+                                        id="phone-code"
+                                        type="text"
+                                        placeholder="Enter 6-digit code"
+                                        value={phoneFormData.verificationCode}
+                                        onChange={(e) => setPhoneFormData(prev => ({ ...prev, verificationCode: e.target.value }))}
+                                        required
+                                    />
+                                    <p className="text-sm text-muted-foreground">
+                                        Code sent to {phoneFormData.phoneNumber}
+                                    </p>
+                                </div>
+                            )}
+                            <Button type="submit" className="w-full" disabled={phoneAuth.loading}>
+                                {phoneAuth.loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Phone className="h-4 w-4" />}
+                                {phoneAuth.codeSent ? 'Verify & Create Account' : 'Send Code'}
+                            </Button>
+                        </form>
+
+                        {(phoneAuth.error || phoneAuth.success) && (
+                            <Alert className={phoneAuth.error ? 'border-red-200' : 'border-green-200'}>
+                                <AlertDescription className={phoneAuth.error ? 'text-red-700' : 'text-green-700'}>
+                                    {phoneAuth.error || phoneAuth.success}
+                                </AlertDescription>
+                            </Alert>
+                        )}
+                    </TabsContent>
+
+                    <TabsContent value="email" className="space-y-4">
+                        <form onSubmit={handleEmailSubmit} className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="email-name">Full Name (Optional)</Label>
+                                <Input
+                                    id="email-name"
+                                    type="text"
+                                    placeholder="Enter your full name"
+                                    value={emailFormData.displayName}
+                                    onChange={(e) => setEmailFormData(prev => ({ ...prev, displayName: e.target.value }))}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    value={emailFormData.email}
+                                    onChange={(e) => setEmailFormData(prev => ({ ...prev, email: e.target.value }))}
+                                    required
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="password">Password</Label>
+                                <div className="relative">
+                                    <Input
+                                        id="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        placeholder="Enter your password"
+                                        value={emailFormData.password}
+                                        onChange={(e) => setEmailFormData(prev => ({ ...prev, password: e.target.value }))}
+                                        required
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                                    </Button>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                                <Input
+                                    id="confirmPassword"
+                                    type="password"
+                                    placeholder="Confirm your password"
+                                    value={emailFormData.confirmPassword}
+                                    onChange={(e) => setEmailFormData(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                                    required
+                                />
+                            </div>
+                            {emailFormData.password !== emailFormData.confirmPassword && emailFormData.confirmPassword && (
+                                <Alert className="border-red-200">
+                                    <AlertDescription className="text-red-700">
+                                        Passwords do not match
+                                    </AlertDescription>
+                                </Alert>
+                            )}
+                            <Button type="submit" className="w-full" disabled={emailAuth.loading}>
+                                {emailAuth.loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
+                                Create Account
+                            </Button>
+                        </form>
+
+                        {(emailAuth.error || emailAuth.success) && (
+                            <Alert className={`mt-4 ${emailAuth.error ? 'border-red-200' : 'border-green-200'}`}>
+                                <AlertDescription className={emailAuth.error ? 'text-red-700' : 'text-green-700'}>
+                                    {emailAuth.error || emailAuth.success}
+                                </AlertDescription>
+                            </Alert>
+                        )}
+                    </TabsContent>
+                </Tabs>
 
                 <div className="mt-6">
                     <div className="relative">
@@ -150,6 +233,9 @@ const RegisterForm: React.FC = () => {
                         </Alert>
                     )}
                 </div>
+
+                {/* reCAPTCHA container for phone auth */}
+                <div id="recaptcha-container"></div>
             </CardContent>
         </Card>
     );

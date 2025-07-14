@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import styles from '../style';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '@/contexts/authContext';
+import { useNavigate } from "react-router";
+import { ImSpinner9 } from "react-icons/im";
+import { useSelector } from "react-redux";
+import { selectIsFarmer } from "@/redux/user/selectors";
 
 const container = (delay: number) => (
     {
@@ -16,6 +20,9 @@ const container = (delay: number) => (
 const Hero = () => {
     const { t } = useTranslation('landingPage');
     const stats = t('stats', { returnObjects: true });
+    const { loading, currentUser } = useAuth();
+    const navigate = useNavigate();
+    const isFarmer = useSelector(selectIsFarmer);
 
     return (
         <section
@@ -56,20 +63,33 @@ const Hero = () => {
                 className="h-[80px] sm:m-0 ml-[25px] flex items-center"
                 style={{ gridArea: "buttons" }}
             >
-                <Link
-                    to={"/signup"}
+                <button
+                    onClick={() => {
+                        if (currentUser) {
+                            isFarmer ? navigate("/farmer") : navigate("/consumer")
+                        } else {
+                            navigate("/signup");
+                        }
+                    }}
                     className="text-white bg-primary border border-gray-300 font-sans
-                     font-semibold rounded-full hover:bg-brown md:text-2xl sm:text-lg text-md md:px-6 px-4 py-[10px] sm:py-4  me-2 
-                     transition-all duration-[1000ms] text-nowrap"
+                     font-semibold rounded-full hover:bg-brown md:text-lg sm:text-base text-md md:px-6 px-4 py-[10px] sm:py-4  me-2 
+                     transition-all duration-1000 text-nowrap"
+                    disabled={loading}
+                    
                 >
-                    {t("hero.startButton")}
-                </Link>
-                <Link
-                    to={"/signin"}
-                    className="bg-Tprimary font-sans md:text-2xl sm:text-lg text-md md:px-10 px-4 sm:py-4 py-[10px] transition-all duration-1000 text-white font-semibold rounded-full"
-                >
-                    {t("hero.loginButton")}
-                </Link>
+                    {
+                        loading ? <ImSpinner9 className="animate-spin text-2xl" /> :
+                            currentUser ? 'Go to Dashboard' : t("hero.startButton")
+                    }
+                </button>
+                {!loading && !currentUser &&
+                    <button
+                        onClick={() => navigate("/login")}
+                        className="bg-Tprimary font-sans md:text-lg sm:text-base text-md md:px-10 px-4 sm:py-4 py-[10px] transition-all duration-1000 text-white font-semibold rounded-full"
+                    >
+                        {t("hero.loginButton")}
+                    </button>
+                }
             </div>
             <div
                 style={{ gridArea: "img" }}
