@@ -1,6 +1,45 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-const userSchema = new mongoose.Schema(
+export interface IUser extends Document {
+    type: "farmer" | "consumer";
+    name: string;
+    email?: string;
+    about?: string;
+    dateOfBirth?: Date;
+    languages: string[];
+    phone?: string;
+    socialMediaLinks: {
+        platform: "facebook" | "instagram" | "twitter" | "linkedin" | "youtube";
+        url?: string;
+        id?: string;
+    }[];
+    address?: {
+        country?: string;
+        state?: string;
+        city?: string;
+        streetAddress?: string;
+        postalCode?: string;
+    };
+    stats?: {
+        subscribers: number;
+        products: number;
+        ordersCompleted: number;
+        orderReceived: number;
+    };
+    farm?: {
+        location?: string;
+        size?: string;
+        sizeUnit?: "acres" | "hectares" | "sqft" | "sqm";
+        primaryCrops?: string[];
+    };
+    avatar?: string;
+    banner?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+// 2. Define the schema
+const userSchema: Schema<IUser> = new Schema(
     {
         type: {
             type: String,
@@ -13,7 +52,6 @@ const userSchema = new mongoose.Schema(
         },
         email: {
             type: String,
-            unique: true,
         },
         about: {
             type: String,
@@ -27,13 +65,18 @@ const userSchema = new mongoose.Schema(
         },
         phone: {
             type: String,
-            unique: true,
         },
         socialMediaLinks: [
             {
                 platform: {
                     type: String,
-                    enum: ["facebook", "instagram", "twitter", "linkedin", "youtube"],
+                    enum: [
+                        "facebook",
+                        "instagram",
+                        "twitter",
+                        "linkedin",
+                        "youtube",
+                    ],
                 },
                 url: {
                     type: String,
@@ -41,7 +84,7 @@ const userSchema = new mongoose.Schema(
                 id: {
                     type: String,
                 },
-            }
+            },
         ],
         address: {
             country: {
@@ -76,7 +119,7 @@ const userSchema = new mongoose.Schema(
             orderReceived: {
                 type: Number,
                 default: 0,
-            }
+            },
         },
         farm: {
             location: {
@@ -105,5 +148,6 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-const User = mongoose.model("User", userSchema);
+// 3. Create the model
+const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);
 export default User;

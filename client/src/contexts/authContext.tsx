@@ -13,6 +13,7 @@ import {
     updateProfile,
     sendEmailVerification,
     sendPasswordResetEmail,
+    UserCredential,
 } from 'firebase/auth';
 import { auth } from '@/firebase/firebase';
 import { useDispatch } from 'react-redux';
@@ -27,10 +28,11 @@ interface AuthContextType {
     logout: () => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     // Google auth
-    signInWithGoogle: () => Promise<void>;
+    signInWithGoogle: () => Promise<UserCredential>;
     // Phone auth (updated)
     setupRecaptcha: (elementId: string) => void;
     signInWithPhone: (phoneNumber: string) => Promise<ConfirmationResult>;
+    signUpWithPhone: (displayName: string, phoneNumber: string) => Promise<ConfirmationResult>;
     verifyPhoneCode: (confirmationResult: ConfirmationResult, code: string) => Promise<void>;
     // Profile methods
     updateUserProfile: (displayName?: string, photoURL?: string) => Promise<void>;
@@ -83,7 +85,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const provider = new GoogleAuthProvider();
         provider.addScope('profile');
         provider.addScope('email');
-        await signInWithPopup(auth, provider);
+
+        const result = await signInWithPopup(auth, provider);
+        return result;
     };
 
     // Phone Authentication
@@ -106,6 +110,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const signInWithPhone = async (phoneNumber: string): Promise<ConfirmationResult> => {
+        const recaptchaVerifier = (window as any).recaptchaVerifier;
+        if (!recaptchaVerifier) {
+            throw new Error('reCAPTCHA not initialized');
+        }
+        return await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+    };
+
+    const signUpWithPhone = async (displayName: string, phoneNumber: string): Promise<ConfirmationResult> => {
         const recaptchaVerifier = (window as any).recaptchaVerifier;
         if (!recaptchaVerifier) {
             throw new Error('reCAPTCHA not initialized');
@@ -171,6 +183,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         signInWithGoogle,
         setupRecaptcha,
         signInWithPhone,
+        signUpWithPhone,
         verifyPhoneCode,
         updateUserProfile,
         sendVerificationEmail,

@@ -1,34 +1,37 @@
-import User from "../Models/User.js";
-import { getPresignedUrl, uploadImageFromBuffer } from "../utils/s3.js";
+import { Request, Response } from "express";
+import User, { IUser } from "../Models/User";
+import { getPresignedUrl, uploadImageFromBuffer } from "@/utils/s3";
 
-export const getUser = async (req, res) => {
+export const getUser = async (req: Request, res: Response) => {
     try {
-        const { email } = req.query;
+        const { email, phone } = req.query as { email?: string, phone?: string };
 
-        let user;
+        console.log("Fetching user with email:", email, "or phone:", phone);
+
+        let user = null;
+
         if (email) {
             user = await User.findOne({ email }).lean();
+        }else if (phone) {
+            user = await User.findOne({ phone }).lean();
         } else {
-            return res
-                .status(400)
-                .json({ message: "User email is required" });
+            return res.status(400).json({ message: "Email or Phone is required" });
         }
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        let avatarSignedUrl = {
-            url: ""
-        };
-        let bannerSignedUrl = {
-            url: ""
-        };
+        let avatarSignedUrl = { url: "" };
+        let bannerSignedUrl = { url: "" };
+
         if (user.avatar && user.avatar.length !== 0) {
-            avatarSignedUrl = await getPresignedUrl(user.avatar);
+            const result = await getPresignedUrl(user.avatar);
+            avatarSignedUrl = { url: result.url || "" };
         }
         if (user.banner && user.banner.length !== 0) {
-            bannerSignedUrl = await getPresignedUrl(user.banner);
+            const result = await getPresignedUrl(user.banner);
+            bannerSignedUrl = { url: result.url || "" };
         }
 
         res.status(200).json({
@@ -47,20 +50,17 @@ export const getUser = async (req, res) => {
     }
 };
 
-export const createNewUser = async (req, res) => {
+export const createNewUser = async (req: Request, res: Response) => {
     try {
-        const { type, name, email, phone } = req.body;
+        const { type, name, email, phone } = req.body as Partial<IUser>;
+
         if (email) {
-            const user = await User.findOne({ name, email });
+            const user = await User.findOne({ email });
             if (user) {
                 return res.status(400).json({ message: "User already exists" });
             } else {
-                const newUser = await User.create({
-                    type,
-                    name,
-                    email,
-                });
-                res.status(201).json({
+                const newUser = await User.create({ type, name, email });
+                return res.status(201).json({
                     error: null,
                     data: {
                         user: newUser,
@@ -68,16 +68,12 @@ export const createNewUser = async (req, res) => {
                 });
             }
         } else if (phone) {
-            const user = await User.findOne({ name, phone });
+            const user = await User.findOne({ phone });
             if (user) {
                 return res.status(400).json({ message: "User already exists" });
             } else {
-                const newUser = await User.create({
-                    type,
-                    name,
-                    phone,
-                });
-                res.status(201).json({
+                const newUser = await User.create({ type, name, phone });
+                return res.status(201).json({
                     error: null,
                     data: {
                         user: newUser,
@@ -95,10 +91,11 @@ export const createNewUser = async (req, res) => {
     }
 };
 
-export const uploadAvatar = async (req, res) => {
+export const uploadAvatar = async (req: Request, res: Response) => {
     try {
-        const { email } = req.query;
-        const { file } = req;
+        const { email } = req.query as { email?: string };
+        const file = req.file as Express.Multer.File;
+
         if (!file) {
             return res.status(400).json({ message: "No file uploaded" });
         }
@@ -108,22 +105,21 @@ export const uploadAvatar = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const responce = await uploadImageFromBuffer(
+        const response = await uploadImageFromBuffer(
             file.buffer,
             `farmers/${user.id}/profile/avatar`,
             file.originalname
         );
 
-        console.log("Response from S3:", responce);
-
-        if (!responce) {
+        if (!response) {
             return res.status(500).json({ message: "Failed to upload avatar" });
         }
 
-        user.avatar = responce.key;
+        user.avatar = response.key;
         await user.save();
 
-        const avatarSignedUrl = await getPresignedUrl(responce.key);
+        const avatarSignedUrl = response.key ? await getPresignedUrl(response.key) : { url: "" };
+
         res.status(200).json({
             error: null,
             data: {
@@ -133,18 +129,17 @@ export const uploadAvatar = async (req, res) => {
                 },
             },
         });
-
-        
     } catch (error) {
         console.error("Error uploading avatar:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
 
-export const uploadBanner = async (req, res) => {
+export const uploadBanner = async (req: Request, res: Response) => {
     try {
-        const { email } = req.query;
-        const { file } = req;
+        const { email } = req.query as { email?: string };
+        const file = req.file as Express.Multer.File;
+
         if (!file) {
             return res.status(400).json({ message: "No file uploaded" });
         }
@@ -154,19 +149,20 @@ export const uploadBanner = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const res = await uploadImageFromBuffer(
+        const response = await uploadImageFromBuffer(
             file.buffer,
             `farmers/${user.id}/profile/banner`,
             file.originalname
         );
 
-        if (!res) {
+        if (!response) {
             return res.status(500).json({ message: "Failed to upload banner" });
         }
 
-        const bannerSignedUrl = await getPresignedUrl(res.key);
-        user.banner = res.key;
+        user.banner = response.key;
         await user.save();
+
+        const bannerSignedUrl = response.key ? await getPresignedUrl(response.key) : { url: "" };
 
         res.status(200).json({
             error: null,
@@ -177,24 +173,21 @@ export const uploadBanner = async (req, res) => {
                 },
             },
         });
-
-        
     } catch (error) {
         console.error("Error uploading banner:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };
 
-
-export const updateUser = async (req, res) => {
+export const updateUser = async (req: Request, res: Response) => {
     try {
-        const { email } = req.query;
-        const { userData } = req.body;
-
-        console.log("***********************", email, userData);
+        const { email } = req.query as { email?: string };
+        const { userData } = req.body as { userData: Partial<IUser> };
 
         if (!email || !userData) {
-            return res.status(400).json({ message: "Email and user data are required" });
+            return res
+                .status(400)
+                .json({ message: "Email and user data are required" });
         }
 
         const user = await User.findOneAndUpdate(

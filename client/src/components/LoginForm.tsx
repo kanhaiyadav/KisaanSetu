@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -7,6 +7,14 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useEmailAuth, useGoogleAuth, usePhoneAuth } from '@/hooks/useAuthState';
 import { Loader2, Mail, Phone, Eye, EyeOff } from 'lucide-react';
+import { getUserDoc } from '@/lib/user';
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot,
+} from "@/components/ui/input-otp"
+import { toast } from 'react-toastify';
 
 export const LoginForm: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +33,13 @@ export const LoginForm: React.FC = () => {
 
     const handlePhoneLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        phoneAuth.setLoading(true);
+        const res = await getUserDoc(undefined, phoneNumber);
+        if (res.error) {
+            toast.error(res.error);
+            phoneAuth.setLoading(false);
+            return;
+        }
         if (!phoneAuth.codeSent) {
             await phoneAuth.sendCode(phoneNumber);
         } else {
@@ -33,7 +48,7 @@ export const LoginForm: React.FC = () => {
     };
 
     return (
-        <Card className="w-full max-w-md mx-auto">
+        <Card className="w-full max-w-[400px] mx-auto">
             <CardHeader>
                 <CardTitle>Sign In</CardTitle>
                 <CardDescription>
@@ -41,13 +56,13 @@ export const LoginForm: React.FC = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <Tabs defaultValue="email" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="email">Email</TabsTrigger>
+                <Tabs defaultValue="phone" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2 mb-8">
                         <TabsTrigger value="phone">Phone</TabsTrigger>
+                        <TabsTrigger value="email">Email</TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="email" className="space-y-4">
+                    <TabsContent value="email" className="space-y-8">
                         <form onSubmit={handleEmailLogin} className="space-y-4">
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email</Label>
@@ -87,14 +102,6 @@ export const LoginForm: React.FC = () => {
                                 Sign in with Email
                             </Button>
                         </form>
-
-                        {(emailAuth.error || emailAuth.success) && (
-                            <Alert className={emailAuth.error ? 'border-red-200' : 'border-green-200'}>
-                                <AlertDescription className={emailAuth.error ? 'text-red-700' : 'text-green-700'}>
-                                    {emailAuth.error || emailAuth.success}
-                                </AlertDescription>
-                            </Alert>
-                        )}
                     </TabsContent>
 
                     <TabsContent value="phone" className="space-y-4">
@@ -105,38 +112,64 @@ export const LoginForm: React.FC = () => {
                                     <Input
                                         id="phone"
                                         type="tel"
-                                        placeholder="+1234567890"
+                                        placeholder="+919834567890"
                                         value={phoneNumber}
                                         onChange={(e) => setPhoneNumber(e.target.value)}
                                         required
                                     />
                                 </div>
                             ) : (
-                                <div className="space-y-2">
-                                    <Label htmlFor="code">Verification Code</Label>
-                                    <Input
-                                        id="code"
-                                        type="text"
-                                        placeholder="Enter 6-digit code"
+                                <div className="space-y-2 flex flex-col items-center">
+                                    <Label htmlFor="code" className='w-full'>Verification Code</Label>
+                                    <InputOTP
+                                        maxLength={6}
                                         value={verificationCode}
-                                        onChange={(e) => setVerificationCode(e.target.value)}
-                                        required
-                                    />
+                                        onChange={(value) => setVerificationCode(value)}
+                                    >
+                                        <InputOTPGroup>
+                                            <InputOTPSlot index={0} />
+                                            <InputOTPSlot index={1} />
+                                        </InputOTPGroup>
+                                        <InputOTPSeparator />
+                                        <InputOTPGroup>
+                                            <InputOTPSlot index={2} />
+                                            <InputOTPSlot index={3} />
+                                        </InputOTPGroup>
+                                        <InputOTPSeparator />
+                                        <InputOTPGroup>
+                                            <InputOTPSlot index={4} />
+                                            <InputOTPSlot index={5} />
+                                        </InputOTPGroup>
+                                    </InputOTP>
+                                    {
+                                        phoneAuth.timer !== 0 ?
+                                            <div className='flex items-center justify-between w-full mt-2 text-gray-600'>
+                                                <span>sent to {phoneNumber}</span>
+                                                <div>
+                                                    <span>Resend in: </span>
+                                                    <span className='text-red-500'>{phoneAuth.timer}</span>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div className='flex items-center justify-between mt-2 w-full'>
+                                                <span className='text-red-500'>Code expired</span>
+                                                <Button
+                                                    type="button"
+                                                    variant="link"
+                                                    className="mt-2"
+                                                    onClick={() => phoneAuth.sendCode(phoneNumber)}
+                                                >
+                                                    Resend Code
+                                                </Button>
+                                            </div>
+                                    }
                                 </div>
                             )}
-                            <Button type="submit" className="w-full" disabled={phoneAuth.loading}>
+                            <Button type="submit" className="w-full" disabled={phoneAuth.loading || phoneAuth.timer === 0}>
                                 {phoneAuth.loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Phone className="h-4 w-4" />}
                                 {phoneAuth.codeSent ? 'Verify Code' : 'Send Code'}
                             </Button>
                         </form>
-
-                        {(phoneAuth.error || phoneAuth.success) && (
-                            <Alert className={phoneAuth.error ? 'border-red-200' : 'border-green-200'}>
-                                <AlertDescription className={phoneAuth.error ? 'text-red-700' : 'text-green-700'}>
-                                    {phoneAuth.error || phoneAuth.success}
-                                </AlertDescription>
-                            </Alert>
-                        )}
                     </TabsContent>
                 </Tabs>
 
@@ -166,14 +199,6 @@ export const LoginForm: React.FC = () => {
                         }
                         Sign in with Google
                     </Button>
-
-                    {(googleAuth.error || googleAuth.success) && (
-                        <Alert className={`mt-4 ${googleAuth.error ? 'border-red-200' : 'border-green-200'}`}>
-                            <AlertDescription className={googleAuth.error ? 'text-red-700' : 'text-green-700'}>
-                                {googleAuth.error || googleAuth.success}
-                            </AlertDescription>
-                        </Alert>
-                    )}
                 </div>
 
                 {/* reCAPTCHA container for phone auth */}

@@ -29,6 +29,7 @@ const Nav = ({ expanded, setExpanded }: {
     const success = new Audio(successAudio);
     const { currentUser, logout } = useAuth();
     const avatar = useSelector(selectUserAvatar)
+    console.log("currentUser", currentUser);
     // const error = new Audio(errorAudio);
 
     return (
@@ -160,7 +161,7 @@ const Nav = ({ expanded, setExpanded }: {
                         noStyle
                     >
                         <Avatar>
-                            <AvatarImage src={avatar || '/user.png'} />
+                            <AvatarImage src={avatar ||currentUser?.photoURL || '/user.png'} />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <span

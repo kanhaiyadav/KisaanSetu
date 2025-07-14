@@ -5,6 +5,8 @@ import { ConfirmationResult } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { setUser } from "@/redux/user/user.slice";
 import { useDispatch } from "react-redux";
+import { createUserDoc } from "@/lib/user";
+import { toast } from "react-toastify";
 
 interface AuthState {
     loading: boolean;
@@ -63,26 +65,16 @@ export const useEmailAuth = () => {
         try {
             setLoading(true);
             await auth.signup(email, password, displayName);
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    type: "farmer",
-                    name: displayName,
-                    email,
-                }),
+            await createUserDoc({
+                type: 'farmer',
+                displayName,
+                email,
+                phoneNumber: auth.currentUser?.phoneNumber || undefined,
             })
-            const resJson = await res.json();
-            if (!res.ok) {
-                throw new Error(resJson.message || "Failed to create user profile");
-            } else {
-                dispatch(setUser(resJson.data.user));
-            }
             setSuccess(
                 "Account created successfully! Please check your email for verification."
             );
+            toast.success("Account created successfully! Please check your email for verification.");
             navigate("/signin");
         } catch (error: any) {
             setError(getErrorMessage(error));
@@ -93,20 +85,8 @@ export const useEmailAuth = () => {
         try {
             setLoading(true);
             await auth.login(email, password);
-            setSuccess("Logged in successfully!");
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users?email=${email}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            const resJson = await res.json();
-            if (!res.ok) {
-                throw new Error(resJson.message || "Failed to fetch user profile");
-            }
-            dispatch(setUser(resJson.data.user));
-            
+            setSuccess("Logged in successfully!");  
+            toast.success("Logged in successfully!");
             navigate("/farmer");
         } catch (error: any) {
             setError(getErrorMessage(error));
@@ -118,6 +98,7 @@ export const useEmailAuth = () => {
             setLoading(true);
             await auth.resetPassword(email);
             setSuccess("Password reset email sent!");
+            toast.success("Password reset email sent!");
         } catch (error: any) {
             setError(getErrorMessage(error));
         }
@@ -128,6 +109,9 @@ export const useEmailAuth = () => {
         handleSignup,
         handleLogin,
         handleResetPassword,
+        setLoading,
+        setError,
+        setSuccess,
     };
 };
 
@@ -139,8 +123,16 @@ export const useGoogleAuth = () => {
     const handleGoogleSignIn = async () => {
         try {
             setLoading(true);
-            await auth.signInWithGoogle();
+            const result = await auth.signInWithGoogle();
+            //@ts-ignore
+            await auth.createUserDoc({
+                type: 'farmer',
+                displayName: result.user.displayName,
+                email: result.user.email,
+                phoneNumber: result.user.phoneNumber,
+            });
             setSuccess("Signed in with Google successfully!");
+            toast.success("Signed in with Google successfully!");
             navigate("/farmer"); 
         } catch (error: any) {
             setError(getErrorMessage(error));
@@ -149,6 +141,9 @@ export const useGoogleAuth = () => {
 
     return {
         ...state,
+        setLoading,
+        setError,
+        setSuccess,
         handleGoogleSignIn,
     };
 };
@@ -163,6 +158,20 @@ export const usePhoneAuth = () => {
         confirmationResult: null,
         codeSent: false,
     });
+    const [timer, setTimer] = useState<number>(60);
+
+    const startTimer = () => {
+        setTimer(60);
+        const interval = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(interval);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    }
 
     const clearState = () => {
         setState({
@@ -190,6 +199,8 @@ export const usePhoneAuth = () => {
                 codeSent: true,
                 success: "Verification code sent!",
             }));
+            toast.success("Verification code sent successfully!");
+            startTimer();
         } catch (error: any) {
             console.error("Error sending verification code:", error);
             setState((prev) => ({
@@ -197,6 +208,7 @@ export const usePhoneAuth = () => {
                 loading: false,
                 error: getErrorMessage(error),
             }));
+            toast.error(getErrorMessage(error));
         }
     };
 
@@ -206,6 +218,7 @@ export const usePhoneAuth = () => {
                 ...prev,
                 error: "No confirmation result available",
             }));
+            toast.error("No confirmation result available");
             return;
         }
 
@@ -217,6 +230,7 @@ export const usePhoneAuth = () => {
                 loading: false,
                 success: "Phone number verified successfully!",
             }));
+            toast.success("Phone number verified successfully!");
             navigate("/farmer"); // Redirect to dashboard or desired page
         } catch (error: any) {
             setState((prev) => ({
@@ -227,11 +241,27 @@ export const usePhoneAuth = () => {
         }
     };
 
+    const setLoading = (loading: boolean) => {
+        setState((prev) => ({ ...prev, loading }));
+    }
+    const setError = (error: string) => {
+        setState((prev) => ({ ...prev, error, loading: false }));
+    };
+    const setSuccess = (success: string) => {
+        setState((prev) => ({ ...prev, success, loading: false }));
+    };
+
     return {
         ...state,
+        timer,
+        startTimer,
+        setTimer,
         sendCode,
         verifyCode,
         clearState,
+        setLoading,
+        setError,
+        setSuccess,
     };
 };
 

@@ -7,6 +7,14 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useEmailAuth, useGoogleAuth, usePhoneAuth } from '@/hooks/useAuthState';
 import { Loader2, Mail, Phone, Eye, EyeOff } from 'lucide-react';
+import { createUserDoc, getUserDoc } from '@/lib/user';
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+    InputOTPSeparator
+} from "@/components/ui/input-otp"
+import { toast } from 'react-toastify';
 
 const RegisterForm: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -38,17 +46,26 @@ const RegisterForm: React.FC = () => {
 
     const handlePhoneSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const res = await getUserDoc(undefined, phoneFormData.phoneNumber);
+        if (!res.error) {
+            toast.error('Phone number already registered');
+            return;
+        }
         if (!phoneAuth.codeSent) {
             await phoneAuth.sendCode(phoneFormData.phoneNumber);
         } else {
             await phoneAuth.verifyCode(phoneFormData.verificationCode);
-            // You might want to update the user's display name after successful phone verification
-            // This can be done in your phone auth hook or here
+            toast.success("Phone number verified successfully!");
+            await createUserDoc({
+                type: 'farmer',
+                displayName: phoneFormData.displayName,
+                phoneNumber: phoneFormData.phoneNumber
+            });
         }
     };
 
     return (
-        <Card className="w-full max-w-md mx-auto">
+        <Card className="w-full max-w-[400px] mx-auto">
             <CardHeader>
                 <CardTitle>Create Account</CardTitle>
                 <CardDescription>
@@ -57,7 +74,7 @@ const RegisterForm: React.FC = () => {
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="phone" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
+                    <TabsList className="grid w-full grid-cols-2 mb-4">
                         <TabsTrigger value="phone">Phone</TabsTrigger>
                         <TabsTrigger value="email">Email</TabsTrigger>
                     </TabsList>
@@ -67,10 +84,11 @@ const RegisterForm: React.FC = () => {
                             {!phoneAuth.codeSent ? (
                                 <>
                                     <div className="space-y-2">
-                                        <Label htmlFor="phone-name">Full Name (Optional)</Label>
+                                        <Label htmlFor="phone-name">Full Name</Label>
                                         <Input
                                             id="phone-name"
                                             type="text"
+                                            required
                                             placeholder="Enter your full name"
                                             value={phoneFormData.displayName}
                                             onChange={(e) => setPhoneFormData(prev => ({ ...prev, displayName: e.target.value }))}
@@ -81,7 +99,7 @@ const RegisterForm: React.FC = () => {
                                         <Input
                                             id="phone-number"
                                             type="tel"
-                                            placeholder="+1234567890"
+                                            placeholder="+919834567890"
                                             value={phoneFormData.phoneNumber}
                                             onChange={(e) => setPhoneFormData(prev => ({ ...prev, phoneNumber: e.target.value }))}
                                             required
@@ -89,19 +107,50 @@ const RegisterForm: React.FC = () => {
                                     </div>
                                 </>
                             ) : (
-                                <div className="space-y-2">
-                                    <Label htmlFor="phone-code">Verification Code</Label>
-                                    <Input
-                                        id="phone-code"
-                                        type="text"
-                                        placeholder="Enter 6-digit code"
+                                <div className="space-y-2 flex flex-col items-center my-4 gap-2">
+                                    <Label htmlFor="phone-code" className='w-full'>Verification Code</Label>
+                                    <InputOTP
+                                        maxLength={6}
                                         value={phoneFormData.verificationCode}
-                                        onChange={(e) => setPhoneFormData(prev => ({ ...prev, verificationCode: e.target.value }))}
-                                        required
-                                    />
-                                    <p className="text-sm text-muted-foreground">
-                                        Code sent to {phoneFormData.phoneNumber}
-                                    </p>
+                                        onChange={(value) => setPhoneFormData(prev => ({ ...prev, verificationCode: value }))}
+                                    >
+                                        <InputOTPGroup>
+                                            <InputOTPSlot index={0} />
+                                            <InputOTPSlot index={1} />
+                                        </InputOTPGroup>
+                                        <InputOTPSeparator />
+                                        <InputOTPGroup>
+                                            <InputOTPSlot index={2} />
+                                            <InputOTPSlot index={3} />
+                                        </InputOTPGroup>
+                                        <InputOTPSeparator />
+                                        <InputOTPGroup>
+                                            <InputOTPSlot index={4} />
+                                            <InputOTPSlot index={5} />
+                                        </InputOTPGroup>
+                                    </InputOTP>
+                                    {
+                                        phoneAuth.timer !== 0 ?
+                                            <div className='flex items-center justify-between w-full mt-2 text-gray-600'>
+                                                <span>sent to {phoneFormData.phoneNumber}</span>
+                                                <div>
+                                                    <span>Resend in: </span>
+                                                    <span className='text-red-500'>{phoneAuth.timer}</span>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div className='flex items-center justify-between mt-2 w-full'>
+                                                <span className='text-red-500'>Code expired</span>
+                                                <Button
+                                                    type="button"
+                                                    variant="link"
+                                                    className="mt-2"
+                                                    onClick={() => phoneAuth.sendCode(phoneFormData.phoneNumber)}
+                                                >
+                                                    Resend Code
+                                                </Button>
+                                            </div>
+                                    }
                                 </div>
                             )}
                             <Button type="submit" className="w-full" disabled={phoneAuth.loading}>

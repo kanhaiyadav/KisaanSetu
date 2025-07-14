@@ -13,6 +13,56 @@ export interface UserProfile {
     lastSignInTime: string;
 }
 
+export const createUserDoc = async (user: {
+    type: string;
+    displayName?: string;
+    email?: string;
+    phoneNumber?: string;
+}) => {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            type: user.type,
+            name: user.displayName,
+            ...(user.email && { email: user.email }),
+            ...(user.phoneNumber && { phone: user.phoneNumber }),
+        }),
+    });
+    const resJson = await res.json();
+    if (!res.ok) {
+        throw new Error(resJson.message || "Failed to create user profile");
+    }
+};
+
+export const getUserDoc = async (email?: string, phone?: string) => {
+    const queryParam = email
+        ? `email=${email}`
+        : `phone=${encodeURIComponent(phone || "")}`;
+    const res = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/users?${queryParam}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
+
+    const resJson = await res.json();
+    if (!res.ok) {
+        return {
+            error: resJson.message || "Failed to fetch user profile",
+        };
+    }
+    return {
+        error: null,
+        data: resJson.data.userData,
+    };
+};
+
 export const formatUserProfile = (user: User): UserProfile => {
     return {
         uid: user.uid,

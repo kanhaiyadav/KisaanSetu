@@ -1,25 +1,34 @@
 import express from "express";
-import "./config/database.js";
+import "./config/database.ts";
 import path from "path";
-import { fileURLToPath } from "url";
-import router from "./Routes/index.js";
+import router from "./Routes/index";
 import cors from "cors";
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.resolve();
 
 const allowedOrigins = [
     "http://localhost:5173",
     "https://kisaansetu.kanhaiya.me",
     "https://kisaansetufe.vercel.app",
 ];
-const corsOptions = {
-    origin: function (origin, callback) {
+
+interface CorsCallback {
+    (err: Error | null, allow?: boolean): void;
+}
+
+interface CorsOptions {
+    origin: (origin: string | undefined, callback: CorsCallback) => void;
+    methods: string[];
+    credentials: boolean;
+}
+
+const corsOptions: CorsOptions = {
+    origin: function (origin: string | undefined, callback: CorsCallback) {
         // Allow requests with no origin like mobile apps or curl requests
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) === -1) {
-            const msg =
+            const msg: string =
                 "The CORS policy for this site does not allow access from the specified origin.";
             return callback(new Error(msg), false);
         }

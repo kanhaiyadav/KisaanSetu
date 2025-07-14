@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { uploadMiddleware } from "../../config/multer.js";
+import { uploadMiddleware } from "../../config/multer";
 const router = Router();
 
-import { getUser, createNewUser, uploadAvatar, uploadBanner, updateUser } from "../../controllers/user.js";
+import { getUser, createNewUser, uploadAvatar, uploadBanner, updateUser } from "@/controllers/user";
 
 router.get('/', getUser);
 router.post('/', createNewUser);
