@@ -60,13 +60,14 @@ export const useEmailAuth = () => {
     const handleSignup = async (
         email: string,
         password: string,
-        displayName?: string
+        displayName?: string,
+        type: string = 'farmer'
     ) => {
         try {
             setLoading(true);
             await auth.signup(email, password, displayName);
             await createUserDoc({
-                type: 'farmer',
+                type,
                 displayName,
                 email,
                 phoneNumber: auth.currentUser?.phoneNumber || undefined,
@@ -75,7 +76,7 @@ export const useEmailAuth = () => {
                 "Account created successfully! Please check your email for verification."
             );
             toast.success("Account created successfully! Please check your email for verification.");
-            navigate("/signin");
+            navigate(`/${type}`);
         } catch (error: any) {
             setError(getErrorMessage(error));
         }
@@ -87,7 +88,6 @@ export const useEmailAuth = () => {
             await auth.login(email, password);
             setSuccess("Logged in successfully!");  
             toast.success("Logged in successfully!");
-            navigate("/farmer");
         } catch (error: any) {
             setError(getErrorMessage(error));
         }
@@ -120,20 +120,19 @@ export const useGoogleAuth = () => {
     const { setLoading, setError, setSuccess, ...state } = useAuthState();
     const navigate = useNavigate();
 
-    const handleGoogleSignIn = async () => {
+    const handleGoogleSignIn = async (type: 'farmer' | 'consumer' = 'farmer') => {
         try {
             setLoading(true);
             const result = await auth.signInWithGoogle();
-            //@ts-ignore
-            await auth.createUserDoc({
-                type: 'farmer',
-                displayName: result.user.displayName,
-                email: result.user.email,
-                phoneNumber: result.user.phoneNumber,
+            await createUserDoc({
+                type,
+                displayName: result.user.displayName ?? undefined,
+                email: result.user.email?? undefined,
+                phoneNumber: result.user.phoneNumber ?? undefined,
             });
             setSuccess("Signed in with Google successfully!");
             toast.success("Signed in with Google successfully!");
-            navigate("/farmer"); 
+            navigate(`/${type}`); 
         } catch (error: any) {
             setError(getErrorMessage(error));
         }
@@ -231,7 +230,6 @@ export const usePhoneAuth = () => {
                 success: "Phone number verified successfully!",
             }));
             toast.success("Phone number verified successfully!");
-            navigate("/farmer"); // Redirect to dashboard or desired page
         } catch (error: any) {
             setState((prev) => ({
                 ...prev,

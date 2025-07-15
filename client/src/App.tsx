@@ -46,8 +46,6 @@ function App() {
                 withCredentials: true,
             });
 
-            socket.emit("pagal", currentUser.displayName);
-
             socket.on("disconnect", () => {
                 console.log("Disconnected from Socket.IO server");
             });

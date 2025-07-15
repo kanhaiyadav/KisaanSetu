@@ -15,8 +15,13 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp"
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
-export const LoginForm: React.FC = () => {
+export const LoginForm: React.FC<{
+    consumer?: boolean;
+}> = ({
+    consumer
+}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [emailFormData, setEmailFormData] = useState({ email: '', password: '' });
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -26,9 +31,12 @@ export const LoginForm: React.FC = () => {
     const googleAuth = useGoogleAuth();
     const phoneAuth = usePhoneAuth();
 
+    const navigate = useNavigate();
+
     const handleEmailLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         await emailAuth.handleLogin(emailFormData.email, emailFormData.password);
+        navigate(consumer ? '/consumer' : '/farmer');
     };
 
     const handlePhoneLogin = async (e: React.FormEvent) => {
@@ -45,10 +53,11 @@ export const LoginForm: React.FC = () => {
         } else {
             await phoneAuth.verifyCode(verificationCode);
         }
+        navigate(consumer ? '/consumer' : '/farmer');
     };
 
     return (
-        <Card className="w-full max-w-[400px] mx-auto">
+        <Card className={`w-full ${consumer ? 'shadow-none border-none' : 'max-w-[400px]'} mx-auto`}>
             <CardHeader>
                 <CardTitle>Sign In</CardTitle>
                 <CardDescription>
@@ -186,7 +195,7 @@ export const LoginForm: React.FC = () => {
                         type="button"
                         variant="outline"
                         className="w-full mt-4"
-                        onClick={googleAuth.handleGoogleSignIn}
+                        onClick={() => googleAuth.handleGoogleSignIn(consumer ? 'consumer' : 'farmer')}
                         disabled={googleAuth.loading}
                     >
                         {googleAuth.loading ? <Loader2 className="h-4 w-4 animate-spin" /> :
@@ -202,7 +211,10 @@ export const LoginForm: React.FC = () => {
                 </div>
 
                 {/* reCAPTCHA container for phone auth */}
-                <div id="recaptcha-container"></div>
+                {
+                    !consumer && 
+                    <div id="recaptcha-container"></div>
+                }
             </CardContent>
         </Card>
     );

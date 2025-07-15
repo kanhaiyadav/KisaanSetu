@@ -15,8 +15,9 @@ import {
     InputOTPSeparator
 } from "@/components/ui/input-otp"
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router';
 
-const RegisterForm: React.FC = () => {
+const RegisterForm: React.FC<{consumer?:boolean}> = ({consumer}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [emailFormData, setEmailFormData] = useState({
         email: '',
@@ -34,14 +35,15 @@ const RegisterForm: React.FC = () => {
     const googleAuth = useGoogleAuth();
     const phoneAuth = usePhoneAuth();
 
+    const navigate = useNavigate();
+
     const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (emailFormData.password !== emailFormData.confirmPassword) {
             return;
         }
-
-        await emailAuth.handleSignup(emailFormData.email, emailFormData.password, emailFormData.displayName);
+        await emailAuth.handleSignup(emailFormData.email, emailFormData.password, emailFormData.displayName, consumer? 'consumer' : 'farmer');
     };
 
     const handlePhoneSubmit = async (e: React.FormEvent) => {
@@ -55,17 +57,17 @@ const RegisterForm: React.FC = () => {
             await phoneAuth.sendCode(phoneFormData.phoneNumber);
         } else {
             await phoneAuth.verifyCode(phoneFormData.verificationCode);
-            toast.success("Phone number verified successfully!");
             await createUserDoc({
-                type: 'farmer',
+                type: consumer ? 'consumer' : 'farmer',
                 displayName: phoneFormData.displayName,
                 phoneNumber: phoneFormData.phoneNumber
             });
         }
+        navigate(`/${consumer ? 'consumer' : 'farmer'}`);
     };
 
     return (
-        <Card className="w-full max-w-[400px] mx-auto">
+        <Card className={`w-full ${consumer? 'shadow-none border-none' : 'max-w-[400px]'} mx-auto`}>
             <CardHeader>
                 <CardTitle>Create Account</CardTitle>
                 <CardDescription>
@@ -260,7 +262,7 @@ const RegisterForm: React.FC = () => {
                         type="button"
                         variant="outline"
                         className="w-full mt-4"
-                        onClick={googleAuth.handleGoogleSignIn}
+                        onClick={() => googleAuth.handleGoogleSignIn(consumer ? 'consumer' : 'farmer' )}
                         disabled={googleAuth.loading}
                     >
                         {googleAuth.loading ? <Loader2 className="h-4 w-4 animate-spin" /> :
@@ -284,7 +286,10 @@ const RegisterForm: React.FC = () => {
                 </div>
 
                 {/* reCAPTCHA container for phone auth */}
-                <div id="recaptcha-container"></div>
+                {
+                    !consumer &&
+                    <div id="recaptcha-container"></div>
+                }
             </CardContent>
         </Card>
     );
