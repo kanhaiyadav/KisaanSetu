@@ -69,7 +69,7 @@ function App() {
                     <Routes>
                         <Route path="/test" element={<Basics />} />
                         <Route path="/agora-chat" element={<AgoraChat />} />
-                        <Route path="/" element={<><LandingPage /><ChatbotScripts /></>} />
+                        <Route path="/" element={isFarmer ? <><LandingPage /><ChatbotScripts /></>: <Navigate to={'/consumer'} />} />
                         <Route path="/classify-gemini" element={<GeminiImageClassifier />} />
                         <Route path="/signup" element={currentUser ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
                             <Route index element={<Step1 />} />

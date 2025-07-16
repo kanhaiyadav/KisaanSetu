@@ -1,9 +1,9 @@
 //@ts-ignore
 import { Link } from "react-scroll";
- 
+
 const TestPage = () => {
     return (
-        <div id="scroll-container" className="overflow-scroll h-screen">
+        <div id="scroll-container" className="overflow-scroll h-dvh">
             <nav>
                 <Link
                     to="section1"

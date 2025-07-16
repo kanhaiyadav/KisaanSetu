@@ -9,7 +9,7 @@ import OptionHeader from "./SalesOptionHeader";
 import { colors } from "@/constant";
 
 const Sales = () => {
-    
+
     let sales = useSelector(selectSales);
     console.log(sales);
     const [sortItem, setSortItem] = useState("product name");
@@ -21,41 +21,41 @@ const Sales = () => {
     else if (sortItem === "product name")
         acending
             ? (sales = sales
-                  .slice()
-                  .sort((a, b) => a.productName.localeCompare(b.productName)))
+                .slice()
+                .sort((a, b) => a.productName.localeCompare(b.productName)))
             : (sales = sales
-                  .slice()
-                  .sort((a, b) => b.productName.localeCompare(a.productName)));
+                .slice()
+                .sort((a, b) => b.productName.localeCompare(a.productName)));
     else if (sortItem === "customer name")
         acending
             ? (sales = sales
-                  .slice()
-                  .sort((a, b) => a.customer.localeCompare(b.customer)))
+                .slice()
+                .sort((a, b) => a.customer.localeCompare(b.customer)))
             : (sales = sales
-                  .slice()
-                  .sort((a, b) => b.customer.localeCompare(a.customer)));
+                .slice()
+                .sort((a, b) => b.customer.localeCompare(a.customer)));
     else if (sortItem === "sold date")
         acending
             ? (sales = sales
-                  .slice()
-                  .sort(
-                      (a, b) =>
-                          new Date(a.date).getTime() -
-                          new Date(b.date).getTime()
-                  ))
+                .slice()
+                .sort(
+                    (a, b) =>
+                        new Date(a.date).getTime() -
+                        new Date(b.date).getTime()
+                ))
             : (sales = sales
-                  .slice()
-                  .sort(
-                      (a, b) =>
-                          new Date(b.date).getTime() -
-                          new Date(a.date).getTime()
-                  ));
+                .slice()
+                .sort(
+                    (a, b) =>
+                        new Date(b.date).getTime() -
+                        new Date(a.date).getTime()
+                ));
     else
         acending
             ? (sales = sales.slice().sort((a, b) => a.quantity - b.quantity))
             : (sales = sales.slice().sort((a, b) => b.quantity - a.quantity));
     return (
-        <div className="flex-1 bg-blue-12 flex flex-col h-screen">
+        <div className="flex-1 bg-blue-12 flex flex-col h-dvh">
             <OptionHeader
                 acending={acending}
                 setAcending={setAcending}
@@ -83,7 +83,7 @@ const Sales = () => {
                             sale={sale}
                             bg={
                                 colors[
-                                    Math.floor(Math.random() * colors.length)
+                                Math.floor(Math.random() * colors.length)
                                 ]
                             }
                         />

@@ -62,8 +62,8 @@ const ProfilePage = () => {
         <button
             onClick={() => setActiveTab(id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${activeTab === id
-                    ? 'bg-green-600 text-white shadow-lg'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-green-600 text-white shadow-lg'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
         >
             <Icon size={16} />
@@ -72,7 +72,7 @@ const ProfilePage = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+        <div className="min-h-dvh bg-gradient-to-br from-green-50 to-blue-50">
             {/* Cover Image & Profile Header */}
             <div className="relative">
                 <div className="h-64 bg-gradient-to-r from-green-400 to-blue-500 relative overflow-hidden">

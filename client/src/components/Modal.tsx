@@ -25,7 +25,7 @@ const Modal = ({ children, onClick, ...otherProps }: {
     otherProps?: any
 }) => {
     return ReactDOM.createPortal(
-        <div className="fixed top-0 left-0 w-screen h-screen z-[1000] bg-[#000000e1] flex justify-center items-center box-border"
+        <div className="fixed top-0 left-0 w-screen h-dvh z-[1000] bg-[#000000e1] flex justify-center items-center box-border"
             onClick={onClick}
             {...otherProps}
         >

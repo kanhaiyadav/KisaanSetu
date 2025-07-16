@@ -4,7 +4,7 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 const ErrorPage = () => {
     const navigate = useNavigate();
     return (
-        <div className="h-screen w-screen flex items-center justify-center">
+        <div className="h-dvh w-screen flex items-center justify-center">
             <DotLottieReact
                 src="/lottie/error.lottie"
                 loop

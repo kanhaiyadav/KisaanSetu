@@ -27,7 +27,7 @@ const DefaultPage = () => {
     };
 
     return (
-        <div className="flex flex-col h-screen overflow-y-auto bg-white w-full">
+        <div className="flex flex-col h-dvh overflow-y-auto bg-white w-full">
 
             <div className={`relative flex w-full aspect-[16/9] md:aspect-[16/8] bg-[url(/shopping.svg)] bg-cover bg-no-repeat bg-right-top
         `} style={{ backgroundPosition: 'center 0px, right 0px' }}>
@@ -44,14 +44,14 @@ const DefaultPage = () => {
                     <h1 className="text-lg sm:text-xl xs:text-2xl lg:text-3xl font-bold text-gray-700 mb-1 md:mb-4">Categories</h1>
                     <div className="flex gap-4">
                         <button
-                            onClick={() => scroll({scrollOffset: -300, ref:categoryRef})}
+                            onClick={() => scroll({ scrollOffset: -300, ref: categoryRef })}
                             className="bg-gray-200 rounded-full grid place-items-center w-[30px] sm:w-[45px] h-[30px] sm:h-[45px] shadow-[0_0_2px_1px_rgba(0,0,0,0.2)] hover:bg-primary hover:text-white text-gray-700"
                         >
                             <FaChevronLeft className="text-lg sm:text-2xl" />
                         </button>
 
                         <button
-                            onClick={() => scroll({scrollOffset: 300, ref:categoryRef})}
+                            onClick={() => scroll({ scrollOffset: 300, ref: categoryRef })}
                             className="bg-gray-200 rounded-full hover:bg-primary hover:text-white text-gray-700 grid place-items-center w-[30px] sm:w-[45px] h-[30px] sm:h-[45px] shadow-[0_0_2px_1px_rgba(0,0,0,0.2)]"
                         >
                             <FaChevronRight className="text-lg sm:text-2xl" />
@@ -86,14 +86,14 @@ const DefaultPage = () => {
                     <h1 className="text-lg sm:text-xl xs:text-2xl lg:text-3xl font-bold text-gray-700 mb-1 md:mb-4">Nearby Farmers</h1>
                     <div className="flex gap-4">
                         <button
-                            onClick={() => scroll({scrollOffset: -300, ref:farmerCardsRef})}
+                            onClick={() => scroll({ scrollOffset: -300, ref: farmerCardsRef })}
                             className="bg-gray-200 rounded-full grid place-items-center w-[30px] sm:w-[45px] h-[30px] sm:h-[45px] shadow-[0_0_2px_1px_rgba(0,0,0,0.2)] hover:bg-primary hover:text-white text-gray-700"
                         >
                             <FaChevronLeft className="text-lg sm:text-2xl" />
                         </button>
 
                         <button
-                            onClick={() => scroll({scrollOffset: 300, ref:farmerCardsRef})}
+                            onClick={() => scroll({ scrollOffset: 300, ref: farmerCardsRef })}
                             className="bg-gray-200 rounded-full hover:bg-primary hover:text-white text-gray-700 grid place-items-center w-[30px] sm:w-[45px] h-[30px] sm:h-[45px] shadow-[0_0_2px_1px_rgba(0,0,0,0.2)]"
                         >
                             <FaChevronRight className="text-lg sm:text-2xl" />
