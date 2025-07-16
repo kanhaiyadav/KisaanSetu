@@ -31,11 +31,13 @@ const Portal = ({ children, target = document.body }: {
     return createPortal(children, portalRoot);
 };
 
-export const Sidebar = ({ children }: {
+export const Sidebar = ({ children, open, setOpen, expanded, setExpanded }: {
     children: React.ReactNode;
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    expanded: boolean;
+    setExpanded: (expanded: boolean) => void;
 }) => {
-    const [open, setOpen] = useState(false);
-    const [expanded, setExpanded] = useState(false);
 
     return (
         <SidebarContext.Provider value={{ open, setOpen, expanded, setExpanded }}>
@@ -161,7 +163,7 @@ export const SidebarContent = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <motion.div
-            className="bg-white border-l-[3px] border-primary w-[350px] z-[100]"
+            className="bg-white border-l-[3px] border-primary w-[350px] z-[100] flex flex-col"
             onClick={(e) => e.stopPropagation()}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}

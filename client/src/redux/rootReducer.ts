@@ -4,28 +4,24 @@ import { combineReducers } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
 //@ts-ignore
 import storage from "redux-persist/lib/storage";
-
-//@ts-ignore
 import userSlice from "./user/user.slice";
-//@ts-ignore
 import formSlice from "./form/form.slice";
 import productSlice from "./product/product.slice";
+import sidebarSlice from "./sidebar/sidebar.slice";
 
 const appReducer = combineReducers({
     user: userSlice,
     form: formSlice,
     product: productSlice,
+    sidebar: sidebarSlice,
 });
 
 export type RootState = ReturnType<typeof appReducer>;
 
 const rootReducer = (state: RootState, action: {
     type: string;
+    payload: any;
 }) => {
-    if (action.type === 'LOGOUT') {
-        // Reset the state to initial values
-        return appReducer(undefined, action);
-    }
     return appReducer(state, action);
 };
 
@@ -33,7 +29,7 @@ const rootReducer = (state: RootState, action: {
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['product']
+    whitelist: []
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

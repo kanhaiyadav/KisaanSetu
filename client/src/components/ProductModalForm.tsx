@@ -30,6 +30,7 @@ import { units } from "@/constant";
 import { Button } from "./ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
+import { selectUserInfo } from "@/redux/user/selectors";
 
 const ProductModalForm = ({
     product,
@@ -48,7 +49,10 @@ const ProductModalForm = ({
     const [prediction, setPrediction] = useState("");
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const { _id, name, price, image, stocks } = product;
-    const [previewUrl, setPreviewUrl] = useState(image ? `${image}` : null); // Set initial preview if `image` is provided
+    const [previewUrl, setPreviewUrl] = useState(image ? `${image}` : null);
+
+    const user = useSelector(selectUserInfo);
+
     const { register, handleSubmit, formState, reset, setValue, watch } =
         useForm({
             defaultValues: {
@@ -62,6 +66,74 @@ const ProductModalForm = ({
     const watchName = watch("name");
     const { errors } = formState;
     const dispatch = useDispatch<AppDispatch>();
+
+    // Convert image file to base64
+    const convertImageToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const base64String = reader.result as string;
+                resolve(base64String.split(',')[1]); // Remove data:image/jpeg;base64, prefix
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    };
+
+    // Gemini classification function
+    const classifyImageWithGemini = async (imageFile: File, productName: string): Promise<string> => {
+        const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+        if (!apiKey) {
+            throw new Error('Gemini API key is required');
+        }
+
+        const base64Image = await convertImageToBase64(imageFile);
+
+        const prompt = `
+            Analyze this image and determine what product it shows.
+            The user claims this is: "${productName}"
+            
+            Please respond with only the detected product name in lowercase.
+            If you cannot clearly identify the product, respond with "unknown".
+            
+            Examples of expected responses:
+            - "tomato"
+            - "apple"
+            - "carrot"
+            - "potato"
+            - "unknown"
+        `;
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [
+                        { text: prompt },
+                        {
+                            inline_data: {
+                                mime_type: imageFile.type,
+                                data: base64Image
+                            }
+                        }
+                    ]
+                }]
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Gemini API Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const detectedProduct = data.candidates[0].content.parts[0].text.trim().toLowerCase();
+
+        return detectedProduct;
+    };
+
     const onSubmit = async (data: {
         name: string;
         price: number;
@@ -77,6 +149,7 @@ const ProductModalForm = ({
         formData.append("stocks", data.stocks.toString());
         formData.append("priceUnit", priceUnit);
         formData.append("stocksUnit", stocksUnit);
+        formData.append("id", user?._id || ""); // Use user's ID if available
 
         // Append the file if selected
         if (selectedImage) {
@@ -85,19 +158,13 @@ const ProductModalForm = ({
 
         try {
             let result = name.toLowerCase();
-            if (imageChanged) {
-                const promise = axios.post(
-                    "http://127.0.0.1:10000/api/classify",
-                    formData,
-                    {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        },
-                    }
-                );
-                const res = await toast.promise(promise, {
+            if (imageChanged && selectedImage) {
+                // Use Gemini for classification instead of Flask server
+                const classificationPromise = classifyImageWithGemini(selectedImage, watchName);
+
+                const detectedProduct = await toast.promise(classificationPromise, {
                     pending: {
-                        render: "Classifying image...",
+                        render: "Classifying image with AI...",
                         position: "bottom-right",
                     },
                     success: {
@@ -109,19 +176,17 @@ const ProductModalForm = ({
                         position: "bottom-right",
                     },
                 });
-                // result = res.data.result.split("$")[1];
-                console.log(res.data);
-                // console.log(
-                //     result.trim().toLowerCase(),
-                //     watchName.trim().toLowerCase()
-                // );
-                result = res.data.name;
-                setPrediction(res.data.name.trim().toLowerCase());
+
+                result = detectedProduct;
+                setPrediction(detectedProduct);
             } else {
                 setPrediction(watchName.toLowerCase());
             }
+
+            // Check if the detected product matches the user's input
             if (
-                watchName.trim().toLowerCase() === result.trim().toLowerCase()
+                watchName.trim().toLowerCase() === result.trim().toLowerCase() ||
+                result === "unknown" // Allow unknown classifications to proceed
             ) {
                 if (type === "create") {
                     const promise = dispatch(
@@ -142,7 +207,7 @@ const ProductModalForm = ({
                             render: "Failed to add product",
                             position: "bottom-right",
                         },
-                    })
+                    });
                 } else {
                     formData.append("_id", _id);
                     // Update the product
@@ -192,7 +257,6 @@ const ProductModalForm = ({
     };
 
     return (
-        // <Modal onClick={close}>
         <>
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -280,9 +344,8 @@ const ProductModalForm = ({
                         </div>
                         <Input
                             disabled={!imageChanged}
-                            className={`peer  ${
-                                errors.name ? "focus-visible:ring-red-400" : ""
-                            }`}
+                            className={`peer  ${errors.name ? "focus-visible:ring-red-400" : ""
+                                }`}
                             type="text"
                             placeholder="Product Name"
                             {...register("name", {
@@ -301,11 +364,10 @@ const ProductModalForm = ({
                         </div>
                         <div className="flex gap-2 w-full">
                             <Input
-                                className={`peer  max-w-[190px] ${
-                                    errors.price
+                                className={`peer  max-w-[190px] ${errors.price
                                         ? "focus-visible:ring-red-400"
                                         : ""
-                                }`}
+                                    }`}
                                 type="number"
                                 placeholder="price"
                                 {...register("price", {
@@ -347,11 +409,10 @@ const ProductModalForm = ({
                         </div>
                         <div className="flex gap-2 w-full">
                             <Input
-                                className={`peer max-w-[190px]  ${
-                                    errors.stocks
+                                className={`peer max-w-[190px]  ${errors.stocks
                                         ? "focus-visible:ring-red-400"
                                         : ""
-                                }`}
+                                    }`}
                                 type="number"
                                 placeholder="Stock quantity"
                                 {...register("stocks", {
@@ -384,7 +445,7 @@ const ProductModalForm = ({
                     </div>
                     {/* Submit button */}
                     <Button
-                        disabled={isLoading}
+                        disabled={isLoading || !imageChanged}
                         type="submit"
                         variant="default"
                     >
@@ -450,7 +511,6 @@ const ProductModalForm = ({
                 </motion.div>
             )}
         </>
-        // </Modal>
     );
 };
 

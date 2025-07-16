@@ -56,7 +56,7 @@ const productSchema = new Schema<IProduct, IProductModel>({
     },
     farmer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Farmer",
+        ref: "User",
     },
 });
 

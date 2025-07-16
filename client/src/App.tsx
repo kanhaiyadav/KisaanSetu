@@ -37,6 +37,7 @@ const RealProfilePage = lazy(() => import('@/Pages/Farmer/profile'));
 function App() {
     const { currentUser } = useAuth()
     const isFarmer = useSelector(selectIsFarmer);
+    console.log("***************", isFarmer, "***************");
 
     useEffect(() => {
         if (currentUser) {
@@ -69,7 +70,7 @@ function App() {
                     <Routes>
                         <Route path="/test" element={<Basics />} />
                         <Route path="/agora-chat" element={<AgoraChat />} />
-                        <Route path="/" element={isFarmer ? <><LandingPage /><ChatbotScripts /></>: <Navigate to={'/consumer'} />} />
+                        <Route path="/" element={<><LandingPage /><ChatbotScripts /></>} />
                         <Route path="/classify-gemini" element={<GeminiImageClassifier />} />
                         <Route path="/signup" element={currentUser ? <Navigate to={isFarmer ? '/farmer' : '/consumer'} /> : <SignInUp type='signup' />} >
                             <Route index element={<Step1 />} />

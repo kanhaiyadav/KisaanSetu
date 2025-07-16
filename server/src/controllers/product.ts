@@ -67,6 +67,7 @@ interface AddProductBody {
     stocks: string | number;
     priceUnit: "kg" | "lb" | "g" | "dz" | "pc" | "tonne";
     stocksUnit: "kg" | "lb" | "g" | "dz" | "pc" | "tonne";
+    id: string; // Optional for authenticated user
 }
 
 interface UpdateProductBody {
@@ -184,10 +185,10 @@ export const addProduct = async (
 ): Promise<void> => {
     try {
         console.log(req.file);
-        const { name, price, stocks, priceUnit, stocksUnit }: AddProductBody =
+        const { name, price, stocks, priceUnit, stocksUnit, id }: AddProductBody =
             req.body;
 
-        if (!req.user?._id) {
+        if (!id) {
             res.status(401).json({
                 message: "User not authenticated",
             } as ApiResponse);
@@ -208,17 +209,17 @@ export const addProduct = async (
             stocks: Number(stocks),
             priceUnit,
             stocksUnit,
-            farmer: req.user._id,
+            farmer: id,
         });
 
         // Update farmer's products array
         await Farmer.updateOne(
-            { _id: req.user._id },
+            { _id: id },
             { $push: { products: product._id } }
         );
 
         // Upload image to S3
-        const imageKey = `farmers/${req.user._id}/products/${name}.jpeg`;
+        const imageKey = `farmers/${id}/products/${name}.jpeg`;
         await uploadImageToS3(imageKey, req.file.buffer, req.file.mimetype);
 
         // Generate signed URL and update product
@@ -456,6 +457,8 @@ export const search = async (req: Request, res: Response): Promise<void> => {
             name: { $regex: new RegExp(name, "i") },
         }).populate("farmer");
 
+        console.log(products);
+
         // Generate signed URLs for all products
         for (let i = 0; i < products.length; i++) {
             const imageKey = `farmers/${products[i].farmer._id}/products/${products[i].name}.jpeg`;
@@ -470,6 +473,7 @@ export const search = async (req: Request, res: Response): Promise<void> => {
             },
         } as ApiResponse);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             message: error instanceof Error ? error.message : "Unknown error",
         } as ApiResponse);
