@@ -5,15 +5,15 @@ import persistReducer from "redux-persist/es/persistReducer";
 //@ts-ignore
 import storage from "redux-persist/lib/storage";
 import userSlice from "./user/user.slice";
-import formSlice from "./form/form.slice";
 import productSlice from "./product/product.slice";
 import sidebarSlice from "./sidebar/sidebar.slice";
+import chatSlice from  "./chat/chat.slice";
 
 const appReducer = combineReducers({
     user: userSlice,
-    form: formSlice,
     product: productSlice,
     sidebar: sidebarSlice,
+    chat: chatSlice,
 });
 
 export type RootState = ReturnType<typeof appReducer>;

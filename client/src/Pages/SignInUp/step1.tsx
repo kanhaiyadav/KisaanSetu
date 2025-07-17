@@ -2,11 +2,9 @@ import Header from "../../components/SignInUpHeader";
 import Container from "../../components/Container";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setSignup } from "../../redux/form/form.slice";
 import { motion } from "framer-motion";
 
 const Step1 = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     return (
         <Container className="container mx-auto p-4 w-full sm:w-11/12 md:w-10/12 lg:w-9/12 xl:w-8/12">
@@ -19,7 +17,6 @@ const Step1 = () => {
                 <div className="text-center w-32 h-32 sm:h-48 sm:w-48 flex flex-col items-center gap-4">
                         <motion.img src="/Farmer.png" alt="Farmer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
                             ()=> {
-                                dispatch(setSignup({ isfarmer: true }));
                                 navigate('./register')
                             }
                         }
@@ -31,7 +28,6 @@ const Step1 = () => {
                 <div className="text-center w-32 h-32 sm:h-48 sm:w-48 flex flex-col items-center gap-4">
                         <motion.img src="/Consumer.png" alt="Consumer" className="w-full h-full rounded-xl border-2 border-[#d39a57] cursor-pointer" onClick={
                             ()=> {
-                                dispatch(setSignup({ isfarmer: false }));
                                 navigate('/consumer')
                             }
                         }

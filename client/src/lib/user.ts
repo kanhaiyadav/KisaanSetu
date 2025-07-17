@@ -78,20 +78,16 @@ export const formatUserProfile = (user: User): UserProfile => {
     };
 };
 
-export const getUserInitials = (user: User | null): string => {
+export const getUserInitials = (user: string): string => {
     if (!user) return "U";
 
-    if (user.displayName) {
-        return user.displayName
+    if (user) {
+        return user
             .split(" ")
             .map((name) => name.charAt(0))
             .join("")
             .toUpperCase()
             .slice(0, 2);
-    }
-
-    if (user.email) {
-        return user.email.charAt(0).toUpperCase();
     }
 
     return "U";

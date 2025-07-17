@@ -12,7 +12,6 @@ import { FaStar } from "react-icons/fa6";
 import { Product } from "../../types/redux";
 import { AppDispatch } from "../../redux/store";
 
-import { HiOutlineArchiveBoxXMark } from "react-icons/hi2";
 import { TbBoxOff } from "react-icons/tb";
 import { localOutofStock } from "../../redux/product/product.slice";
 
@@ -37,6 +36,9 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { CgOptions } from "react-icons/cg";
+import { selectUserInfo } from "@/redux/user/selectors";
+import { setOneChat, setSelectedChat } from "@/redux/chat/chat.slice";
+import { setMessageOpen, setSidebarExpanded } from "@/redux/sidebar/sidebar.slice";
 
 const ProductCard = ({
     product,
@@ -47,10 +49,32 @@ const ProductCard = ({
     type: "farmer" | "consumer";
     otherProps?: any;
     id?: string;
-}) => {
+    }) => {
     const [open, setOpen] = useState(false);
-    const { _id, name, price, image, stocks, stocksUnit, priceUnit } = product;
+    const { _id, name, price, image, stocks, stocksUnit, priceUnit, farmer } = product;
     const dispatch = useDispatch<AppDispatch>();
+    const user = useSelector(selectUserInfo);
+    
+    const openChat = async () => {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/chat`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                participants: [farmer._id, user._id],
+            }),
+        });
+        if (!res.ok) {
+            console.error("Failed to create or fetch chat");
+            return;
+        }
+        const resJson = await res.json();
+        dispatch(setOneChat(resJson.data));
+        dispatch(setMessageOpen(true));
+        dispatch(setSidebarExpanded(true));
+        dispatch(setSelectedChat(resJson.data));
+    }
 
     return (
         <>
@@ -96,7 +120,9 @@ const ProductCard = ({
                             </div>
                             <div className="flex gap-2 sm:gap-4 items-center py-1 sm:py-2">
                                 <IoCall className="hover:bg-primary hover:text-white transition-all text-sm sm:text-xl text-primary p-[5px] sm:p-2 box-content rounded-full shadow-[1px_1px_2px_2px_rgba(0,0,0,0.1)]" />
-                                <TbMessage className="hover:bg-primary hover:text-white transition-all text-sm sm:text-xl text-primary p-[5px] sm:p-2 box-content rounded-full shadow-[1px_1px_2px_2px_rgba(0,0,0,0.1)]" />
+                                <TbMessage className="hover:bg-primary hover:text-white transition-all text-sm sm:text-xl text-primary p-[5px] sm:p-2 box-content rounded-full shadow-[1px_1px_2px_2px_rgba(0,0,0,0.1)]"
+                                    onClick={openChat}
+                                />
                                 <button className="hover:bg-primary hover:text-white transition-all sm:text-md text-sm text-primary p-[5px] sm:p-2 px-4 rounded-full shadow-[1px_1px_2px_2px_rgba(0,0,0,0.1)]">
                                     Reviews
                                 </button>

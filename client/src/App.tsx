@@ -13,8 +13,6 @@ import ProductCardSkeleton from './Pages/Farmer/ProductCardSkeleton'
 import ErrorBoundary from './components/ErrorBoundary'
 import MainLoader from './components/MainLoader'
 import ChatbotScripts from './ChatBot'
-import Basics from './components/AgoraBasics/AgoraBasics'
-import { AppDispatch } from './redux/store'
 import ErrorPage from './components/ErrorPage'
 import AgoraChat from './components/AgoraChat'
 import { useAuth } from './contexts/authContext'
@@ -68,7 +66,6 @@ function App() {
             <ErrorBoundary fallback={<ErrorPage />}>
                 <Suspense fallback={<MainLoader />}>
                     <Routes>
-                        <Route path="/test" element={<Basics />} />
                         <Route path="/agora-chat" element={<AgoraChat />} />
                         <Route path="/" element={<><LandingPage /><ChatbotScripts /></>} />
                         <Route path="/classify-gemini" element={<GeminiImageClassifier />} />
