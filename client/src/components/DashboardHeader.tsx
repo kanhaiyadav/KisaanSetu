@@ -10,6 +10,8 @@ import LanguageSelector from "./LanguageSelector/LanguageSelector";
 import Logo from "./Logo";
 import { CgMenu } from "react-icons/cg";
 import { TbMessageDots } from "react-icons/tb";
+import MessageSidebar from "./sidebars/MessageSidebar";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 
 const Header = ({ expanded, setExpanded }: {
     expanded: boolean;
@@ -34,16 +36,14 @@ const Header = ({ expanded, setExpanded }: {
             {/* <SearchBar style={{ marginRight: "50px" }} /> */}
             <div className="flex items-center gap-5 mr-[20px]">
                 <LanguageSelector />
-                <div className="relative">
-                    <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
-                    <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0"></div>
-                    <IoNotificationsOutline className="text-2xl text-gray-700" />
-                </div>
-                <div className="relative hidden sm:block">
-                    <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
-                    <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0"></div>
-                    <TbMessageDots className="text-2xl text-gray-700" />
-                </div>
+                <TooltipProvider>
+                    <div className="relative">
+                        <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0 animate-ping"></div>
+                        <div className="w-2 h-2 bg-red-500 rounded-full absolute right-0 top-0"></div>
+                        <IoNotificationsOutline className="text-2xl text-gray-700" />
+                    </div>
+                    <MessageSidebar />
+                </TooltipProvider>
             </div>
             {/* <CustomButton intent={'style'} size={'md'}>Upgrade ✨</CustomButton> */}
         </header>

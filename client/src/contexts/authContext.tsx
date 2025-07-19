@@ -143,12 +143,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         email?: string;
         phoneNumber?: string;
         }) => {
-        console.log('Updating user profile:', {
-            displayName,
-            photoURL,
-            email,
-            phoneNumber,
-        });
         if (!currentUser) throw new Error('No user logged in');
         await updateProfile(currentUser, {
             ...(displayName && { displayName }),

@@ -16,7 +16,6 @@ export interface Navlink {
 const Navbar = () => {
     const { t } = useTranslation('landingPage');
     const   navLinks: Navlink[] = t('navLinks', { returnObjects: true }) as Navlink[];
-    console.log(navLinks);
     const [toggle, setToggle] = useState(false);
     return (
         <div id="home" className='px-4 lg:px-[100px] w-full z-[1000]'>

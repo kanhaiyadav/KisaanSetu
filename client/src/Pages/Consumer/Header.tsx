@@ -76,7 +76,7 @@ const Header = () => {
                                                     backgroundColor: stringToColor(currentUser?.email || currentUser?.phoneNumber || currentUser?.displayName || "User"),
                                                     opacity: 0.7
                                                 }}
-                                            >{getUserInitials(currentUser.displayName??"User")}</AvatarFallback>
+                                            >{getUserInitials(currentUser.displayName ?? "User")}</AvatarFallback>
                                     }
                                 </Avatar>
                             </DropdownMenuTrigger>

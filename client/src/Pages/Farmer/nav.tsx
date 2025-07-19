@@ -3,10 +3,6 @@ import Logo from "../../components/Logo";
 import NavItem from "../../components/NavItem";
 // import CustomButton from "../../components/CustomButton";
 import { MdOutlineDashboard } from "react-icons/md";
-import { BsCart4 } from "react-icons/bs";
-import { TbShoppingBag } from "react-icons/tb";
-import { IoAnalytics } from "react-icons/io5";
-import { LuLogOut } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import successAudio from '/success.mp3';
@@ -26,13 +22,8 @@ const Nav = ({ expanded, setExpanded }: {
     expanded: boolean;
     setExpanded: (expanded: boolean) => void;
 }) => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const success = new Audio(successAudio);
     const { currentUser, logout } = useAuth();
     const avatar = useSelector(selectUserAvatar)
-    console.log("currentUser", currentUser);
-    // const error = new Audio(errorAudio);
 
     return (
         <div
@@ -172,7 +163,7 @@ const Nav = ({ expanded, setExpanded }: {
                                             backgroundColor: stringToColor(currentUser?.email || currentUser?.phoneNumber || currentUser?.displayName || "User"),
                                             opacity: 0.7
                                         }}
-                                    >{getUserInitials(currentUser)}</AvatarFallback>
+                                    >{getUserInitials(currentUser?.displayName || currentUser?.email || "User")}</AvatarFallback>
                             }
                         </Avatar>
                         <span

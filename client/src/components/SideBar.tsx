@@ -57,13 +57,13 @@ export const SidebarTrigger = ({ children }: {
     const { open, setOpen } = context;
 
     return (
-        <button
+        <div
             className="transition-colors"
             onClick={() => setOpen(!open)}
             aria-label="Toggle Sidebar"
         >
             {children}
-        </button>
+        </div>
     );
 }
 

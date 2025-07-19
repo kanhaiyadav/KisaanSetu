@@ -456,9 +456,6 @@ export const search = async (req: Request, res: Response): Promise<void> => {
         const products = await Product.find({
             name: { $regex: new RegExp(name, "i") },
         }).populate("farmer");
-
-        console.log(products);
-
         // Generate signed URLs for all products
         for (let i = 0; i < products.length; i++) {
             const imageKey = `farmers/${products[i].farmer._id}/products/${products[i].name}.jpeg`;

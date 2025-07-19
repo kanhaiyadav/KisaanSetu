@@ -10,6 +10,6 @@ const chatSchema = new mongoose.Schema({
     unreadCount: { type: Number, default: 0 },
 }, { timestamps: true });
 
-const Chat = mongoose.model('Chat', chatSchema);
+const Chat = mongoose.models.Chat || mongoose.model('Chat', chatSchema);
 
 export default Chat;

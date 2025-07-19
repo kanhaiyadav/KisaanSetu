@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface ExtendedChat extends Chat {
+    status: string; // Optional status field to track chat status
+}
+
 const initialState = {
-    chats: Array<any>(),
+    chats: Array<Chat>(),
     loading: false,
     error: null,
-    selectedChat: null,
+    selectedChat: null as ExtendedChat | null,
 };
+
 const chatSlice = createSlice({
     name: "chat",
     initialState,

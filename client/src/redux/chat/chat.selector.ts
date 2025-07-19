@@ -6,7 +6,6 @@ export const selectChatState = (state: RootState) => state.chat;
 export const selectChats = createSelector(
     [selectChatState],
     (chat) => {
-        console.log("Selecting chats:", chat.chats);
         return chat.chats
     }
 );
@@ -14,7 +13,6 @@ export const selectChats = createSelector(
 export const selectSelectedChat = createSelector(
     [selectChatState],
     (chat) => {
-        console.log("Selecting selected chat:", chat);
         return chat.selectedChat;
     }
 );
