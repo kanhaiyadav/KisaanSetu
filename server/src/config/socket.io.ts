@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import Chat from "@/Models/Chats";
-import { stat } from "fs";
+import Message from "@/Models/Message";
 
 type IsActiveResponse = Array<{
     isActive: boolean;
@@ -63,7 +63,7 @@ export const setupSocketIO = (httpServer: any) => {
             });
         });
 
-        socket.on("chat-is-active", (chatId: string) => {
+        socket.on("chat-is-active", async (chatId: string) => {
             socket.to(chatId).emit("status-update", { status: "active" });
         });
 
@@ -76,6 +76,10 @@ export const setupSocketIO = (httpServer: any) => {
             }
         });
 
+        socket.on('reset-unread-count', async (chatId: string) => { 
+            await Chat.findByIdAndUpdate(chatId, { unreadCount: 0 });
+        })
+
         // Handle events here
         socket.on("disconnecting", () => {
             console.log("User disconnecting:", socket.rooms);
@@ -86,6 +90,47 @@ export const setupSocketIO = (httpServer: any) => {
         });
         socket.on("disconnect", () => {
             console.log("User disconnected:", socket.id);
+        });
+
+        socket.on("send-message", async (data: { chatId: string; message: { senderId: string; content: string } }) => {
+            console.log("Message received:", data);
+            const { chatId, message } = data;
+            try {
+                const newMessage = await Message.create({
+                    chat: chatId,
+                    sender: message.senderId,   
+                    content: message.content
+                });
+                // Emit the message to the specific chat room
+                socket.timeout(100).to(chatId).emit("new-message", newMessage.toObject(), async (err: Error | null, response:any) => {
+                    console.log("Message sent response:", response);
+                    if (err) {
+                        console.error("Error sending message:", err);
+                        socket.to(chatId).emit("unread-message", chatId, newMessage);
+                        await Chat.findByIdAndUpdate(chatId, {
+                            $inc: { unreadCount: 1 },
+                        });
+                    }
+                    // if (response && response.length === 0) {
+                    //     socket.to(chatId).emit("unread-message", chatId);
+                    //     await Chat.findByIdAndUpdate(chatId, {
+                    //         $inc: { unreadCount: 1 },
+                    //     });
+                    // }
+                });
+
+                await Chat.findByIdAndUpdate(chatId, {
+                    lastMessage: {
+                        sender: message.senderId,
+                        content: message.content,
+                        timestamp: newMessage.createdAt || new Date().toISOString(),
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error sending message:", error);
+                socket.emit("error", { message: "Failed to send message", code: "SEND_MESSAGE_ERROR" } as EmitError);
+            }
         });
     });
 

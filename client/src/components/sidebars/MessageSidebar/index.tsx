@@ -5,11 +5,12 @@ import { selectMessageOpen, selectSidebarExpanded } from "@/redux/sidebar/sideba
 import { useDispatch, useSelector } from "react-redux";
 import { setMessageOpen, setSidebarExpanded } from "@/redux/sidebar/sidebar.slice";
 import { selectUserInfo } from "@/redux/user/selectors";
-import { selectChats, selectSelectedChat } from "@/redux/chat/chat.selector";
+import { selectChats, selectSelectedChat, selectUnreadChatsCount } from "@/redux/chat/chat.selector";
 import ChatTile from "./ChatTile";
 import ChatInterface from "./ChatInterface";
 import { useEffect } from "react";
 import { setChats } from "@/redux/chat/chat.slice";
+import { current } from "@reduxjs/toolkit";
 
 const MessageSidebar: React.FC = () => {
     const open = useSelector(selectMessageOpen);
@@ -17,7 +18,9 @@ const MessageSidebar: React.FC = () => {
     const dispatch = useDispatch();
     const user = useSelector(selectUserInfo);
     const chats = useSelector(selectChats);
+    console.log("Chats in MessageSidebar:", chats);
     const selectedChat = useSelector(selectSelectedChat);
+    const unreadChatsCount = useSelector(selectUnreadChatsCount);
 
     const handleBackToList = (): void => {
         dispatch(setSidebarExpanded(false));
@@ -31,7 +34,12 @@ const MessageSidebar: React.FC = () => {
                 }
             });
             const resJson = await res.json();
-            dispatch(setChats(resJson.data));
+            dispatch(setChats(
+                {
+                    chats: resJson.data,
+                    currentUserId: user?._id,
+                }
+            ));
         };
         fetchChats();
     }, []);
@@ -50,7 +58,9 @@ const MessageSidebar: React.FC = () => {
                 <Tooltip delayDuration={0}>
                     <TooltipTrigger>
                         <div className="relative hidden sm:block">
-                            <div className="bg-primary text-white w-5 h-5 rounded-full absolute right-[-8px] top-[-8px] flex items-center justify-center text-xs font-semibold">6</div>
+                            {unreadChatsCount > 0 &&  (
+                                <div className="bg-primary text-white w-5 h-5 rounded-full absolute right-[-8px] top-[-8px] flex items-center justify-center text-xs font-semibold">{unreadChatsCount < 9 ? unreadChatsCount : '9+'}</div>
+                            )}
                             <TbMessageDots className="text-2xl text-gray-700" />
                         </div>
                     </TooltipTrigger>

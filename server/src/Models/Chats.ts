@@ -5,7 +5,7 @@ const chatSchema = new mongoose.Schema({
     lastMessage: { 
         sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
         content: { type: String },
-        timestamp: { type: Date, default: Date.now },
+        timestamp: { type: String, default: () => new Date().toISOString() },
      },
     unreadCount: { type: Number, default: 0 },
 }, { timestamps: true });

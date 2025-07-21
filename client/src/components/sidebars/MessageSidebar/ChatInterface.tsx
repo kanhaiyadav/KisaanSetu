@@ -4,14 +4,22 @@ import { TbArrowLeft, TbDotsVertical, TbMoodSmile, TbPaperclip, TbPhone, TbSend,
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { stringToColor } from "@/lib/utils";
 import { getUserInitials } from "@/lib/user";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSocket } from "@/contexts/socketContext";
+import MessageBubble from "./MessageBubble";
+import { useDispatch } from "react-redux";
+import { resetChatUnreadCount, updateChatLastMessage } from "@/redux/chat/chat.slice";
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({ selectedChat, onBack, currentUserId }) => {
+
+    const [messages, setMessages] = useState<Message[]>([]);
+    const dispatch = useDispatch();
+    const unreadMessagesCountRef = useRef<number>(0);
 
     //@ts-ignore
     const [status, setStatus] = useState<string>(selectedChat.status || 'offline');
     const socket = useSocket();
+    const [message, setMessage] = useState<string>("");
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -24,21 +32,85 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ selectedChat, onBack, cur
     useEffect(() => {
         if (!socket) return;
 
+        socket.on('new-message', (message: any, callback) => {
+            setMessages((prevMessages) => [...prevMessages, message]);
+            if (callback) {
+                callback({ status: "ok" });
+            }
+        });
+
         socket.on('status-update', (data: { status: string }) => {
-            console.log("Status update received:", data);
             if (data && data.status) {
                 setStatus(data.status);
             }
         });
-        
+
         socket.on('isActive', (chatId, callback) => {
             callback({ isActive: chatId === selectedChat._id })
         })
         return () => {
             socket.emit('chat-is-inactive', selectedChat._id);
             socket.off('isActive');
+            socket.off('new-message');
         }
     }, [])
+
+    useEffect(() => {
+        const fetchMessages = async () => {
+            if (!selectedChat?._id) return;
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/messages/${selectedChat._id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+            const resJson = await res.json();
+            setMessages(resJson.data);
+        };
+        fetchMessages();
+    }, [selectedChat._id]);
+
+    useEffect(() => {
+        unreadMessagesCountRef.current = selectedChat.unreadCount || 0;
+        dispatch(resetChatUnreadCount(selectedChat._id));
+    }, []);
+
+    useEffect(() => {
+        function scrollToBottom() {
+            const div = document.getElementById('message-area');
+            if (div) {
+                div.scrollTop = div.scrollHeight;
+            }
+        }
+        scrollToBottom();
+    }, [messages]);
+
+    const sendMessage = () => {
+        if (!message.trim() || !currentUserId) return;
+
+        // Emit the message to the server
+        socket?.emit('send-message', {
+            chatId: selectedChat._id,
+            message: {
+                senderId: currentUserId,
+                content: message,
+            },
+        });
+
+        setMessage("");
+
+        const newMessage: Message = {
+            chat: selectedChat._id,
+            sender: currentUserId,
+            content: message,
+            createdAt: new Date().toISOString(),
+        };
+
+        setMessages((prevMessages) => [
+            ...prevMessages,
+            newMessage
+        ]);
+        dispatch(updateChatLastMessage(newMessage));
+    }
 
     return (
         <div className="flex flex-col h-full">
@@ -103,9 +175,29 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ selectedChat, onBack, cur
                 style={{
                     background: 'url(/bg-patterns/p1.avif)',
                 }}
+                id="message-area"
             >
                 <div className="p-4 bg-white/70 pointer-events-none min-h-full">
+                    {
+                        messages.slice(0, (-1 * unreadMessagesCountRef.current)).map((message, index) => (
+                            <MessageBubble key={index} message={message} isOwn={message.sender === currentUserId} />
 
+                        ))
+                    }
+                    {unreadMessagesCountRef.current > 0 && (
+                        <div className="flex gap-6 items-center justify-center w-full my-4">
+                            <hr className="flex-1 border-orange-500" />
+                            <div className="text-center text-orange-500 text-sm">
+                                {unreadMessagesCountRef.current} unread messages
+                            </div>
+                            <hr className="flex-1 border-orange-500" />
+                        </div>
+                    )}
+                    {
+                        messages.slice((-1 * unreadMessagesCountRef.current)).map((message, index) => (
+                            <MessageBubble key={index} message={message} isOwn={message.sender === currentUserId} />
+                        ))
+                    }
                 </div>
             </div>
 
@@ -122,6 +214,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ selectedChat, onBack, cur
                             className="w-full px-4 py-3 pr-12 border border-gray-300 shadow-sm rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                             rows={1}
                             style={{ minHeight: '44px', maxHeight: '120px' }}
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
                         />
                         <Button
                             variant="ghost"
@@ -133,6 +227,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ selectedChat, onBack, cur
                     </div>
                     <Button
                         className="mb-2 bg-primary hover:bg-primary/90 text-white rounded-full w-10 h-10 p-0"
+                        onClick={sendMessage}
                     >
                         <TbSend className="w-5 h-5" />
                     </Button>

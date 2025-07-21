@@ -1,6 +1,7 @@
+import { increamentChatUnreadCount, updateChatLastMessage, updateUnreadChats } from "@/redux/chat/chat.slice";
 import { selectUserInfo } from "@/redux/user/selectors";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { io, Socket } from "socket.io-client";
 
 interface SocketContextType {
@@ -13,12 +14,24 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     const userData = useSelector(selectUserInfo);
     const [socket, setSocket] = useState<Socket | null>(null);
+    const dispatch = useDispatch();
 
     
     useEffect(() => {
         const init = () => {
             const newSocket = io("http://localhost:3000");
             setSocket(newSocket);
+
+            newSocket.on('unread-message', (chatId: string, message: Message) => {
+                dispatch(updateUnreadChats(chatId));
+                dispatch(updateChatLastMessage(message))
+                dispatch(increamentChatUnreadCount(chatId));
+            });
+            
+            // newSocket.on('new-message', (message: any, callback) => {
+            //     dispatch(updateChatLastMessage(message));
+            //     // callback({ status: 'not okay'})
+            // });
         }
         if (userData) {
             init();

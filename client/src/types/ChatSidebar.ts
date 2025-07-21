@@ -5,9 +5,14 @@ interface ChatTileProps {
 }
 
 interface Chat {
-    _id: number;
+    _id: string;
     participants: Array<any>;
     unreadCount: number;
+    lastMessage: {
+        sender: string;
+        content: string;
+        timestamp: string;
+    };
     createdAt: string;
     updatedAt: string;
 }
@@ -19,11 +24,10 @@ interface ChatInterfaceProps {
 }
 
 interface Message {
-    id: number;
-    sender: string;
-    message: string;
-    timestamp: string;
-    isSent: boolean;
+    chat: string;
+    sender:  string;
+    content: string;
+    createdAt: string;
 }
 
 interface MessageBubbleProps {

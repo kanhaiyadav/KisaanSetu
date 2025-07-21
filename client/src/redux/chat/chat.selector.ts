@@ -17,6 +17,11 @@ export const selectSelectedChat = createSelector(
     }
 );
 
+export const selectUnreadChatsCount = createSelector(
+    [selectChatState],
+    (chat) => chat?.unreadChats?.length
+);
+
 export const selectLoading = createSelector(
     [selectChatState],
     (chat) => chat.loading
