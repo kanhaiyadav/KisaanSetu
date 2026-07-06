@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Product from "../../Models/Product";
+import Product from "../../Models/Product.js";
 const router = Router();
 
 import {
@@ -11,7 +11,7 @@ import {
     search,
     getSales,
     outOfStock
-} from "../../controllers/product";
+} from "../../controllers/product.js";
 
 router.get("/:farmerId", getProducts);
 router.post(

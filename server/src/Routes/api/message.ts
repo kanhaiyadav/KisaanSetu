@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getMessages } from "@/controllers/message";
+import { getMessages } from "@/controllers/message.js";
 const router = Router();
 
 router.get("/:chatId", getMessages);

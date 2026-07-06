@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Product, Sale } from "../../types/redux";
-import { stat } from "fs";
 
 export const fetchProducts = createAsyncThunk(
     "product/fetchProducts",

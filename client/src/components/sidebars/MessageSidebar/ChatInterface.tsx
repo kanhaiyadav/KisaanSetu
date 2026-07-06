@@ -14,7 +14,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ selectedChat, onBack, cur
 
     const [messages, setMessages] = useState<Message[]>([]);
     const dispatch = useDispatch();
-    const unreadMessagesCountRef = useRef<number>(0);
+    const  unreadMessagesCountRef = useRef<number>(0);
 
     //@ts-ignore
     const [status, setStatus] = useState<string>(selectedChat.status || 'offline');

@@ -53,7 +53,7 @@ export const LoginForm: React.FC<{
         } else {
             await phoneAuth.verifyCode(verificationCode);
         }
-        navigate(consumer ? '/consumer' : '/farmer');
+        // navigate(consumer ? '/consumer' : '/farmer');
     };
 
     return (

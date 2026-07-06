@@ -1,10 +1,13 @@
 import express from "express";
 import "./config/database.ts";
 import path from "path";
-import router from "./Routes/index";
+import router from "./Routes/index.js";
 import cors from "cors";
-import { setupSocketIO } from "./config/socket.io";
+import { setupSocketIO } from "./config/socket.io.js";
 import { createServer } from "http";
+import analyticsJobs from "./Jobs/analyticsJobs.js";
+
+analyticsJobs.startDailyAggregation(); // Start the daily aggregation job
 
 const app = express();
 const __dirname = path.resolve();

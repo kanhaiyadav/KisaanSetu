@@ -80,7 +80,6 @@ export const setupSocketIO = (httpServer: any) => {
             await Chat.findByIdAndUpdate(chatId, { unreadCount: 0 });
         })
 
-        // Handle events here
         socket.on("disconnecting", () => {
             console.log("User disconnecting:", socket.rooms);
             socket.rooms.forEach((room) => {

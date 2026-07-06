@@ -1,9 +1,10 @@
 import { Router } from "express";
 const router = Router();
-import userRouter from './users'
-import productRouter from './product'
-import chatRouter from './chat';
-import messageRouter from './message';
+import userRouter from './users.js'
+import productRouter from './product.js'
+import chatRouter from './chat.js';
+import messageRouter from './message.js';
+import analyticsRouter from './analytics.js';
 
 
 router.get("/", (req, res) => {
@@ -13,5 +14,6 @@ router.use('/users', userRouter);
 router.use('/products', productRouter);
 router.use('/chat', chatRouter);
 router.use('/messages', messageRouter);
+router.use('/analytics', analyticsRouter);
 
 export default router;

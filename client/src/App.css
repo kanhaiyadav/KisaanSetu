@@ -35,12 +35,12 @@ body {
 }
 
 .scrollbar {
-    scrollbar-color: #bababa #ffffff;
+    scrollbar-color: #bababa transparent;
 }
 
 .thin-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #bababa #ffffff;
+    scrollbar-color: #bababa #2f3142;
 }
 
 h1#gr_heading{
